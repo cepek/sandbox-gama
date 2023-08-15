@@ -1,7 +1,13 @@
 GNU Gama NEWS - History of user-visible changes.
 
-  New glossary of basic terms used in gama-local text output and in
-  documentation.
+  - new program gama-local-deformation for processing two adjustment
+    epochs to calculate potential points position changes (shift
+    vectors).
+
+  - change from c++11 version to c++14
+
+  - New glossary of basic terms used in gama-local text output and in
+    documentation.
 
 Changes in release 2.24 (2023-02-16)
 

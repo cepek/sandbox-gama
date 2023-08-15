@@ -1,3 +1,12 @@
+	* New program gama-local-deformation (processing two adjustment
+	epochs to compute point shifts and thei covariance matrix)
+
+	* Updated version of SVG class with rendering ellipses
+	and shift vectiors
+
+	* C++14 standard
+
+
 2023-02-16   Ales Cepek <cepek@gnu.org>
 
 	Maintenance release gama-2.24
