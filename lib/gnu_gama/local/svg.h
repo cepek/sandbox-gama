@@ -1,6 +1,7 @@
 /* GNU Gama -- adjustment of geodetic networks
    Copyright (C) 2012  Ales Cepek <cepek@gnu.org>
                  2014  Maxime Le Moual <maxime.le-moual@ensg.eu>
+                 2018, 2019, 2023  Ales Cepek <cepek@gnu.org>
 
    This file is part of the GNU Gama C++ library.
 
@@ -21,8 +22,8 @@
 /** \file svg.h
  * \brief #GNU_gama::local::GamaLocalSVG class header file
  *
- * \author Ales Cepek
- * \author Maxime Le Moual
+ * \author Ales Cepek 2012
+ * \author Maxime Le Moual 2014
  */
 
 #ifndef GAMA_LOCAL_SVG_Gama_Local_Svg_gama_local_svg_h
@@ -31,6 +32,7 @@
 #include <gnu_gama/xml/localnetworkxml.h>
 #include <string>
 #include <ostream>
+#include <tuple>
 
 namespace GNU_gama { namespace local {
 
@@ -118,6 +120,16 @@ namespace GNU_gama { namespace local {
       /** Set symbol for fixed points */
       void setFreeFill(std::string p) { freefill = p; }
 
+      /** XY shift vectors color */
+      std::string xyShiftColor() const { return xyshiftcolor; }
+      /** Set symbol for fixed points */
+      void setXyShiftColor(std::string p) { xyshiftcolor = p; }
+
+      /** Z shift vectors color */
+      std::string zShiftColor() const { return zshiftcolor; }
+      /** Set symbol for fixed points */
+      void setZShiftColor(std::string p) { zshiftcolor = p; }
+
       /** Restores default program settings derived from given coordinates set. */
       void restoreDefaults();
 
@@ -133,25 +145,21 @@ namespace GNU_gama { namespace local {
       /** Error ellipse scale. */
       void setEllipsesScale(double p) const { ellipsescale = p; tst_implicit_size = false; }
 
-      /** Transformation from geodetic to SVG coordinates (x, y)
-       * \code{.cpp}
-       * xsvg = t11*x + t12*y + tx;
-       * ysvg = t21*x + t22*y + ty;
-       * \endcode
+      /** Optional std::map of adjusted points' shifts (epoch2 - epoch1)
+       *  dim 3 : dx dy dz   dim 2: dx dy   dim 1 : dz
        */
-      void SvgCoordinates(double& t11, double& t12,
-                          double& t21, double& t22,
-                          double& tx,  double& ty) const;
+      typedef std::tuple<int, double , double, double>  shift; // dim, dx, dy, dz
+      typedef std::map<GNU_gama::local::PointID, shift> Shift;
+      Shift shifts;
 
     private:
       LocalNetwork&          IS;
       const PointData&       PD;
       const ObservationData& OD;
-      const double y_sign;   // consistent coordinates +1, inconsistent -1
 
       mutable std::ostream*  svg;
 
-      mutable double T11, T12, T21, T22, Tx, Ty;
+      mutable double T11, T12, T21, T22, Tx, Ty, Txsign, Tysign;
 
       // SVG coordinates bounding box and offset
       mutable bool tst_implicit_size;
@@ -170,9 +178,9 @@ namespace GNU_gama { namespace local {
 
       mutable double fontsize, symbolsize, strokewidth;
       mutable bool tst_draw_axes, tst_draw_point_symbols, tst_draw_point_ids,
-        tst_draw_ellipses, tst_draw_observations;
+          tst_draw_observations, tst_draw_ellipses, tst_draw_xy_shifts, tst_draw_z_shifts;
       mutable std::string  fixedsymbol, fixedfill, constrainedsymbol,
-        constrainedfill, freesymbol, freefill;
+        constrainedfill, freesymbol, freefill, xyshiftcolor, zshiftcolor;
 
 
       /* helper svg point class */
@@ -206,6 +214,9 @@ namespace GNU_gama { namespace local {
       {
         TX = Point(tr11, tr12);
         TY = Point(tr21, tr22);
+
+        T11 = tr11; T12 = tr12;
+        T21 = tr21; T22 = tr22;
       }
     };
 }}

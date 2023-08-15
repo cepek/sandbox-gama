@@ -80,6 +80,7 @@ doc/gama.dvi
 #
 src/gama-g3
 src/gama-local
+src/gama-local-deformation
 src/gama-local-xml2txt
 src/gama-local-xml2sql
 src/gama-local-yaml2gkf

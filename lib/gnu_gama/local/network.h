@@ -169,6 +169,10 @@ namespace GNU_gama { namespace local
     {
       return tst_vyrovnani_;
     }
+    bool has_stashed_ellipses() const
+    {
+      return !stashed_ellipses.empty();
+    }
     const Vec& solve()
     {
       vyrovnani_();
@@ -245,6 +249,8 @@ namespace GNU_gama { namespace local
     }
     void std_error_ellipse(const PointID&, double& a,
                            double& b, double& alfa);
+    void stash_std_error_ellipse(
+        const PointID&, double a, double b, double alfa);
 
 
     // ...  parameters of statistic analysis  ...............................

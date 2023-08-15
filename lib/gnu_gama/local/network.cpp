@@ -1068,6 +1068,14 @@ void LocalNetwork::std_error_ellipse(const PointID& cb,
 // 1.7.09 added optional update of constrained coordinates; inspired
 // by adjustment of photographic observation by Jim Sutherland
 
+void LocalNetwork::stash_std_error_ellipse(const PointID& cb,
+                                           double a, double b, double alfa)
+{
+  ellipse_par ep;
+  ep.a = a; ep.b = b; ep.alfa = alfa;
+  stashed_ellipses[cb] = ep;
+}
+
 void LocalNetwork::refine_approx_coordinates()
 {
   const Vec& x = least_squares->unknowns();
