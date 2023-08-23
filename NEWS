@@ -1,5 +1,7 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.25 (2023-08-23)
+
   - new program gama-local-deformation for processing two adjustment
     epochs to calculate potential points position changes (shift
     vectors).
