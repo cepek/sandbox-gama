@@ -33,8 +33,8 @@ Conversion from data format used in Geodetic Network Adjustment Examples
 by Friedhelm Krumm to XML input format of gama-local (GNU Gama)
 https://www.gis.uni-stuttgart.de/lehre/campus-docs/adjustment_examples.pdf
 
-     krumm2gkf  input_file  [ output_file  ]
-     krumm2gkf < std_input  [ > std_output ]
+     krumm2gama-local  input_file  [ output_file  ]
+     krumm2gama-local < std_input  [ > std_output ]
 
 Options:
 -h, --help      this text

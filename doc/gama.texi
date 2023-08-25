@@ -81,6 +81,7 @@ Free Documentation License''.
 * SQL schema SQLite and gama-local::
 * Network adjustment with gama-local::
 * Data structures and algorithms::
+* Gama-local companion tools::
 * Gama-local test suite::
 
 * Copying This Manual::
@@ -212,6 +213,13 @@ GUI.
 @chapter Data structures and algorithms
 @include algorithms.texi
 
+
+@c ----------------------------------------------------------------------
+
+
+@node    Gama-local companion tools
+@chapter Gama-local companion tools
+@include companion-tools.texi
 
 @c ----------------------------------------------------------------------
 

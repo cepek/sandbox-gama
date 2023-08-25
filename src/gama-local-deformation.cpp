@@ -19,7 +19,7 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  $
 */
 
-const char* gama_local_deformation_version = "1.00";
+const char* gama_local_deformation_version = "0.90";
 
 #include <iostream>
 bool gama_local_deformation_help(std::ostream& out,int argc, char *argv[]);
