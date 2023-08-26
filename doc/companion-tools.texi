@@ -106,11 +106,11 @@ GNU Gama sources come with an extensive set of testing data examples
 in the directory @code{tests} where subdirectory @code{tests/krumm}
 contains examples from the book by Friedhelm Krumm, Geodetic Network
 Adjustment Examples, Geodätisches Institut Universität Stuttgart,
-https://www.gis.uni-stuttgart.de, Rev. 3.5 January 20, 2020. All this
+https://www.gis.uni-stuttgart.de, Rev. 3.5 January 20, 2020. All these
 examples are distributed with GNU Gama with permission from the author.
 
 Conversion program @code{krumm2gama-local} converts the examples data
-format define in the book to the @code{gama-local} XML imput
+format defined in the book to the @code{gama-local} XML input
 format. For more details read the file
 @code{tests/krumm/input.README.md}.
 

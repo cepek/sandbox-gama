@@ -3,6 +3,7 @@ info_TEXINFOS = gama.texi
 gama_TEXINFOS =                 \
    algorithms.texi              \
    class-g3-model.texi          \
+   companion-tools.texi         \
    ellipsoids-1.texi            \
    ellipsoids.texi              \
    fdl.texi                     \
@@ -23,6 +24,10 @@ gama_TEXINFOS =                 \
    gama-local-sql.texi
 
 EXTRA_DIST =                         \
+   fig/data_1-2.eps                  \
+   fig/data_1-2.pdf                  \
+   fig/data_1-2.png                  \
+   fig/data_1-2.svg                  \
    fig/gama-local-adj-ellipse-g.eps  \
    fig/gama-local-adj-ellipse-g.pdf  \
    fig/gama-local-adj-ellipse-g.png  \
