@@ -16,6 +16,6 @@ fi
                --release-type stable \
                --current-version $1 \
                --previous-version $2 \
-               --gpg-key-id c6e1824e0180b85f31b06b6acb6ce60d1b77fc09 \
+               --gpg-key-id 1b77fc09 \
                --url https://ftp.gnu.org/gnu/gama \
                --news NEWS
