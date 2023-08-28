@@ -1,6 +1,15 @@
 With @code{gama-local} come several companion command line tools, most
-of them are conversion programs for various data formats.
+of them being conversion programs for various data formats.
 
+
+@menu
+* gama-local-deformation::
+* gama-local-gkf2yaml::
+* gama-local-yaml2gkf::
+* gama-local-xml2sql::
+* gama-local-xml2txt::
+* krumm2gama-local::
+@end menu
 
 
 @node    gama-local-deformation
@@ -8,7 +17,7 @@ of them are conversion programs for various data formats.
 
 Program @code{gama-local-deformation} reads XML adjustment results files from
 two dates (epochs), compute differences for adjusted points common in
-both epoch, caluculate covariance matrix of the differences and
+both epochs, calculate the covariance matrix of the differences and
 optionally renders the deformation diagram in SVG output file.
 
 @smallexample
