@@ -24,18 +24,25 @@ systems is supported only partly as a gama-g3 program.
 
 ## Documentation
 
-As a GNU program, documenttion is available in texinfo format,
+As a GNU program, documentation is available in Texinfo format,
 resulting in a pdf manual and info pages.
 
 ## Building gama
 
 Note that the version number of the package is defined in
-configure.ac.
+configure.ac (and other places as noted there).
 
 ### Prerequisites
 
-Gama assumes a system complying with POSIX, and a compiler that
-supports C++14.
+Gama assumes a system complying with POSIX.  
+In addition, it requires the following programs to build a release.
+  - a compiler that supports C++14
+  - GNU make
+
+To build from the repository, the following are additionally needed:
+  - autoconf
+  - automake
+  - GNU Texinfo (7 is known to work)
 
 ### Build and Test
 
