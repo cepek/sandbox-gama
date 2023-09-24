@@ -1,5 +1,10 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.25.1 (2023-09-24)
+
+  - new version number for packagers, because two versions of the 2.25
+    distfile were posted.
+
 Changes in release 2.25 (2023-08-23)
 
   - new program gama-local-deformation for processing two adjustment
