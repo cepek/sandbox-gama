@@ -30,6 +30,7 @@
 #include <sstream>
 #include <utility>
 #include <set>
+#include <iomanip>
 #include <gnu_gama/local/svg.h>
 #include <gnu_gama/radian.h>
 
@@ -37,7 +38,8 @@ using namespace GNU_gama::local;
 using std::abs;   // floating point std::abs() from <cmath>
 
 GamaLocalSVG::GamaLocalSVG(LocalNetwork* is)
-  : IS(*is), PD(is->PD), OD(is->OD)
+  : IS(*is), PD(is->PD), OD(is->OD),
+    y_sign(is->y_sign())
 {
   restoreDefaults();
 }
@@ -74,12 +76,12 @@ void GamaLocalSVG::svg_init() const
   */
   switch (PD.local_coordinate_system)
     {
-      // right handed
+      // right-handed
     case LocalCoordinateSystem::CS::EN: sett( 1, 0, 0,-1); break;
     case LocalCoordinateSystem::CS::NW: sett( 0,-1,-1, 0); break;
     case LocalCoordinateSystem::CS::SE: sett( 0, 1, 1, 0); break;
     case LocalCoordinateSystem::CS::WS: sett(-1, 0, 0, 1); break;
-      // left handed
+      // left-handed
     case LocalCoordinateSystem::CS::NE: sett( 0,-1, 1, 0); break;
     case LocalCoordinateSystem::CS::SW: sett( 0, 1,-1, 0); break;
     case LocalCoordinateSystem::CS::ES: sett( 1, 0, 0, 1); break;
@@ -88,153 +90,197 @@ void GamaLocalSVG::svg_init() const
       sett(0,0,0,0);
     }
 
-
-    // clear global transformation parameters
-    minx = miny =  1e20;
-    maxx = maxy = -1e20;
-
-    // bounding box for points
-    for (PointData::const_iterator i=PD.begin(), e=PD.end(); i!=e; ++i)
-    {
-      PointID    pid   = i->first;
-      LocalPoint point = i->second;
-      if (point.active_xy())
-      {
-          double x, y;
-          svg_xy(point, x, y);
-          minx = std::min(minx, x);
-          maxx = std::max(maxx, x);
-          miny = std::min(miny, y);
-          maxy = std::max(maxy, y);
-      }
-    }
-    offset = (maxx-minx + maxy-miny)/2*0.05;
-    if (offset <= 0) offset = 100;
-
-    ellipsescale = 1.0;
-
-
-  // the median of error ellipses semiaxes
-  std::vector<double> abmed;
+  // median of error ellipsoid semiaxes x, y and main bounding box
+  std::vector<double> abmed, dsmed;
   for (PointData::const_iterator i=PD.begin(), e=PD.end(); i!=e; ++i)
-  {
+    {
       PointID    pid   = i->first;
       LocalPoint point = i->second;
 
       // skip points that are not part of the adjustment or do not have xy
       if (!point.active_xy() || !point.test_xy()) continue;
 
-      if (tst_draw_ellipses &&
-          (IS.is_adjusted() || IS.has_stashed_ellipses()) && !point.fixed_xy())
-      {
-          double a, b, alpha;
-          IS.std_error_ellipse(pid, a, b, alpha);
-          abmed.push_back(a);
-          abmed.push_back(b);
+      if (tst_draw_ellipses) {
+        if ((IS.is_adjusted() || IS.has_stashed_ellipses())
+            && !point.fixed_xy())
+          {
+            double a, b, alpha;
+            IS.std_error_ellipse(pid, a, b, alpha);
+            abmed.push_back(a);
+            abmed.push_back(b);
+          }
       }
-  }
+
+      if (tst_draw_xy_shifts) {
+        auto shift = shifts.find(pid);
+        if (shift != shifts.end()) {
+          // dx, dy in millimeters
+          double dx = std::abs(1000 * std::get<1>(shift->second));
+          double dy = std::abs(1000 * std::get<2>(shift->second));
+
+          if (dx > 1e-1 || dy > 1e-1) { // ignore small shifts
+            dsmed.push_back(dx);
+            dsmed.push_back(dy);
+          }
+        }
+      }
+
+    }
 
   ab_median = 0;
-  if (unsigned n = abmed.size())
-  {
-      std::sort(abmed.begin(), abmed.end());
-      if (n % 2) ab_median =  abmed[n/2];
-      else       ab_median = (abmed[n/2] + abmed[n/2-1])/2;
+  if (unsigned n = abmed.size()) {
+    std::sort(abmed.begin(), abmed.end());
+    if (n % 2) ab_median =  abmed[n/2];
+    else
+      ab_median = (abmed[n/2] + abmed[n/2 - 1])/2;
   }
   if (ab_median <= 0) ab_median = 1;   // handle unrealistic data
 
-  bool ellipse_minx, ellipse_maxx, ellipse_miny, ellipse_maxy;
-  do {
-      ellipse_minx = ellipse_maxx = ellipse_miny = ellipse_maxy = false;
-      for (PointData::const_iterator i=PD.begin(), e=PD.end(); i!=e; ++i)
-      {
-          PointID    pid   = i->first;
-          LocalPoint point = i->second;
-
-          // skip points that are not part of the adjustment or do not have xy
-          if (!point.active_xy() || !point.test_xy()) continue;
-
-          double x, y;
-          svg_xy(point, x, y);
-
-          if (tst_draw_ellipses &&
-              (IS.is_adjusted() || IS.has_stashed_ellipses()) && !point.fixed_xy())
-          {
-
-              double a, b, alpha;
-              svg_ellipse(pid, a, b, alpha);
-
-              // *** bounding box with 10% extra space for huge ellipses
-              double t  = atan2(-b*sin(alpha), a*cos(alpha));
-              double u  = atan2( b*cos(alpha), a*sin(alpha));
-              double dx = abs(a*cos(t)*cos(alpha) - b*sin(t)*sin(alpha));
-              double dy = abs(b*sin(u)*cos(alpha) + a*cos(u)*sin(alpha));
-
-              double q = 1.3;
-              auto min_ = [](double a,double b) { return std::min(a-b,a+b); };
-              auto max_ = [](double a,double b) { return std::max(a-b,a+b); };
-              if (min_(minx, q*offset) > min_(x, dx)) ellipse_minx = true;
-              if (max_(maxx, q*offset) < max_(x, dx)) ellipse_maxx = true;
-              if (min_(miny, q*offset) > min_(y, dy)) ellipse_miny = true;
-              if (max_(maxy, q*offset) < max_(y, dy)) ellipse_maxy = true;
-
-          }
-      }
-      if (ellipse_minx) minx -= offset;
-      if (ellipse_maxx) maxx += offset;
-      if (ellipse_miny) miny -= offset;
-      if (ellipse_maxy) maxy += offset;
+  
+  ds_median = 0;
+  if (unsigned n = dsmed.size()) {
+    std::sort(dsmed.begin(), dsmed.end());
+    if (n % 2)
+      ds_median = dsmed[n/2];
+    else
+      ds_median = (dsmed[n/2] + dsmed[n/2 - 1])/2;
   }
-  while (ellipse_minx || ellipse_maxx || ellipse_miny || ellipse_maxy);
+  if (ds_median <= 0)  ds_median = 1; // handle unrealistic data
 
-
-  // xy shifts
-  bool shift_minx, shift_maxx, shift_miny, shift_maxy;
-  if (tst_draw_xy_shifts) do {
-          shift_minx = shift_maxx = shift_miny = shift_maxy = false;
-      for (PointData::const_iterator i=PD.begin(), e=PD.end(); i!=e; ++i)
-      {
-          PointID    pid   = i->first;
-          LocalPoint point = i->second;
-          if (point.free_xy())
-          {
-              auto shift = shifts.find(pid);
-              if (shift != shifts.end())
-              {
-                  double dx = 1000*std::get<1>(shift->second); // dx in millimeters
-                  double dy = 1000*std::get<2>(shift->second);
-                  dx *= offset/ab_median*ellipsescale;
-                  dy *= offset/ab_median*ellipsescale;
-
-                  double x, y;
-                  svg_xy(point, x, y);
-
-                  double q = 1.3;
-                  if (minx - q*offset > x + dx) shift_minx = true;
-                  if (maxx + q*offset < x + dx) shift_maxx = true;
-                  if (miny - q*offset > y + dy) shift_miny = true;
-                  if (maxy + q*offset < y + dy) shift_maxy = true;
-              }
-          }
-      }
-      if (shift_minx) minx -= offset;
-      if (shift_maxx) maxx += offset;
-      if (shift_miny) miny -= offset;
-      if (shift_maxy) maxy += offset;
-  }
-      while (shift_minx || shift_maxx || shift_miny || shift_maxy);
-
+  // main bounding box
   if (tst_implicit_size)
-  {
-    setMinimalSize();
     ellipsescale = 1.0;
 
-    fontsize = offset*0.4;
-    if (fontsize < minimalsize) fontsize = minimalsize;
-    symbolsize  = fontsize;
-    strokewidth = offset*0.01;
-    if (strokewidth < minimalsize) strokewidth = minimalsize;
+  { // define minx, maxx, miny, maxy and offset
+    double x, y, dx, dy, tminx, tmaxx, tminy, tmaxy;
+    tminx = tminy = 1e20;
+    tmaxx = tmaxy = -1e20;
+
+    T11 = TX.x;    T12 = TY.x * y_sign;
+    T21 = TX.y;    T22 = TY.y * y_sign;
+    // Tx  = 2*offset - minx; ... will be redefined later when
+    // Ty  = 2*offset - miny;     offset, minx and miny are known
+    Tx = Ty = 0;
+
+    for (PointData::const_iterator i = PD.begin(), e = PD.end(); i != e; ++i) {
+      PointID pid = i->first;
+      LocalPoint point = i->second;
+
+      // skip points that are not part of the adjustment or do not have xy
+      if (!point.active_xy() || !point.test_xy())
+        continue;
+
+      svg_xy(point, x, y);
+
+      tminx = std::min(tminx, x);
+      tmaxx = std::max(tmaxx, x);
+      tminy = std::min(tminy, y);
+      tmaxy = std::max(tmaxy, y);
+    }
+
+    minx = tminx;
+    miny = tminy;
+    maxx = std::abs(tmaxx - tminx);
+    maxy = std::abs(tmaxy - tminy);
+    offset = (maxx + maxy) / 2 * 0.05;
   }
+
+  T11 = TX.x;
+  T12 = TY.x * y_sign;
+  T21 = TX.y;
+  T22 = TY.y * y_sign;
+  Tx = 2 * offset - minx;
+  Ty = 2 * offset - miny;
+
+  // update parameters to fit the ellipses and x,y shifts
+  // into the canvas
+  {
+    // the space around the canvas is wide 2*offset on all sides
+    extension = 0.3;   // the outer boundary extension in % of the offset
+    auto tol_right  = [this](){ return maxx + (3 + extension)*offset; };
+    auto tol_left   = [this](){ return (1 - extension)*offset; };
+    auto tol_top    = [this](){ return (1 - extension)*offset; };
+    auto tol_bottom = [this](){ return maxy + (3 + extension)*offset; };
+
+    for (PointData::const_iterator i = PD.begin(), e = PD.end(); i != e; ++i) {
+      PointID pid = i->first;
+      LocalPoint point = i->second;
+
+      double dx {0}, dy {0};
+
+      // skip points that are not part of the adjustment or do not have xy
+      if (tst_draw_ellipses && point.free_xy() &&
+          (IS.is_adjusted() || IS.has_stashed_ellipses()))
+      {
+        double x, y;
+        svg_xy(point, x, y);
+#if 0
+        std::cerr << pid << "\n"
+                  << "      x, y : " << x << " " << y << "      offset : " << offset << "\n";
+
+	std::cerr << " tol_right : " << tol_right() << "\n";
+	std::cerr << "  tol_left : " << tol_left()  << "\n";
+	std::cerr << "   tol_top : " << tol_top()  << "\n";
+	std::cerr << "  tol_bottom : " << tol_bottom()  << "\n";
+
+#endif
+        double a, b, alpha;
+        svg_ellipse(pid, a, b, alpha);
+        svg_ellipse_bounding_box(alpha, a, b, dx, dy);
+
+#if 0
+	auto sint = [this](double k) {
+	  std::stringstream s; s << std::setw(4) << int(k);
+	  return s.str();
+	};
+	auto spid = pid.str();
+	while (spid.length() < 4) spid.append(" ");
+	std::cerr << "XXX " << spid
+		  << "  x/y  "   << sint(x)  << " " << sint(y) << "  "
+		  << "  dx/dy  " << sint(dx) << " " << sint(dy)
+		  << "   top/bottom/left/right" << " "
+		  << sint(tol_top())  << " " << sint(tol_bottom()) << "   "
+		  << sint(tol_left()) << " " << sint(tol_right()) << "\n";
+#endif
+	double skip = extension*offset, tdx = dx, tdy = dy;
+	while (x+tdx > tol_right())  maxx += skip;
+	while (y+tdy > tol_bottom()) maxy += skip;
+	while (x-tdx < tol_left())   Tx += skip, maxx += skip, tdx -= skip;
+	while (y-tdy < tol_top())    Ty += skip, maxy += skip, tdy -= skip;
+      }
+    }
+  }
+
+
+
+  // font and symbol sizes must be initialized only once
+  // in the constructer, otherwise they could not be setup
+  // by the interface
+
+  if (tst_implicit_size)
+    {
+      setMinimalSize();
+      ellipsescale = 1.0;
+      shiftscale = 1.0;
+
+      fontsize = offset*0.4;
+      if (fontsize < minimalsize) fontsize = minimalsize;
+      symbolsize  = fontsize;
+      strokewidth = offset*0.01;
+      if (strokewidth < minimalsize) strokewidth = minimalsize;
+    }
+
+#if 0
+  std::cerr << "### initial implicit SVG units\n";
+  std::cerr << "### minx        = " << minx << "\n";
+  std::cerr << "### maxx        = " << maxx << "\n";
+  std::cerr << "### miny        = " << miny << "\n";
+  std::cerr << "### maxy        = " << maxy << "\n";
+  std::cerr << "### offset      = " << offset << "\n";
+  std::cerr << "### fontsize    = " << fontsize << "\n";
+  std::cerr << "### symbolsize  = " << symbolsize << "\n";
+  std::cerr << "### strokewidth = " << strokewidth << "\n";
+#endif
 }
 
 void GamaLocalSVG::svg_xy(const LocalPoint& point, double& x, double& y) const
@@ -256,40 +302,45 @@ void GamaLocalSVG::draw(std::ostream& output_stream) const
 
   svg_init();
 
-  const double svg_width  = maxx-minx + 4*offset;
-  const double svg_height = maxy-miny + 4*offset;
-
-  Tx = 2*offset - minx;
-  Ty = 2*offset - miny;
+  const double wmaxx = 1.0*(maxx + 4*offset);
+  const double wmaxy = 1.0*(maxy + 4*offset);
 
   *svg << "<?xml version='1.0' encoding='utf-8' standalone='no'?>\n";
   *svg <<
     "<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN'\n"
     "  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>\n"
     "<svg version='1.1' "
-    " width='"  << svg_width << "'"
-    " height='" << svg_height << "'"
+    " width='"  << wmaxx << "'"
+    " height='" << wmaxy << "'"
     " xmlns='http://www.w3.org/2000/svg'"
     " xmlns:xlink='http://www.w3.org/1999/xlink' >\n"
     "\n"
     "<defs>\n"
     "  <marker id='arrowhead' markerWidth='10' markerHeight='7'\n"
     "  refX='0' refY='3.5' orient='auto' style='fill:" << xyshiftcolor << "'>\n"
-    " <polygon points='0 0, 10 3.5, 0 7' />\n"
-    " </marker>\n"
+    "  <polygon points='0 0, 10 3.5, 0 7' />\n"
+    "  </marker>\n"
     "</defs>\n";
 
-#if 1
-  *svg << "<rect x='" << 2*offset << "' y='" << 2*offset << "' "
-       << "width ='" << maxx-minx << "' "
-       << "height='" << maxy-miny << "' "
+#if 0
+  *svg << "<rect x='0' y='0' "
+       << "width ='" << wmaxx << "' "
+       << "height='" << wmaxy << "' "
        << "style='fill:none;stroke:blue;stroke-width:"
        << strokewidth << ";' />\n";
 
   *svg << "<rect x='" << 2*offset << "' y='" << 2*offset << "' "
-       << "width ='" << maxx-minx << "' " << "height='" << maxy-miny << "' "
+       << "width ='" << maxx << "' " << "height='" << maxy << "' "
        << "style='fill:grey;stroke:black;stroke-width:"
        << strokewidth << ";opacity:0.1' />\n";
+
+  *svg << "<polyline points='"
+       << " " << offset        << "," << offset << " "
+       << " " << wmaxx-offset  << "," << offset << " "
+       << " " << wmaxx-offset  << "," << wmaxy-offset << " "
+       << " " << offset        << "," << wmaxy-offset << " "
+       << " " << offset        << "," << offset << " "
+       << "' style='fill:none;stroke:aqua;stroke-width:" << strokewidth << "' />\n";
 #endif
 
   svg_axes_xy();
@@ -337,9 +388,9 @@ void GamaLocalSVG::svg_axes_xy() const
   const double arrowheadshort = 0.3*0.3*offset;
 
   const double left   = offset;
-  const double right  = maxx - minx + 3*offset;
-  const double top    = offset - miny;
-  const double bottom = maxy - miny + 3*offset;
+  const double right  = maxx + 3*offset;
+  const double top    = offset;
+  const double bottom = maxy + 3*offset;
 
   switch (PD.local_coordinate_system)
     {
@@ -403,7 +454,7 @@ void GamaLocalSVG::svg_axes_xy() const
   *svg << "<text font-family='sans-serif' "
        << "x='" << CY.x << "' y='" << CY.y << "' "
        << "font-size='" << fontsize <<  "' "
-       << "style='" << aligny << "'>Y</text>\n";
+       << "style='" << aligny << "'> Y</text>\n";
 }
 
 void GamaLocalSVG::svg_points() const
@@ -446,16 +497,15 @@ void GamaLocalSVG::svg_observations() const
                   PointID to   = b->to();
                   if (from < to) pairs.insert(PairID(from, to));
                   else           pairs.insert(PairID(to, from));
-
-                  if (const Angle* b = dynamic_cast<const Angle*>(*i))
-                    {
-                      PointID from = b->from();
-                      PointID to   = b->fs();
-                      if (from < to) pairs.insert(PairID(from, to));
-                      else           pairs.insert(PairID(to, from));
-                    }
                 }
 
+              if (const Angle* b = dynamic_cast<const Angle*>(*i))
+                {
+                  PointID from = b->from();
+                  PointID to   = b->fs();
+                  if (from < to) pairs.insert(PairID(from, to));
+                  else           pairs.insert(PairID(to, from));
+                }
             }
         }
     }
@@ -490,20 +540,21 @@ void GamaLocalSVG::svg_draw_point(const PointID& pid,
       svg_xy(point, x, y);
 
       if (tst_draw_xy_shifts && point.free_xy()) {
-            auto shift = shifts.find(pid);
-            if (shift != shifts.end()) {
+      auto shift = shifts.find(pid);
+      if (shift != shifts.end()) {
+            double dx = 1000 * std::get<1>(shift->second); // dx in millimeters
+            double dy = 1000 * std::get<2>(shift->second);
 
-            double dx = 1000*std::get<1>(shift->second); // dx in millimeters
-            double dy = 1000*std::get<2>(shift->second);
-            dx *= offset/ab_median*ellipsescale;
-            dy *= offset/ab_median*ellipsescale;
+	    dx *= offset / ds_median * ellipsescale;
+	    dy *= offset / ds_median * ellipsescale;
 
-            *svg << "<line x1='" << x << "' y1='" << y
-                 << "' x2='" << x+dx << "' y2='"<< y+dy
-                 << "' style='stroke:" << xyshiftcolor << ";stroke-width:2"
-                 << "' marker-end='url(#arrowhead)' />\n";
-            }
-        }
+	    if (std::abs(dx) > 1e-1 || std::abs(dy) > 1e-1)
+		*svg << "<line x1='" << x << "' y1='" << y << "' x2='" << x + dx << "' y2='"
+		     << y + dy << "' style='stroke:" << xyshiftcolor << ";stroke-width:1"
+		     << "' marker-end='url(#arrowhead)' />\n";
+      }
+      }
+
 
       if (tst_draw_point_symbols)
         {
@@ -514,54 +565,38 @@ void GamaLocalSVG::svg_draw_point(const PointID& pid,
                             constrainedsymbol, constrainedfill);
           else
             svg_point_shape(x, y, "Free",  freesymbol,  freefill);
-        }
+      }
 
-      if (tst_draw_point_ids)
-        {
+      if (tst_draw_point_ids) {
           *svg << "<text font-family='sans-serif' "
-               << "transform='translate(" << 2*psize << " " << 2*psize <<")' "
-               << "font-size='" << fontsize <<  "' "
+               << "transform='translate(" << 2 * psize << " " << 2 * psize << ")' "
+               << "font-size='" << fontsize << "' "
                << "x='" << x << "' y='" << y << "' "
                << ">" << pid.str() << "</text>\n";
-        }
+      }
 
-      if (tst_draw_ellipses &&
-          (IS.is_adjusted() || IS.has_stashed_ellipses()) && !point.fixed_xy())
-        {
+      if (tst_draw_ellipses && !point.fixed_xy()
+          && (IS.is_adjusted() || IS.has_stashed_ellipses())) {
           double a, b, alpha;
           svg_ellipse(pid, a, b, alpha);
-          alpha *= RAD_TO_DEG;   // see gnu_gama/radian.h
-
-          *svg << "<ellipse  " //cx='" << x << "' cy='" << y << "' "
-               << "rx='" << a << "' ry='" << b << "' "
-               << "transform='translate(" << x << " " << y << ") "
-               << "rotate("<< alpha << ")' "
-               << "style='stroke:grey;stroke-width:"
-               << strokewidth << ";fill:none;' />\n";
 #if 0
-          { // draw ellipse bounding box, debugging only
-            double x, y;
-            svg_xy(point, x, y);
+	  double dx, dy;
+	  svg_ellipse_bounding_box(alpha, a, b, dx, dy);
 
-            double a, b, alpha;
-            svg_ellipse(pid, a, b, alpha);
-
-            // *** bounding box for ellipses
-            double t  = atan2(-b*sin(alpha), a*cos(alpha));
-            double u  = atan2( b*cos(alpha), a*sin(alpha));
-            double dx = abs(a*cos(t)*cos(alpha) - b*sin(t)*sin(alpha));
-            double dy = abs(b*sin(u)*cos(alpha) + a*cos(u)*sin(alpha));
-
-            *svg << "<polygon points='"
-                 << x-dx <<"," << y-dy << " "
-                 << x+dx <<"," << y-dy << " "
-                 << x+dx <<"," << y+dy << " "
-                 << x-dx <<"," << y+dy << " "
-                 << "' style='fill-opacity:0;stroke:lime;stroke-width:"
-                 << 0.5 << "' />";
-          }
+	  *svg << "<polygon points='" << x - dx << "," << y - dy << " " // left  top
+	       << x + dx << "," << y - dy << " "                        // right top
+	       << x + dx << "," << y + dy << " "                        // right bottom
+	       << x - dx << "," << y + dy << " "                        // left  bottom
+	       << "' style='fill-opacity:0;stroke:lime;stroke-width:" << 0.5 << "' />";
 #endif
-        }
+	  alpha *= RAD_TO_DEG; // see gnu_gama/radian.h
+
+	  *svg << "<ellipse  " //cx='" << x << "' cy='" << y << "' "
+	       << "rx='" << a << "' ry='" << b << "' "
+	       << "transform='translate(" << x << " " << y << ") "
+	       << "rotate(" << alpha << ")' "
+	       << "style='stroke:grey;stroke-width:" << strokewidth << ";fill:none;' />\n";
+      }
 }
 
 void GamaLocalSVG::svg_ellipse(const PointID& pid, double &a, double &b, double &alpha) const
@@ -571,7 +606,7 @@ void GamaLocalSVG::svg_ellipse(const PointID& pid, double &a, double &b, double 
     if (PD.right_handed_angles()) alpha = -alpha;
 
     a *= offset/ab_median*ellipsescale;
-    b *= offset/ab_median*ellipsescale;
+    b *= offset / ab_median * ellipsescale;
 
     switch (PD.local_coordinate_system)
       {
@@ -591,4 +626,13 @@ void GamaLocalSVG::svg_ellipse(const PointID& pid, double &a, double &b, double 
 
      while (alpha < 0)      alpha += 2*M_PI;
      while (alpha > 2*M_PI) alpha -= 2*M_PI;
+}
+
+void GamaLocalSVG::svg_ellipse_bounding_box(
+    double alpha, double a, double b, double& dx, double& dy) const
+{
+     double t = atan2(-b * sin(alpha), a * cos(alpha));
+     double u = atan2(b * cos(alpha), a * sin(alpha));
+     dx = abs(a * cos(t) * cos(alpha) - b * sin(t) * sin(alpha));
+     dy = abs(b * sin(u) * cos(alpha) + a * cos(u) * sin(alpha));
 }

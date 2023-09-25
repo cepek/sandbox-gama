@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project (gnu-gama VERSION 2.25.1)
+project (gnu-gama VERSION 2.26)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,6 +9,12 @@ add_definitions(-DGNU_gama_expat_1_1)
 #add_definitions(-DDEBUG_ACORD2)
 #add_definitions(-DA2G_DEBUG)
 #add_definitions(-DDEBUG_REDUCED_OBS)
+
+# Add -O0 to remove optimizations when using gcc
+#if(CMAKE_COMPILER_IS_GNUCC)
+#    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+#    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+#endif()
 
 # Library
 #

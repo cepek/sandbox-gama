@@ -368,6 +368,16 @@ int main(int argc, char *argv[])
         point.index_z() = 0;
     }
 
+    if (!IS->consistent())  // fake the adjustment expected in SVG class
+    {
+        for (auto& point : IS->PD) {
+            double x = point.second.x();
+            double y = point.second.y();
+            point.second.set_xy(x, -y);
+        }
+    }
+
+
 #ifdef DEBUG_GAMA_LOCAL_DEFORMATION
     std::cerr << "\n****** IS->export_xml()\n\n" << IS->export_xml();
 #endif

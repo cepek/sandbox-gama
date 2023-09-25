@@ -98,6 +98,7 @@ int help()
     "--export     updated input data based on adjustment results\n"
     "--verbose    [yes | no]\n"
     "--version\n"
+    "--dumpversion\n"
     "--help\n\n";
 
 //  "--obs        observation_equations.txt (obsolete format)\n"
@@ -152,6 +153,11 @@ int main(int argc, char **argv)
         if (!strcmp(c, "help"))    return help();
         if (!strcmp(c, "version")) return
             GNU_gama::version("gama-local", "Ales Cepek et al.");
+        if (!strcmp(c, "dumpversion"))
+          {
+            cout << GNU_gama::GNU_gama_version() << endl;
+            return 0;
+          }
       }
 
   int indopt = 1;
