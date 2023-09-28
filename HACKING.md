@@ -27,10 +27,12 @@ a checkout of that tag, with the resulting tarball made available.
 Before tagging,
   - choose a version number
   - update NEWS
-  - update the version in configure.ac and lib/gnu_gama/version.cpp
-  - run "make distcheck" on a system with sqlite3 available, to ensure
-    that the distfile includes all necessary files for building, and
-    that the tests pass
+  - update the version in the following three files
+    - configure.ac
+    - lib/gnu_gama/version.cpp
+    - CMakeLists.txt
+  - run `make distcheck' to ensure that the distfile includes all 
+    necessary files for building, and that the tests pass.
 
 Apply the tag, and ask other active contributors to test.  They can
 each run "make distcheck" on their platforms, and test the resulting
@@ -60,10 +62,12 @@ To build Gama run the following steps
 
 1. ./autogen.sh
 2. ./configure
+   * Alternatively you can run "configure.ac --enable-extra-tests"
+     which eneables more tests but takes more time to run "make check".
 3. make
-4. make check         # optional set of unit tests
-5. make dist          # create distribution tarball
-6. make distcheck     # build from tarball and run tests
+4. make check       # run the set of unit tests
+5. make dist        # create distribution tarball
+6. make distcheck   # run tests before creating distribution tarball.
 
 Run ./configure --help to get the list of all options and some
 influential environment variables. Configure script checks for
@@ -126,16 +130,6 @@ systems.
 In addition to the prerequisites in README, when building gama from
 the repository rather than a released tarball, one must additionally
 have autoconf, automake and libtool.
-
-\todo Check if this autoconf-archive statement is still true.
-
-To check the compiler support of c++11 features, configure.ac calls
-macro AX_CXX_COMPILE_STDCXX_11, you need either to install package
-autoconf-archive or download it from
-git://git.sv.gnu.org/autoconf-archive.git. See
-https://www.gnu.org/software/autoconf-archive/
-ax_cxx_compile_stdcxx_11.html
-
 
 ## Source Organization
 

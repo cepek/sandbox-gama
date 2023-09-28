@@ -1,5 +1,9 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.26 (2023-09-26)
+
+  - Fixed the buggy GNU_gama::local::SVG class.
+
 Changes in release 2.25.1 (2023-09-24)
 
   - new version number for packagers, because two versions of the 2.25
