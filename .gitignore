@@ -102,6 +102,10 @@ lib/gnu_gama/local/language.html
 octave-workspace
 #
 CMakeLists.txt.user*
+CMakeCache.txt
+CMakeFiles
+*.cmake
+#
 .vs
 .vscode
 run.bat
