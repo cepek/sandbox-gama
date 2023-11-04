@@ -1,3 +1,24 @@
+2023-11-04   Ales Cepek <cepek@gnu.org>
+
+	* Maintenance release gama-2.27, no user-visible changes.
+
+	- Fixed the bug in two test suite functions in the Krumm examples
+	collection.
+
+	- Updated version of krumm/2D/Wolf_DistanceDirectionAngle_free.xml
+
+	The bug in the function mgon2cc(), conversion from milligons to
+	centigrades, was reported by Greg Troxer. The scope of the bug was
+	limited to Krumm's test suite, collection of
+	examples. Unfortunatelly the bug was shadowed by another bug in
+	Input::spatial_distances(string), where mgon2cc() was erroneously
+	used instead of m2mm() conversion. To elliminate the bug in
+	Krumm's examples collection the file
+	Wolf_DistanceDirectionAngle_free.xml had to be updated, replaced
+	with the new correct version.
+
+	See also https://en.wikipedia.org/wiki/Gradian
+
 2023-09-26   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.26

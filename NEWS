@@ -1,5 +1,14 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.27 (2023-11-04)
+
+  The maintenance release, no user-visible changes.
+
+  - Fixed the bug in two test suite functions in the Krumm examples
+    collection.
+
+  - Updated version of krumm/2D/Wolf_DistanceDirectionAngle_free.xml
+
 Changes in release 2.26 (2023-09-26)
 
   - Fixed the buggy GNU_gama::local::SVG class.

@@ -75,7 +75,7 @@ std::string gon2cc(std::string g)
 
 std::string mgon2cc(std::string g)
 {
-  return std::to_string(std::stod(g) * 1e3);
+  return std::to_string(std::stod(g) * 1e1);
 }
 
 std::string m2mm(std::string g)

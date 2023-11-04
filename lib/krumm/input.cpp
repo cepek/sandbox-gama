@@ -230,7 +230,7 @@ void Input::spatial_distances(std::string line)
     case 3:
       part3 =
           " from='" +tokens[0]+ "' to='" +tokens[1]+ "' val='" +tokens[2]+ "'"
-          " stdev='" + mgon2cc(common.spatial_dist_sigma) + "'";
+          " stdev='" + m2mm(common.spatial_dist_sigma) + "'";
       break;
     default:
       common.spatial_dist_list +=
