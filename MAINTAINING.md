@@ -12,6 +12,12 @@ Before tagging,
     - configure.ac
     - lib/gnu_gama/version.cpp
     - CMakeLists.txt
+
+    Make an individual commit for the updated version, i.e. follow
+    the general rule to make multiple commits for unrelated
+    changes; namely if you replace a whole file, like an xml example,
+    make it a single commit.
+
   - run `make distcheck' to ensure that the distfile includes all 
     necessary files for building, and that the tests pass.
 
