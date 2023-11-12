@@ -7,7 +7,7 @@ a checkout of that tag, with the resulting tarball made available.
 
 Before tagging,
   - choose a version number
-  - update NEWS
+  - update NEWS and ChangeLog
   - update the version in the following three files
     - configure.ac
     - lib/gnu_gama/version.cpp
