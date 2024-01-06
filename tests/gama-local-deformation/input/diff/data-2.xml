@@ -6,7 +6,7 @@ gen-deformation-data epoch 2
 </description>
 
 <network-general-parameters
-   gama-local-version="2.24"
+   gama-local-version="2.27"
    gama-local-algorithm="envelope"
    gama-local-compiler="GNU C/C++ 11.4"
    axes-xy="en"
