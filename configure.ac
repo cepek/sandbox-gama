@@ -8,7 +8,7 @@ AC_PREREQ([2.71])
 dnl GNU Gama version is also defined in CMakeLists.txt and
 dnl lib/gnu_gama.version.cpp
 
-AC_INIT([gama],[2.27],[bug-gama@gnu.org])
+AC_INIT([gama],[2.28],[bug-gama@gnu.org])
 
 AC_CONFIG_SRCDIR([lib/gnu_gama/version.cpp])
 AC_CONFIG_HEADERS([config.h])
