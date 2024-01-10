@@ -1,5 +1,16 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.28 (2024-01-10)
+
+  The maintenance release, no user-visible changes.
+
+  - The helper program gama-local-deformation was split to
+    Deformation.h/.cpp class with minimal remaining program
+    gama-local-deformation.cpp.
+
+	- Added a simple autotools tests for deformation results (equivalent
+    test was already available in cmake build).
+
 Changes in release 2.27 (2023-11-04)
 
   The maintenance release, no user-visible changes.
