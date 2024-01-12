@@ -211,8 +211,8 @@ Gnulib https://www.gnu.org/software/gnulib/manual/gnulib.html
 
       ./announce-gen --package-name gama \
          --release-type stable \
-         --current-version 2.19 \
-         --previous-version 2.20 \
+         --current-version 2.28 \
+         --previous-version 2.27 \
          --gpg-key-id 1b77fc09 \
          --url https://ftp.gnu.org/gnu/gama \
          --news NEWS
@@ -254,9 +254,15 @@ To upload your new release tarball, simply run
 You will be asked for your gpg passphrase (twice) and you will get
 an email when your upload is finished.
 
+**Warning:** Never replace tarball already uploaded to the GNU
+FTP server, a post-release distfile modification makes the release
+unusable for packaging systems.
+
+<!--
 Similarly you can replace the tarball, in case it is needed
 
       ./gnupload --replace --to ftp.gnu.org:gama gama-2.20.tar.gz
+-->
 
 Use ```gnupload --help``` for the full list of options with examples, you
 can always try running ```gnupload``` with the option ```--dry-run```
