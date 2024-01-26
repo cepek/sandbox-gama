@@ -79,6 +79,8 @@ set(SRC_GAMA
 
    lib/gnu_gama/xml/baseparser.cpp
    lib/gnu_gama/xml/baseparser.h
+   lib/gnu_gama/xml/comparexyz.cpp
+   lib/gnu_gama/xml/comparexyz.h
    lib/gnu_gama/xml/encoding_cp1251.cpp
    lib/gnu_gama/xml/encoding.cpp
    lib/gnu_gama/xml/encoding.h
@@ -327,6 +329,9 @@ target_link_libraries(gama-local-gkf2yaml PUBLIC libgama)
 add_executable(krumm2gama-local src/krumm2gama-local.cpp)
 target_link_libraries(krumm2gama-local PUBLIC libgama)
 
+add_executable(compare-xyz src/compare-xyz.cpp)
+target_link_libraries(krumm2gama-local PUBLIC libgama)
+
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
 target_link_libraries(gama-local-deformation PUBLIC libgama)
 
@@ -345,6 +350,7 @@ endif()
 # Installation
 #
 install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
+        compare-xyz
         DESTINATION ${GAMA_INSTDIR})
 
 

@@ -3,7 +3,8 @@ GAMA_LOCAL = gama-local \
              gama-local-xml2txt \
              gama-local-xml2sql \
              gama-local-gkf2yaml \
-             krumm2gama-local
+             krumm2gama-local \
+             compare-xyz
 
 if GNU_GAMA_G3_ENABLED
    GAMA_G3 = gama-g3
@@ -50,3 +51,7 @@ endif
 krumm2gama_local_SOURCES  = krumm2gama-local.cpp
 krumm2gama_local_CPPFLAGS = -I $(top_srcdir)/lib
 krumm2gama_local_LDADD    = $(top_builddir)/lib/libgama.a
+
+compare_xyz_SOURCES  = compare-xyz.cpp
+compare_xyz_CPPFLAGS = -I $(top_srcdir)/lib
+compare_xyz_LDADD    = $(top_builddir)/lib/libgama.a

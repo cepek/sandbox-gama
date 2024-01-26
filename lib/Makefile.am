@@ -57,6 +57,8 @@ libgama_src = \
    gnu_gama/sparse/svector.h \
    gnu_gama/xml/baseparser.cpp \
    gnu_gama/xml/baseparser.h \
+   gnu_gama/xml/comparexyz.cpp \
+   gnu_gama/xml/comparexyz.h \
    gnu_gama/xml/encoding_cp1251.cpp \
    gnu_gama/xml/encoding.cpp \
    gnu_gama/xml/encoding.h \
