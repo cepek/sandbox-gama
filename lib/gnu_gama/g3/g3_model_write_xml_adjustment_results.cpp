@@ -31,6 +31,12 @@ using namespace GNU_gama::g3;
 
 namespace
 {
+// maximal possible precision needed by 'make check' test rule
+int g3_make_check_precision(int) { return 16; }
+}
+
+namespace
+{
   class WriteAdjustedXML :
     public GNU_gama::BaseVisitor,
     public GNU_gama::Visitor<Angle>,
@@ -183,9 +189,9 @@ void Model::write_xml_adjustment_results_statistics(std::ostream& out)
   out << "<redundancy>" << setw(5) << redundancy    << " </redundancy>\n\n";
 
   out.setf(ios_base::scientific, ios_base::floatfield);
-  out.precision(5);
+  out.precision(12);//g3_make_check_precision(5));
   double rtr = adj->rtr();
-  out << "<sum-of-squares>        " << rtr << " </sum-of-squares>\n";
+  out << "<sum-of-squares>" << rtr << "</sum-of-squares><!--HOWNO-->\n";
 
   double sigma_apriori = apriori_sd*apriori_sd;
   out << "<apriori-variance>      "

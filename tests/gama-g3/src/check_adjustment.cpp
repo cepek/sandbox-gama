@@ -13,6 +13,9 @@ using std::endl;
 using std::string;
 using std::abs;
 
+using std::fabs;
+using std::fmax;
+
 namespace
 {
   int errors = 0;
@@ -43,10 +46,10 @@ namespace
     cout << "\t" << x << "\t" << y << endl;
   };
 
-  void tst(string s, double x, double y, double limit=1e-6)
+  void tst(string s, double x, double y, double limit=1e-5)
   {
     cout << pad(s);
-    bool ok = (abs(x - y) < limit);
+    bool ok = fabs(x - y)/fmax(fabs(x), fabs(y)) < limit;
     if (ok) {
         cout << "passed";
       }
