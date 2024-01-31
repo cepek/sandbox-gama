@@ -460,7 +460,7 @@ void Point::write_xml(std::ostream& ostr)
   if (has_position())
     {
       ostr.setf(std::ios_base::fixed, std::ios_base::floatfield);
-      ostr.precision(5);
+      ostr.precision(5+4);   // +4 is needen by compare-xyz
       ostr << "\n";
       ostr << "        <x-given     >";
       ostr << setw(19) << X.init_value();
