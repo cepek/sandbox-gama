@@ -330,7 +330,7 @@ add_executable(krumm2gama-local src/krumm2gama-local.cpp)
 target_link_libraries(krumm2gama-local PUBLIC libgama)
 
 add_executable(compare-xyz src/compare-xyz.cpp)
-target_link_libraries(krumm2gama-local PUBLIC libgama)
+target_link_libraries(compare-xyz PUBLIC libgama)
 
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
 target_link_libraries(gama-local-deformation PUBLIC libgama)

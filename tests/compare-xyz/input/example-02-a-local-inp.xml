@@ -1,0 +1,83 @@
+<?xml version="1.0" ?>
+<gama-local xmlns="http://www.gnu.org/software/gama/gama-local">
+<network axes-xy="en" angles="left-handed">
+
+<description>
+gama-local adjustment
+</description>
+
+<!-- sigma-apr/sigma0 gon to cc -->
+<parameters
+   sigma-apr = "1"
+   conf-pr   = " 0.95 "
+   tol-abs   = " 1000 "
+   sigma-act = "aposteriori"
+   algorithm = "gso"
+   cov-band  = "-1"
+/>
+
+<points-observations>
+
+<point id='P' x='3973308.870' y='1009497.924' z='4870231.981' fix='xyz' />
+<point id='Q' adj='xyz' />
+<point id='R' adj='xyz' />
+<point id='S' adj='xyz' />
+
+<vectors>
+<vec from="P" to="Q" dx="-536.52" dy="12576.79" dz="-2306.29" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="P" to="R" dx="4217.73" dy="15213.73" dz="-6661.06" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="P" to="S" dx="-6966.98" dy="19074.83" dz="1572.58" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="Q" to="R" dx="4754.25" dy="2636.95" dz="-4354.77" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="Q" to="S" dx="-6430.46" dy="6498.05" dz="3878.87" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="R" to="S" dx="-11184.71" dy="3861.10" dz="8233.64" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+</points-observations>
+
+</network>
+</gama-local>

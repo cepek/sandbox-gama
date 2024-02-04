@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<gama-local xmlns="http://www.gnu.org/software/gama/gama-local">
+<network axes-xy="en" angles="left-handed">
+
+<description>
+gama-local adjustment
+</description>
+
+<!-- sigma-apr/sigma0 gon to cc -->
+<parameters
+   sigma-apr = "1"
+   conf-pr   = " 0.95 "
+   tol-abs   = " 1000 "
+   sigma-act = "aposteriori"
+   algorithm = "gso"
+   cov-band  = "-1"
+/>
+
+<points-observations>
+
+<point id='A' x='3964821.433' y='999978.170' z='4878910.138' fix='xyz' />
+<point id='B' x='3982364.759' y='1040149.219' z='4856466.670' fix='xyz' />
+<point id='P' adj='xyz' />
+<point id='Q' adj='xyz' />
+<point id='R' adj='xyz' />
+<point id='S' adj='xyz' />
+
+<vectors>
+<vec from="A" to="P" dx="8487.44" dy="9519.75" dz="-8678.16" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="A" to="Q" dx="7950.92" dy="22096.54" dz="-10984.45" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="A" to="R" dx="12705.17" dy="24733.49" dz="-15339.22" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="A" to="S" dx="1520.45" dy="28594.59" dz="-7105.58" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="B" to="P" dx="-9055.89" dy="-30651.30" dz="13765.31" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="B" to="Q" dx="-9592.41" dy="-18074.51" dz="11459.02" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="B" to="R" dx="-4838.16" dy="-15437.56" dz="7104.25" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="B" to="S" dx="-16022.87" dy="-11576.46" dz="15337.89" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="P" to="Q" dx="-536.52" dy="12576.79" dz="-2306.29" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="P" to="R" dx="4217.73" dy="15213.73" dz="-6661.06" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="P" to="S" dx="-6966.98" dy="19074.83" dz="1572.58" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="Q" to="R" dx="4754.25" dy="2636.95" dz="-4354.77" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="Q" to="S" dx="-6430.46" dy="6498.05" dz="3878.87" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+<vectors>
+<vec from="R" to="S" dx="-11184.71" dy="3861.10" dz="8233.64" />
+<cov-mat dim="3" band="2">
+100 -1.1 1.2
+110 1.5
+120
+</cov-mat>
+</vectors>
+
+</points-observations>
+
+</network>
+</gama-local>

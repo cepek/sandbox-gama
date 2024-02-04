@@ -196,5 +196,6 @@ AC_CONFIG_FILES([
    tests/extra-tests/input/Makefile
    tests/krumm/Makefile
    tests/gama-local-deformation/Makefile
+   tests/compare-xyz/Makefile
 ])
 AC_OUTPUT

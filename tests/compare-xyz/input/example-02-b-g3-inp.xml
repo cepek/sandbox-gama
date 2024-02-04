@@ -1,0 +1,229 @@
+<?xml version="1.0" ?>
+
+<gnu-gama-data xmlns="http://www.gnu.org/software/gama/gnu-gama-data">
+
+<text>
+gama-g3 adjustment
+</text>
+
+<g3-model>
+
+<constants>
+   <apriori-standard-deviation>1</apriori-standard-deviation>
+   <confidence-level>0.95</confidence-level>
+   <!-- angular-units-degrees/ -->
+   <angular-units-gons/>
+
+   <!-- gama-local  parameters
+   sigma-apr = "1"
+   conf-pr   = " 0.95 "
+   tol-abs   = " 1000 "
+   sigma-act = "aposteriori"
+   algorithm = "gso"
+   cov-band  = "-1"
+   -->
+
+   <ellipsoid>
+      <id>wgs84</id>
+      <!-- a>6378137</a -->
+      <!-- b>6356752.31425</b -->
+      <!-- inv-f>298.257223563</inv-f -->
+   </ellipsoid>
+</constants>
+
+<fixed> <n/> <e/> <u/> </fixed>
+
+<point> <id>A</id> <x>3964821.433</x> <y>999978.170</y> <z>4878910.138</z> </point>
+<point> <id>B</id> <x>3982364.759</x> <y>1040149.219</y> <z>4856466.670</z> </point>
+
+<free> <n/> <e/> <u/> </free>
+
+<point> <id>P</id> </point>
+<point> <id>Q</id> </point>
+<point> <id>R</id> </point>
+<point> <id>S</id> </point>
+
+<obs>
+<vector>
+<from>A</from> <to>P</to>
+<dx>8487.44</dx> <dy>9519.75</dy> <dz>-8678.16</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>A</from> <to>Q</to>
+<dx>7950.92</dx> <dy>22096.54</dy> <dz>-10984.45</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>A</from> <to>R</to>
+<dx>12705.17</dx> <dy>24733.49</dy> <dz>-15339.22</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>A</from> <to>S</to>
+<dx>1520.45</dx> <dy>28594.59</dy> <dz>-7105.58</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>B</from> <to>P</to>
+<dx>-9055.89</dx> <dy>-30651.30</dy> <dz>13765.31</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>B</from> <to>Q</to>
+<dx>-9592.41</dx> <dy>-18074.51</dy> <dz>11459.02</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>B</from> <to>R</to>
+<dx>-4838.16</dx> <dy>-15437.56</dy> <dz>7104.25</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>B</from> <to>S</to>
+<dx>-16022.87</dx> <dy>-11576.46</dy> <dz>15337.89</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>P</from> <to>Q</to>
+<dx>-536.52</dx> <dy>12576.79</dy> <dz>-2306.29</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>P</from> <to>R</to>
+<dx>4217.73</dx> <dy>15213.73</dy> <dz>-6661.06</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>P</from> <to>S</to>
+<dx>-6966.98</dx> <dy>19074.83</dy> <dz>1572.58</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>Q</from> <to>R</to>
+<dx>4754.25</dx> <dy>2636.95</dy> <dz>-4354.77</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>Q</from> <to>S</to>
+<dx>-6430.46</dx> <dy>6498.05</dy> <dz>3878.87</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+<obs>
+<vector>
+<from>R</from> <to>S</to>
+<dx>-11184.71</dx> <dy>3861.10</dy> <dz>8233.64</dz>
+</vector>
+
+<cov-mat> <dim>3</dim> <band>2</band>
+<flt>100</flt> <flt>-1.1</flt> <flt>1.2</flt>
+<flt>110</flt> <flt>1.5</flt>
+<flt>120</flt>
+</cov-mat>
+</obs>
+
+</g3-model>
+</gnu-gama-data>
