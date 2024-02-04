@@ -1,36 +1,61 @@
 # ------------------------------------------------------------------------
 #
-# check deformation
+# check compare-xyz
 #
 
-set(TEST_BASE_DIR ${PROJECT_SOURCE_DIR}/tests/gama-local-deformation)
-set(GAMA_LOCAL_DEFORMATION ${CMAKE_BINARY_DIR}/gama-local-deformation)
-set(RESULT_TOP tests/gama-local-deformation/results${PROJECT_VERSION})
+set(TEST_BASE_DIR ${PROJECT_SOURCE_DIR}/tests/compare-xyz)
+set(GAMA_LOCAL_DEFORMATION ${CMAKE_BINARY_DIR}/compare-xyz)
+set(RESULT_TOP tests/compare-xyz/results/${PROJECT_VERSION})
 
 #
 # ------------------------------------------------------------------------
 #
-# check deformation - diff section
+# check ...
 #
 
-set(INPUT_DIR ${TEST_BASE_DIR}/input/diff)
-set(RESULT_DIR ${CMAKE_BINARY_DIR}/${RESULT_TOP}/diff)
+set(INPUT_DIR ${TEST_BASE_DIR}/input)
+set(RESULT_DIR ${CMAKE_BINARY_DIR}/${RESULT_TOP})
 file(MAKE_DIRECTORY ${RESULT_DIR})
 
-add_test(NAME check_deformation_data_1_2_delete COMMAND rm -f
-  ${RESULT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.svg
-)
+add_test(NAME check_compare_xyz_clean_results_dir  COMMAND rm -f
+  ${RESULT_DIR}/*
+  )
 
-add_test(NAME check_deformation_data_1_2_generate
-  COMMAND ${GAMA_LOCAL_DEFORMATION}
-  ${INPUT_DIR}/data-1.xml ${INPUT_DIR}/data-2.xml
-  --text ${RESULT_DIR}/data-1-2.txt --svg ${RESULT_DIR}/data-1-2.svg
-)
+add_test(NAME compare_xyz  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz )
 
-add_test(NAME check_deformation_data_1_2_diff_txt COMMAND diff -s
-  ${INPUT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.txt
-)
+# add_test(NAME compare_xyz_example_01_fail COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+#   ${INPUT_DIR}/example-01-g3-adj.xml
+#   ${INPUT_DIR}/example-01-local-adj.xml
+#   )
+# 
+# set_tests_properties(compare_xyz_example_01_fail PROPERTIES
+#   WILL_FAIL TRUE
+# )
 
-add_test(NAME check_deformation_data_1_2_diff_svg COMMAND diff -s
-  ${INPUT_DIR}/data-1-2.svg ${RESULT_DIR}/data-1-2.svg
-)
+add_test(NAME compare_xyz_example_01
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+  ${INPUT_DIR}/example-01-g3-adj.xml
+  ${INPUT_DIR}/example-01-local-adj.xml
+  )
+
+add_test(NAME compare_xyz_example_02_a
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+  ${INPUT_DIR}/example-02-a-g3-adj.xml
+  ${INPUT_DIR}/example-02-a-local-adj.xml
+  )
+
+add_test(NAME compare_xyz_example_02_b
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+  ${INPUT_DIR}/example-02-b-g3-adj.xml
+  ${INPUT_DIR}/example-02-b-local-adj.xml
+  )
+
+add_test(NAME compare_xyz_example_ghilani
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+  ${INPUT_DIR}/ghilani-g3-adj.xml
+  ${INPUT_DIR}/ghilani-local-adj.xml
+  )
+
+
+
+
