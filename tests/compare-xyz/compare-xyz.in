@@ -30,11 +30,11 @@ echo "Pack Version     " @PACKAGE_VERSION@  >> /tmp/COMPAREXYZ.txt
 #fi
 
 
-$COMPAREXYZ $INPUTDIR/ghilani-local-adj.xml \
+$COMPAREXYZ $INPUTDIR/ghilani-local-adj.xml --set-tolerance 5e-5 \
             $INPUTDIR/ghilani-g3-adj.xml    \
           >  $RESULTS/ghilani-xyzdiff.txt
 
-$COMPAREXYZ $INPUTDIR/example-01-local-adj.xml \
+$COMPAREXYZ $INPUTDIR/example-01-local-adj.xml --set-tolerance 5e-5 \
             $INPUTDIR/example-01-g3-adj.xml    \
           >  $RESULTS/example-01-xyzdiff.txt
 

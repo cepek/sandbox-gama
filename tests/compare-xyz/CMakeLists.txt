@@ -21,7 +21,13 @@ add_test(NAME check_compare_xyz_clean_results_dir  COMMAND rm -f
   ${RESULT_DIR}/*
   )
 
-add_test(NAME compare_xyz  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz )
+add_test(NAME compare_xyz_implicit_help
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+  )
+
+add_test(NAME compare_xyz_implicit_tolerance
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz --tolerance
+  )
 
 # example 01 is a variant of Ghilani
 add_test(NAME compare_xyz_example_01_FAIL
@@ -32,6 +38,12 @@ add_test(NAME compare_xyz_example_01_FAIL
 
 set_tests_properties(compare_xyz_example_01_FAIL PROPERTIES
   WILL_FAIL TRUE
+  )
+
+add_test(NAME compare_xyz_example_01_increase_tolerance
+  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz --set-tolerance 5e-5
+  ${INPUT_DIR}/example-01-g3-adj.xml
+  ${INPUT_DIR}/example-01-local-adj.xml
   )
 
 add_test(NAME compare_xyz_example_02_a

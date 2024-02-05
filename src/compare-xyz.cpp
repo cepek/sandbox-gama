@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <set>
@@ -20,7 +21,8 @@ Options:
 
    --help
    --version
-   --toldiff 4e-6   tolerance for differences in coordinates
+   --tolerance            get tolerance for differences in coordinates
+   --set-tolerance 4e-6   set the tolerance
 )HELP";
 
 std::set<string> help_opt {"-h", "--h", "-help", "--help"};
@@ -38,6 +40,36 @@ int main(int argc, char* argv[])
     {
       cout << compare_xyz.version() << endl;
       return 0;
+    }
+
+    if (string(argv[i]) == string("--tolerance"))
+    {
+      cout << setprecision(4) << scientific
+           << compare_xyz.tol_max() << endl;
+      return 0;
+    }
+    if (string(argv[i]) == string("--set-tolerance"))
+    {
+      i++;
+      if (i == argc) {
+         cout << help << endl;
+         return 0;
+      }
+      try {
+        size_t pos;
+        double result = std::stod(string(argv[i]), &pos);
+        compare_xyz.set_tol_max(result);
+      }
+      catch (const std::invalid_argument& e) {
+        std::cout << "Invalid argument: " << e.what() << std::endl;
+        return 0;
+      }
+      catch (const std::out_of_range& e) {
+        std::cerr << "Out of range: " << e.what() << std::endl;
+        return 0;
+      }
+
+      continue;
     }
 
     if (help_opt.find(argv[i]) != help_opt.end())
