@@ -59,5 +59,5 @@ int main(int argc, char* argv[])
   compare_xyz.fetch_files(files[0], files[1]);
   compare_xyz.write_xml();
 
-  return 0;
+  return compare_xyz.passed() ? 0 : 1;
 }

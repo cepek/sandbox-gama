@@ -23,19 +23,15 @@ add_test(NAME check_compare_xyz_clean_results_dir  COMMAND rm -f
 
 add_test(NAME compare_xyz  COMMAND ${CMAKE_BINARY_DIR}/compare-xyz )
 
-# add_test(NAME compare_xyz_example_01_fail COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
-#   ${INPUT_DIR}/example-01-g3-adj.xml
-#   ${INPUT_DIR}/example-01-local-adj.xml
-#   )
-# 
-# set_tests_properties(compare_xyz_example_01_fail PROPERTIES
-#   WILL_FAIL TRUE
-# )
-
-add_test(NAME compare_xyz_example_01
+# example 01 is a variant of Ghilani
+add_test(NAME compare_xyz_example_01_FAIL
   COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
   ${INPUT_DIR}/example-01-g3-adj.xml
   ${INPUT_DIR}/example-01-local-adj.xml
+  )
+
+set_tests_properties(compare_xyz_example_01_FAIL PROPERTIES
+  WILL_FAIL TRUE
   )
 
 add_test(NAME compare_xyz_example_02_a
@@ -50,12 +46,22 @@ add_test(NAME compare_xyz_example_02_b
   ${INPUT_DIR}/example-02-b-local-adj.xml
   )
 
-add_test(NAME compare_xyz_example_ghilani
+add_test(NAME compare_xyz_example_ghilani_FAIL
   COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
   ${INPUT_DIR}/ghilani-g3-adj.xml
   ${INPUT_DIR}/ghilani-local-adj.xml
   )
 
+set_tests_properties(compare_xyz_example_ghilani_FAIL PROPERTIES
+  WILL_FAIL TRUE
+  )
 
 
-
+# add_test(NAME compare_xyz_example_01_fail COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
+#   ${INPUT_DIR}/example-01-g3-adj.xml
+#   ${INPUT_DIR}/example-01-local-adj.xml
+#   )
+#
+# set_tests_properties(compare_xyz_example_01_fail PROPERTIES
+#   WILL_FAIL TRUE
+# )

@@ -135,7 +135,21 @@ void CompareXYZ::write_xml(std::ostream& ostr)
   for (int i=1; i<=id_length+3-4; i++) cout << " ";
   std::cout << setw(17+9) << DX << " "
             << setw(17+9) << DY << " "
-            << setw(17+9) << DZ << "\n";
+            << setw(17+9) << DZ << "\n\n";
+
+  failed_ = false;
+  double abs_max = 0;
+  if (fabs(DX) > abs_max) abs_max = fabs(DX);
+  if (fabs(DY) > abs_max) abs_max = fabs(DY);
+  if (fabs(DZ) > abs_max) abs_max = fabs(DZ);
+
+  if (abs_max > tol_max_) failed_ = true;
+
+  std::cout << setprecision(4) << scientific;
+  if (failed_)
+    std::cout << "Failed    " << abs_max << " > " << tol_max_ << "\n";
+  else
+    std::cout << "Passed    " << abs_max << " < " << tol_max_ << "\n";
 }
 
 
