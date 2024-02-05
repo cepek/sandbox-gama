@@ -15,6 +15,7 @@ void CompareXYZ::fetch_files(std::string file_1, std::string file_2)
 {
   fetch_file(file_1, adjmap_1);
   fetch_file(file_2, adjmap_2);
+  cout << endl;
 }
 
 
@@ -34,7 +35,7 @@ void CompareXYZ::fetch_file(string file_name, std::map<std::string, AdjXYZ>& adj
 
   if (format_local)
   {
-    //cout << "# gama-local: " << file_name << "\n";
+    cout << "# gama-local: " << file_name << "\n";
     using GNU_gama::LocalNetworkAdjustmentResults;
     unique_ptr<LocalNetworkAdjustmentResults> adjres( new LocalNetworkAdjustmentResults );
     istringstream istr(str_file);
@@ -51,6 +52,8 @@ void CompareXYZ::fetch_file(string file_name, std::map<std::string, AdjXYZ>& adj
   }
   else if (format_g3)
   {
+    cout << "# gama-g3   : " << file_name << "\n";
+
     std::list<GNU_gama::DataObject::Base*> objects;
 
     GNU_gama::DataParser parser(objects);
