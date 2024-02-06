@@ -4,12 +4,17 @@
 #include <memory>
 #include <iomanip>
 #include "comparexyz.h"
+#include <gnu_gama/version.h>
 #include <gnu_gama/xml/localnetwork_adjustment_results.h>  // parser gama-local
 #include <gnu_gama/xml/dataparser.h>                       // parser gama-g3
 
 using namespace std;
 using namespace GNU_gama;
 
+std::string CompareXYZ::version() const
+{
+  return GNU_gama_minion_version("0.3");
+}
 
 void CompareXYZ::fetch_files(std::string file_1, std::string file_2)
 {

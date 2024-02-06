@@ -16,7 +16,7 @@ public:
   void fetch_files(std::string name_1, std::string name_2);
   void write_xml(std::ostream& ostr=std::cout);
 
-  std::string version() const { return std::string("0.2"); }
+  std::string version() const;
   bool        passed()  const { return !failed_; }
   double      tol_max() const { return tol_max_; }
 

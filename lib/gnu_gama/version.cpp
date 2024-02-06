@@ -51,6 +51,11 @@ namespace GNU_gama {
    */
   std::string GNU_gama_version() { return "2.28"; }
 
+  std::string GNU_gama_minion_version(std::string minion_version)
+  {
+    return GNU_gama_version() + "-" + minion_version;
+  }
+
   std::string GNU_gama_compiler()
   {
     return

@@ -26,6 +26,7 @@
 namespace GNU_gama {
 
   std::string GNU_gama_version();
+  std::string GNU_gama_minion_version(std::string);
   std::string GNU_gama_compiler();
 
   extern std::string GNU_gama_year;
