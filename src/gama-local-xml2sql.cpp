@@ -24,6 +24,7 @@
 #include <gnu_gama/exception.h>
 #include <iostream>
 #include <fstream>
+#include <set>
 
 
 int help()
@@ -68,8 +69,23 @@ int parameters(int argc, char* argv[], std::istream*& xml, std::ostream*& sql)
 }
 
 
+namespace {
+  std::set<std::string> vset { "-v", "--v", "-version", "--version"};
+}
+
+
 int main(int argc, char* argv[])
 {
+    for (int i=1; i<argc; i++)
+    {
+      if (vset.find(argv[i]) != vset.end())
+        {
+          using namespace std;
+          cout << GNU_gama::GNU_gama_minion_version("1.00") << endl;
+          return 0;
+        }
+    }
+
   std::istream* inp;
   std::ostream* out;
 
