@@ -1,12 +1,29 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
+#include <set>
+#include <gnu_gama/version.h>
 #include <gnu_gama/local/yaml2gkf.h>
 
 using namespace GNU_gama::local;
 
+namespace {
+  std::set<std::string> vset { "-v", "--v", "-version", "--version"};
+}
+
+
 int main(int argc, char* argv[])
 {
+  for (int i=1; i<argc; i++)
+    {
+      if (vset.find(argv[i]) != vset.end())
+        {
+          using namespace std;
+          cout << GNU_gama::GNU_gama_minion_version("1.00") << endl;
+          return 0;
+        }
+    }
+
   /* Using - as a filename to mean standard input/output */
   const std::string hyphen = "-";
 
