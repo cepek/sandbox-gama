@@ -31,6 +31,9 @@
 #include <gnu_gama/gon2deg.h>
 #include <gnu_gama/outstream.h>
 
+// ***************************************
+const char* XML2TXT_minion_version = "1.0";
+// ***************************************
 
 using namespace GNU_gama::local;
 
@@ -108,6 +111,7 @@ int help()
        << "--language   en | ca | cz | du | fi | fr | hu | ru | ua \n"
        << "--encoding   utf-8 | iso-8859-2 | iso-8859-2-flat | cp-1250 "
        << "| cp-1251\n"
+       << "--version\n"
        << "--help\n";
   cerr << "\n";
 
@@ -136,7 +140,11 @@ int parameters(int argc, char* argv[], Adjustment& adj, OutStream& out)
       c = argv[++i];
 
       if      (name == "help"      ) return help();
-      else if (name == "version"   ) return 1+GNU_gama::version("gama-local-xml2txt", "Ales Cepek");
+      else if (name == "version"   )
+        {
+          return 1+GNU_gama::version("gama-local-xml2txt", "Ales Cepek",
+                                     XML2TXT_minion_version);
+        }
       else if (name == "language"  ) argv_lang   = c;
       else if (name == "encoding"  ) argv_enc    = c;
       else if (name == "angles"    ) argv_angles = c;

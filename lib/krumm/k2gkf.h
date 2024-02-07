@@ -1,5 +1,5 @@
 /* Krumm2gama-local -- conversion from F. Krumm format to XML gama-local
-   Copyright (C) 2022 Ales Cepek <cepek@gnu.org>
+   Copyright (C) 2022, 2024 Ales Cepek <cepek@gnu.org>
 
    This file is part of Krumm2gama-local.
 

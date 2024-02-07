@@ -25,6 +25,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <gnu_gama/version.h>
 #include <gnu_gama/xml/localnetwork_adjustment_results.h>
 
 #ifdef DEBUG_GAMA_LOCAL_DEFORMATION
@@ -112,7 +113,9 @@ public:
     delete ptr_epoch_2;
   }
 
-  std::string version() const { return "0.3"; }
+  std::string version() const {
+    return GNU_gama_minion_version("0.3");
+  }
 
   bool good() const { return  vec_errors.empty(); }
   bool bad()  const { return !vec_errors.empty(); }

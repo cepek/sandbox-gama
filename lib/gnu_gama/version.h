@@ -31,7 +31,8 @@ namespace GNU_gama {
 
   extern std::string GNU_gama_year;
 
-  int version(const char* program, const char* copyright_holder);
+  int version(const char* program, const char* copyright_holder,
+              const char* minion="");
   int dumpversion();
 }
 

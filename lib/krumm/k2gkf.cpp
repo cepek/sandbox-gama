@@ -1,5 +1,5 @@
 /* Krumm2gama-local -- conversion from F. Krumm format to XML gama-local
-   Copyright (C) 2022 Ales Cepek <cepek@gnu.org>
+   Copyright (C) 2022, 2024 Ales Cepek <cepek@gnu.org>
 
    This file is part of Krumm2gama-local.
 
@@ -16,6 +16,8 @@
    You should have received a copy of the GNU General Public License
    along with Krumm2gama-local. If not, see <https://www.gnu.org/licenses/>.
 */
+
+#include <gnu_gama/version.h>
 
 #include <krumm/k2gkf.h>
 #include <krumm/input.h>
@@ -48,5 +50,6 @@ void K2gkf::run()
 
 std::string K2gkf::version()
 {
-  return "1.00";
+  //return "1.00";
+  return GNU_gama::GNU_gama_minion_version("1.00");
 }

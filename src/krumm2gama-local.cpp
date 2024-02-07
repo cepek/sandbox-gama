@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         }
       else if (v_arg .find(argv[i]) != v_arg .end())
         {
-          std::cout << K2gkf::version();
+          std::cout << K2gkf::version() << std::endl;
           return 0;
         }
       else if (e_arg.find(argv[i]) != e_arg.end())
