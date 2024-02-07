@@ -21,6 +21,8 @@
 #include <fstream>
 #include <string>
 #include <regex>
+#include <set>
+#include <gnu_gama/version.h>
 #include <gnu_gama/local/network.h>
 #include <gnu_gama/xml/gkfparser.h>
 #include <gnu_gama/local/xmlerror.h>
@@ -29,12 +31,39 @@
 using namespace std;
 using namespace GNU_gama::local;
 
+namespace {
+
+auto HELP = R"HELP(
+gama-local-gkf2yaml input.gkf [output.yaml]
+
+)HELP";
+
+set<string> hset { "-h", "--h", "-help", "--help"};
+set<string> vset { "-v", "--v", "-version", "--version"};
+
+}
+
 
 int main(int argc, char* argv[])
 {
+  for (int i=1; i<argc; i++)
+    {
+      if (hset.find(argv[i]) != hset.end())
+        {
+          cout << HELP;
+          return 0;
+        }
+
+      if (vset.find(argv[i]) != vset.end())
+        {
+          cout << GNU_gama::GNU_gama_minion_version("1.00") << endl;
+          return 0;
+        }
+    }
+
   if (argc != 2 && argc != 3)
   {
-    cout << "\ngama-local-gkf2yaml input.gkf [output.yaml]\n\n";
+    cout << HELP;
     return 1;
   }
 
