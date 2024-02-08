@@ -31,9 +31,9 @@
 #include <gnu_gama/gon2deg.h>
 #include <gnu_gama/outstream.h>
 
-// ***************************************
-const char* XML2TXT_minion_version = "1.0";
-// ***************************************
+// ****************************************
+const char* XML2TXT_minion_version = "1.01";
+// ****************************************
 
 using namespace GNU_gama::local;
 
@@ -59,7 +59,12 @@ int main(int argc, char* argv[])
 
   try
     {
-      if (const int k = parameters(argc, argv, adj, out)) return k;
+      int k = parameters(argc, argv, adj, out);
+      if (k != 0 )
+        {
+          if (k == -1) k = 0;  // processing of option --version
+          return k;
+        }
 
       adj.read_xml(std::cin);
 
@@ -142,8 +147,10 @@ int parameters(int argc, char* argv[], Adjustment& adj, OutStream& out)
       if      (name == "help"      ) return help();
       else if (name == "version"   )
         {
-          return 1+GNU_gama::version("gama-local-xml2txt", "Ales Cepek",
-                                     XML2TXT_minion_version);
+          // return 1+GNU_gama::version("gama-local-xml2txt", "Ales Cepek");
+          std::cout << GNU_gama::GNU_gama_version()
+                    << "-" << XML2TXT_minion_version << std::endl;
+          return -1;
         }
       else if (name == "language"  ) argv_lang   = c;
       else if (name == "encoding"  ) argv_enc    = c;

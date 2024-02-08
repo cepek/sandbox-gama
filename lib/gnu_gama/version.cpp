@@ -1,7 +1,7 @@
 /*
   GNU Gama --- Geodesy and Mapping C++ library
   Copyright (C) 1999, 2003, 2005, 2011, 2014, 2018, 2021, 2022, 2023,
-                2024 Ales Cepek <cepek@gnu.org>
+                Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library.
 
@@ -49,7 +49,7 @@ namespace GNU_gama {
    *
    * Checked by tests/gama-local/scripts/check_version.cpp
    */
-  std::string GNU_gama_version() { return "2.28"; }
+  std::string GNU_gama_version() { return "2.29"; }
 
   std::string GNU_gama_minion_version(std::string minion_version)
   {
@@ -101,11 +101,10 @@ namespace GNU_gama {
   std::string GNU_gama_year = "2021";
 
 
-  int version(const char* program, const char* copyright_holder,
-              const char* minion)
+  int version(const char* program, const char* copyright_holder)
   {
     std::cout
-      << program << " (GNU Gama) " << GNU_gama_minion_version(minion)
+      << program << " (GNU Gama) " << GNU_gama_version()
       << " / " << GNU_gama_compiler() << "\n"
       << "Copyright (C) " << GNU_gama_year << " "
       << copyright_holder << "\n" <<
