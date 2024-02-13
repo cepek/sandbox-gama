@@ -48,6 +48,7 @@ namespace
 
       " --project-equations file"
       "     optional output of project equations in XML\n"
+      " --version\n"
 
       "\n"
       " -h         help (this text)\n"
@@ -73,12 +74,12 @@ namespace
         if (a == "-h" || a == "-help")
           {
             std::cerr << usage;
-            return 1;
+            return 2;
           }
-        if (a == "-version")
+        if (a == "-version" || a == "--version")
           {
             GNU_gama::version("gama-g3", "Ales Cepek");
-            return 1;
+            return 2;
           }
         if (a == "-algorithm")
           {
@@ -224,7 +225,11 @@ int main(int argc, char* argv[])
 {
   using namespace GNU_gama::g3;
 
-  if (arguments(argc, argv)) return 1;
+  if (int res = arguments(argc, argv))
+    {
+      if (res == 1) return 1;
+      if (res == 2) return 0;  // --help or --version
+    }
 
   try
     {
