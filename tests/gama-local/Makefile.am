@@ -1,21 +1,21 @@
 EXTRA_DIST = CMakeLists.txt \
-             gama-local-adjustment.sh_  \
-             gama-local-algorithms.sh_  \
-             gama-local-equivalents.sh_ \
-             gama-local-html.sh_ \
-             gama-local-xml-results.sh_ \
-             gama-local-xml-xml.sh_ \
+             gama-local-adjustment.in  \
+             gama-local-algorithms.in  \
+             gama-local-equivalents.in \
+             gama-local-html.in \
+             gama-local-xml-results.in \
+             gama-local-xml-xml.in \
              gama-local-sqlite-reader.in \
-             gama-local-version.sh_ \
-             gama-local-parameters.sh_ \
-             gama-local-export.sh_ \
+             gama-local-version.in \
+             gama-local-parameters.in \
+             gama-local-export.in \
              gama-local-externs.in \
-             gama-local-yaml2gkf.sh_ \
-             gama-local-gkf2yaml.sh_ \
-             xmllint-gama-local-yaml2gkf.sh_ \
-             xmllint-gama-local-xsd.sh_ \
-             xmllint-gama-local-adjustment-xsd.sh_ \
-             octave-gama-local.sh_
+             gama-local-yaml2gkf.in \
+             gama-local-gkf2yaml.in \
+             xmllint-gama-local-yaml2gkf.in \
+             xmllint-gama-local-xsd.in \
+             xmllint-gama-local-adjustment-xsd.in \
+             octave-gama-local.in
 
 
 TESTA = gama-local-version.sh \
@@ -176,50 +176,50 @@ clean-local-check:
 $(GAMA_RESULTS):
 	$(MKDIR_P) $(GAMA_RESULTS)
 
-gama-local-version.sh: $(srcdir)/gama-local-version.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-version.sh_ \
+gama-local-version.sh: $(srcdir)/gama-local-version.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-version.in \
 	             > gama-local-version.sh
 	@chmod +x gama-local-version.sh
 
-gama-local-adjustment.sh: $(srcdir)/gama-local-adjustment.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-adjustment.sh_ \
+gama-local-adjustment.sh: $(srcdir)/gama-local-adjustment.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-adjustment.in \
 	             > gama-local-adjustment.sh
 	@chmod +x gama-local-adjustment.sh
 
-gama-local-algorithms.sh: $(srcdir)/gama-local-algorithms.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-algorithms.sh_ \
+gama-local-algorithms.sh: $(srcdir)/gama-local-algorithms.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-algorithms.in \
 	             > gama-local-algorithms.sh
 	@chmod +x gama-local-algorithms.sh
 
-gama-local-equivalents.sh: $(srcdir)/gama-local-equivalents.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-equivalents.sh_ \
+gama-local-equivalents.sh: $(srcdir)/gama-local-equivalents.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-equivalents.in \
 	             > gama-local-equivalents.sh
 	@chmod +x gama-local-equivalents.sh
 
-gama-local-xml-results.sh: $(srcdir)/gama-local-xml-results.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-xml-results.sh_ \
+gama-local-xml-results.sh: $(srcdir)/gama-local-xml-results.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-xml-results.in \
 	             > gama-local-xml-results.sh
 	@chmod +x gama-local-xml-results.sh
 
-gama-local-html.sh: $(srcdir)/gama-local-html.sh_ $(GAMA_OTHERS) \
+gama-local-html.sh: $(srcdir)/gama-local-html.in $(GAMA_OTHERS) \
                        gama-local-adjustment.sh
-	@$(do_subst) < $(srcdir)/gama-local-html.sh_ \
+	@$(do_subst) < $(srcdir)/gama-local-html.in \
 	             > gama-local-html.sh
 	@chmod +x gama-local-html.sh
 
-gama-local-xml-xml.sh: $(srcdir)/gama-local-xml-xml.sh_ $(GAMA_OTHERS) \
+gama-local-xml-xml.sh: $(srcdir)/gama-local-xml-xml.in $(GAMA_OTHERS) \
                        gama-local-adjustment.sh
-	@$(do_subst) < $(srcdir)/gama-local-xml-xml.sh_ \
+	@$(do_subst) < $(srcdir)/gama-local-xml-xml.in \
 	             > gama-local-xml-xml.sh
 	@chmod +x gama-local-xml-xml.sh
 
-gama-local-parameters.sh: $(srcdir)/gama-local-parameters.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-parameters.sh_ \
+gama-local-parameters.sh: $(srcdir)/gama-local-parameters.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-parameters.in \
 	             > gama-local-parameters.sh
 	@chmod +x gama-local-parameters.sh
 
-gama-local-export.sh: $(srcdir)/gama-local-export.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/gama-local-export.sh_ \
+gama-local-export.sh: $(srcdir)/gama-local-export.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/gama-local-export.in \
 	             > gama-local-export.sh
 	@chmod +x gama-local-export.sh
 
@@ -240,38 +240,38 @@ endif
 
 
 if GNU_GAMA_LOCAL_TEST_XMLLINT
-xmllint-gama-local-xsd.sh: $(srcdir)/xmllint-gama-local-xsd.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/xmllint-gama-local-xsd.sh_ \
+xmllint-gama-local-xsd.sh: $(srcdir)/xmllint-gama-local-xsd.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/xmllint-gama-local-xsd.in \
 	             > xmllint-gama-local-xsd.sh
 	@chmod +x xmllint-gama-local-xsd.sh
 
 xmllint-gama-local-adjustment-xsd.sh: \
-	      $(srcdir)/xmllint-gama-local-adjustment-xsd.sh_ $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/xmllint-gama-local-adjustment-xsd.sh_ \
+	      $(srcdir)/xmllint-gama-local-adjustment-xsd.in $(GAMA_OTHERS)
+	@$(do_subst) < $(srcdir)/xmllint-gama-local-adjustment-xsd.in \
 	             > xmllint-gama-local-adjustment-xsd.sh
 	@chmod +x xmllint-gama-local-adjustment-xsd.sh
 endif
 
 
 if GNU_GAMA_LOCAL_TEST_OCTAVE
-octave-gama-local.sh : $(srcdir)/octave-gama-local.sh_ \
+octave-gama-local.sh : $(srcdir)/octave-gama-local.in \
 	               $(GAMA_OTHERS) gama-local-adjustment.sh
-	@$(do_subst) < $(srcdir)/octave-gama-local.sh_ \
+	@$(do_subst) < $(srcdir)/octave-gama-local.in \
 	             > octave-gama-local.sh
 	@chmod +x octave-gama-local.sh
 endif
 
 
 if GNU_GAMA_LOCAL_TEST_YAML_CPP
-gama-local-yaml2gkf.sh : $(srcdir)/gama-local-yaml2gkf.sh_ \
+gama-local-yaml2gkf.sh : $(srcdir)/gama-local-yaml2gkf.in \
 	               $(GAMA_OTHERS) gama-local-adjustment.sh
-	@$(do_subst) < $(srcdir)/gama-local-yaml2gkf.sh_ \
+	@$(do_subst) < $(srcdir)/gama-local-yaml2gkf.in \
 	             > gama-local-yaml2gkf.sh
 	@chmod +x gama-local-yaml2gkf.sh
 
-gama-local-gkf2yaml.sh : $(srcdir)/gama-local-gkf2yaml.sh_ \
+gama-local-gkf2yaml.sh : $(srcdir)/gama-local-gkf2yaml.in \
 	               $(GAMA_OTHERS) gama-local-adjustment.sh
-	@$(do_subst) < $(srcdir)/gama-local-gkf2yaml.sh_ \
+	@$(do_subst) < $(srcdir)/gama-local-gkf2yaml.in \
 	             > gama-local-gkf2yaml.sh
 	@chmod +x gama-local-gkf2yaml.sh
 endif
@@ -279,9 +279,9 @@ endif
 
 if GNU_GAMA_LOCAL_TEST_XMLLINT
 if GNU_GAMA_LOCAL_TEST_YAML_CPP
-xmllint-gama-local-yaml2gkf.sh: $(srcdir)/xmllint-gama-local-yaml2gkf.sh_ \
+xmllint-gama-local-yaml2gkf.sh: $(srcdir)/xmllint-gama-local-yaml2gkf.in \
                               $(GAMA_OTHERS)
-	@$(do_subst) < $(srcdir)/xmllint-gama-local-yaml2gkf.sh_ \
+	@$(do_subst) < $(srcdir)/xmllint-gama-local-yaml2gkf.in \
 	             > xmllint-gama-local-yaml2gkf.sh
 	@chmod +x xmllint-gama-local-yaml2gkf.sh
 endif
