@@ -1,7 +1,7 @@
 EXTRA_DIST = \
    CMakeLists.txt \
-   krumm2gama-local.sh_ \
-   krumm-xml-xml.sh_ \
+   krumm2gama-local.in \
+   krumm-xml-xml.in \
    input/1D/Baumann_Height_fix.adj \
    input/1D/Baumann_Height_fix.dat \
    input/1D/Ghilani12_6_Height_fix.adj \
@@ -209,12 +209,12 @@ $(KRUMM_RESULTS):
 	$(MKDIR_P) $(KRUMM_RESULTS)/2D
 	$(MKDIR_P) $(KRUMM_RESULTS)/3D
 
-krumm2gama-local.sh: $(srcdir)/krumm2gama-local.sh_ $(KRUMM_OTHERS)
-	@$(do_subst) < $(srcdir)/krumm2gama-local.sh_ \
+krumm2gama-local.sh: $(srcdir)/krumm2gama-local.in $(KRUMM_OTHERS)
+	@$(do_subst) < $(srcdir)/krumm2gama-local.in \
 	             > krumm2gama-local.sh
 	@chmod +x krumm2gama-local.sh
 
-krumm-xml-xml.sh: $(srcdir)/krumm-xml-xml.sh_ $(KRUMM_OTHERS)
-	@$(do_subst) < $(srcdir)/krumm-xml-xml.sh_ \
+krumm-xml-xml.sh: $(srcdir)/krumm-xml-xml.in $(KRUMM_OTHERS)
+	@$(do_subst) < $(srcdir)/krumm-xml-xml.in \
 	             > krumm-xml-xml.sh
 	@chmod +x krumm-xml-xml.sh
