@@ -1,5 +1,5 @@
-EXTRA_DIST = gama-g3-adjustment.sh_ gama-g3-xmllint-xsd.sh_ \
-             gama-g3-ellipsoid-xyz2blh.sh_
+EXTRA_DIST = gama-g3-adjustment.in gama-g3-xmllint-xsd.in \
+             gama-g3-ellipsoid-xyz2blh.in
 
 check_PROGRAMS = check_adjustment check_ellipsoid_xyz2blh
 

@@ -45,18 +45,18 @@ clean-local-check:
 $(G3_RESULTS):
 	mkdir -p $(G3_RESULTS)
 
-gama-g3-adjustment.sh: $(G3_SRC)/gama-g3-adjustment.sh_ $(G3_OTHERS)
-	@$(do_subst) < $(G3_SRC)/gama-g3-adjustment.sh_ \
+gama-g3-adjustment.sh: $(G3_SRC)/gama-g3-adjustment.in $(G3_OTHERS)
+	@$(do_subst) < $(G3_SRC)/gama-g3-adjustment.in \
 	        > gama-g3-adjustment.sh
 	@chmod +x gama-g3-adjustment.sh
 
-gama-g3-xmllint-xsd.sh: $(G3_SRC)/gama-g3-xmllint-xsd.sh_ $(G3_OTHERS)
-	@$(do_subst)  < $(G3_SRC)/gama-g3-xmllint-xsd.sh_ \
+gama-g3-xmllint-xsd.sh: $(G3_SRC)/gama-g3-xmllint-xsd.in $(G3_OTHERS)
+	@$(do_subst)  < $(G3_SRC)/gama-g3-xmllint-xsd.in \
 	        > gama-g3-xmllint-xsd.sh
 	@chmod +x gama-g3-xmllint-xsd.sh
 
-gama-g3-ellipsoid-xyz2blh.sh: $(G3_SRC)/gama-g3-ellipsoid-xyz2blh.sh_ \
+gama-g3-ellipsoid-xyz2blh.sh: $(G3_SRC)/gama-g3-ellipsoid-xyz2blh.in \
 			      $(G3_OTHERS)
-	@$(do_subst)  < $(G3_SRC)/gama-g3-ellipsoid-xyz2blh.sh_ \
+	@$(do_subst)  < $(G3_SRC)/gama-g3-ellipsoid-xyz2blh.in \
 	        > gama-g3-ellipsoid-xyz2blh.sh
 	@chmod +x gama-g3-ellipsoid-xyz2blh.sh
