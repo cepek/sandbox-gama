@@ -1,5 +1,5 @@
 EXTRA_DIST = CMakeLists.txt \
-             gama-local-deformation-diff.sh_ \
+             gama-local-deformation-diff.in \
              input/diff/data-1-2.svg \
              input/diff/data-1-2.txt \
              input/diff/data-1.gkf \
@@ -37,7 +37,7 @@ clean-local-check:
 $(GAMA_RESULTS):
 	$(MKDIR_P) $(GAMA_RESULTS)/diff
 
-gama-local-deformation-diff.sh: $(srcdir)/gama-local-deformation-diff.sh_
-	@$(do_subst) < $(srcdir)/gama-local-deformation-diff.sh_ \
+gama-local-deformation-diff.sh: $(srcdir)/gama-local-deformation-diff.in
+	@$(do_subst) < $(srcdir)/gama-local-deformation-diff.in \
 	             > gama-local-deformation-diff.sh
 	@chmod +x gama-local-deformation-diff.sh

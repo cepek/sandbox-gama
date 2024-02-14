@@ -1,4 +1,4 @@
-EXTRA_DIST = gama-local-extra-tests.sh_
+EXTRA_DIST = gama-local-extra-tests.in
 
 TESTS = gama-local-extra-tests.sh
 
@@ -26,9 +26,9 @@ clean-local-check:
 $(GAMA_RESULTS):
 	$(MKDIR_P) $(GAMA_RESULTS)
 
-gama-local-extra-tests.sh : gama-local-extra-tests.sh_ \
+gama-local-extra-tests.sh : gama-local-extra-tests.in \
 	      @top_srcdir@/tests/gama-local/gama-local-adjustment.sh
-	@$(do_subst) < gama-local-extra-tests.sh_ \
+	@$(do_subst) < gama-local-extra-tests.in \
 	             > gama-local-extra-tests.sh
 	@chmod +x gama-local-extra-tests.sh
 
