@@ -32,7 +32,7 @@ do_subst = sed \
 clean-local: clean-local-check
 .PHONY: clean-local-check
 clean-local-check:
-	-rm -rf $(COMPARE_XYZ_RESULTS) $(TESTS)
+	rm -rf $(COMPARE_XYZ_RESULTS) $(TESTS) results
 
 $(COMPARE_XYZ_RESULTS):
 	$(MKDIR_P) $(COMPARE_XYZ_RESULTS)
