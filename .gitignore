@@ -6,6 +6,7 @@ lib/yaml-cpp
 #
 TAGS
 #
+*.html
 *.[oa]
 *~
 \#*\#
