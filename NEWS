@@ -1,5 +1,28 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.29 (2024-02-19)
+
+  The maintenance release, no user-visible changes in existing
+  programs.
+
+  - New helper program compare-xyz was added; the program is used in
+    testing suite and currently is in alpha version.
+
+  - There are two major programs in the GNU gama project: gama-local
+    and gama-g3. The version of these two programs is same as version of
+    the release, 2.29 in this release. Apart of tese two, there are also
+    helper minion prorgam, used for example in testing suite. These
+    minion program are:
+
+      compare-xyz, gama-local-deformation, gama-local-gkf2yaml,
+      gama-local-xml2sql, gama-local-xml2txt, gama-local-yaml2gkf and
+      krumm2gama-local
+
+    Changes in these programs normally need not to yield the change of
+    the whole package. To avoid possible confusion between two different
+    version of these helper programs, they vere assigned their own minon
+    version, for example compare-xyz 2.29-0.3.
+
 Changes in release 2.28 (2024-01-10)
 
   The maintenance release, no user-visible changes.
@@ -8,7 +31,7 @@ Changes in release 2.28 (2024-01-10)
     Deformation.h/.cpp class with minimal remaining program
     gama-local-deformation.cpp.
 
-	- Added a simple autotools tests for deformation results (equivalent
+  - Added a simple autotools tests for deformation results (equivalent
     test was already available in cmake build).
 
 Changes in release 2.27 (2023-11-04)

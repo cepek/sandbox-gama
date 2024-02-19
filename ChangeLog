@@ -1,3 +1,19 @@
+2024-02-19   Ales Cepek <cepek@gnu.org>
+
+	* Maintenance release gama-2.29, no user-visible changes.
+
+	- New helper program compare-xyz was added; the program is used in
+	automake testing suite and currently is in alpha version 2.29-0.3.
+
+	- Added a minor subversion number for helper programs compare-xyz,
+	gama-local-deformation, gama-local-gkf2yaml, gama-local-xml2sql,
+	gama-local-xml2txt, gama-local-yaml2gkf and krumm2gama-local,
+
+	- Extension .sh_ was used for shell automake check template
+	scripts (from .sh_ files were generated .sh file in Makefile.am
+	files).  Rather unusual extensions .sh_ were changed to .in, used
+	now in Makefile.am files in the release version 2.29.
+
 2024-01-10   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.28, no user-visible changes.
