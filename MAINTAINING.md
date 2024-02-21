@@ -238,6 +238,7 @@ of expat parser
     make check    # build all and run all tests including the extra tests
 
 ### Distributing the new release
+#### Gnulib gnupload
 
 For uploading new release tarball to the GNU FTP server, use script
 ```gnupload``` from directory ```build-aux``` from *GNU
@@ -274,6 +275,43 @@ can always try running ```gnupload``` with the option ```--dry-run```
 Simply run in the command line:
 
       export GPG_TTY=$(tty)
+
+#### Gnulib announce-gen
+
+You may find the announce-gen script useful for creating announcements, which is available from the build-aux/ directory of the gnulib project at https://savannah.gnu.org/projects/gnulib.
+
+Suppose we have NEWS file, current and previous gama tarballs in a directory; run announce-gen script to generate new release announcement
+
+      ../gnulib/build-aux/announce-gen \
+          --package-name=gama \
+          --release-type=stable \
+          --current-version=$1 \
+          --previous-version=$2 \
+          --gpg-key-id 1b77fc09 \
+          --url https://ftp.gnu.org/gnu/gama \
+          --news NEWS \
+            2> announce-$1.err | tee announce-$1.txt
+
+**_NOTE:_** announce-gen version 2023-12-29 produced following warnings/errors
+
+      fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
+      Use '--' to separate paths from revisions, like this:
+      'git <command> [<revision>...] -- [<file>...]'
+      fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
+      Use '--' to separate paths from revisions, like this:
+      'git <command> [<revision>...] -- [<file>...]'
+      fatal: ambiguous argument 'v2.28': unknown revision or path not in the working tree.
+      Use '--' to separate paths from revisions, like this:
+      'git <command> [<revision>...] -- [<file>...]'
+      fatal: ambiguous argument 'v2.29': unknown revision or path not in the working tree.
+      Use '--' to separate paths from revisions, like this:
+      'git <command> [<revision>...] -- [<file>...]'
+      announce-gen: Argument "" isn't numeric in subtraction (-) at ../gnulib/build-aux/announce-gen line 555.
+      announce-gen: Argument "" isn't numeric in subtraction (-) at ../gnulib/build-aux/announce-gen line 555.
+      fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
+      Use '--' to separate paths from revisions, like this:
+      'git <command> [<revision>...] -- [<file>...]'
+
 
 ### Online documentation
 

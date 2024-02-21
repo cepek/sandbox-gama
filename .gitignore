@@ -1,4 +1,10 @@
-# yaml-cpp copy for optional alternative build
+# https://www.gnu.org/software/gnulib
+#
+#    gnulib/bin-aux/
+#
+announce-gen
+#
+## yaml-cpp copy for optional alternative build
 #
 lib/yaml-cpp
 #
