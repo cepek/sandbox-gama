@@ -1,5 +1,22 @@
 # GNU Gama
 
+## Table of contents
+
+- Release process
+- Maintainer prerequisites
+    - autotools
+- Source Organization
+- New release
+    - Generate an announcement message
+    - Builds on WSL
+    - Distributing the new release
+        - Gnulib gnupload
+        - Gnulib announce-gen
+    - Online documentation
+- Optional features
+    - YAML
+
+
 ## Release process
 
 The logical flow of a release is a tag in git, and then "make dist" of
@@ -357,3 +374,34 @@ Here, replace ```user``` with your login name, and ```gama ```is the directory f
   Run
 
       cvs commit .   # only cvs is available for GNU web pages, no git
+
+## Optional features
+
+<!-- YAML section was copied from deleted file lib/README.yaml-cpp -->
+### YAML
+#### The primary build system (autotools)
+
+To build GNU Gama with YAML support you need to have library ```yaml-cpp```
+installed (on Debian based systems package ```libyaml-cpp-dev```).
+
+#### Alternative build system (cmake)
+
+Alternatively with cmake build you can compile gama with source codes
+of yaml-cpp C++ parser included. To do this you must clone the
+```yaml-cpp project``` from the git repository
+
+````
+   cd "GNU Gama sources"/lib
+   git clone https://github.com/jbeder/yaml-cpp
+````
+
+<!--  not needed here, described in the section New release 
+ and run
+
+````
+   mkdir build
+   cd build
+   cmake .. -G Ninja
+   cmake --build .
+````
+-->
