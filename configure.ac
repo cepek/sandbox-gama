@@ -131,6 +131,29 @@ then
        AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DGNU_GAMA_LOCAL_SQLITE_READER")
 fi
 
+dnl   AC_ARG_ENABLE([myfeature],
+dnl   [AS_HELP_STRING([--enable-myfeature], [Enable my feature])],
+dnl   [enable_myfeature=$enableval],
+dnl   [enable_myfeature=no])
+
+AC_ARG_ENABLE([sqlite3],
+
+   [AS_HELP_STRING([--enable-sqlite3[[=yes|no]]],
+                  [Enable build with sqlite3 reader])],
+
+   [AM_CONDITIONAL([SQLITE3_ENABLED],
+                   [AS_IF([test "x$enable_sqlite3" != "xyes"],
+                          enable_sqlite3=no)]
+                   [test "x$enable_sqlite3" = "xyes"])]
+    AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER],
+                   [test "x$enable_sqlite3" = "xyes"]),
+
+   [AM_CONDITIONAL([SQLITE3_ENABLED], enable_sqlite3=yes )]
+    AC_MSG_NOTICE([sqlite3 reader is implicitely enabled])
+   )
+
+AC_MSG_NOTICE([checking whether sqlite3 reader is enabled... $enable_sqlite3])
+
 
 dnl Check for xmllint
 
