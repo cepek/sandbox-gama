@@ -86,8 +86,7 @@ dnl Optional build with legacy expat 1.1 (local copy)
 AC_ARG_ENABLE(
    [expat_1_1],
    [AS_HELP_STRING([--enable-expat_1_1[[=yes|no]]],
-   [Enable build with legacy expat parser version 1.1 (default is yes)])]
-)
+   [Enable build with legacy expat parser version 1.1 (default is yes)])])
 AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_EXPAT_1_1], [false])
 AS_IF([test x$enable_expat_1_1 != xyes], enable_expat_1_1=no)
 if test x$enable_expat_1_1 = xyes
@@ -121,16 +120,6 @@ AC_LINK_IFELSE(
 
 dnl Check for sqlite3 support
 
-AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER], [false])
-AC_CHECK_LIB([sqlite3], [sqlite3_open])
-if test "x$ac_cv_lib_sqlite3_sqlite3_open" = "xyes";
-then
-       AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER], [true])
-       AC_DEFINE([GNU_GAMA_LOCAL_SQLITE_READER],1,
-                 [Conditional support for sqlite3 databases])
-       AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DGNU_GAMA_LOCAL_SQLITE_READER")
-fi
-
 dnl   AC_ARG_ENABLE([myfeature],
 dnl   [AS_HELP_STRING([--enable-myfeature], [Enable my feature])],
 dnl   [enable_myfeature=$enableval],
@@ -149,10 +138,21 @@ AC_ARG_ENABLE([sqlite3],
                    [test "x$enable_sqlite3" = "xyes"]),
 
    [AM_CONDITIONAL([SQLITE3_ENABLED], enable_sqlite3=yes )]
-    AC_MSG_NOTICE([sqlite3 reader is implicitely enabled])
    )
 
-AC_MSG_NOTICE([checking whether sqlite3 reader is enabled... $enable_sqlite3])
+AC_MSG_NOTICE([sqlite3 reader build is enabled... $enable_sqlite3])
+if test "x$enable_sqlite3" = "xyes"
+then
+   AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER], [false])
+   AC_CHECK_LIB([sqlite3], [sqlite3_open])
+   if test "x$ac_cv_lib_sqlite3_sqlite3_open" = "xyes";
+   then
+      AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER], [true])
+      AC_DEFINE([GNU_GAMA_LOCAL_SQLITE_READER],1,
+                [Conditional support for sqlite3 databases])
+      AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DGNU_GAMA_LOCAL_SQLITE_READER")
+  fi
+fi
 
 
 dnl Check for xmllint
