@@ -17,6 +17,7 @@ AC_CONFIG_AUX_DIR([scripts/config.aux])
 AM_INIT_AUTOMAKE(subdir-objects)
 AM_SILENT_RULES([yes])
 
+
 dnl You can comment out the following macro if you have the package
 dnl autoconf-archive installed
 
@@ -40,6 +41,12 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+
+
+dnl   AC_ARG_ENABLE([myfeature],
+dnl   [AS_HELP_STRING([--enable-myfeature], [Enable my feature])],
+dnl   [enable_myfeature=$enableval],
+dnl   [enable_myfeature=no])
 
 
 dnl Optional extra tests
@@ -105,30 +112,45 @@ fi
 
 dnl Check for yaml-cpp library
 
-AC_MSG_CHECKING([for yaml-cpp])
-AC_LINK_IFELSE(
- [AC_LANG_PROGRAM([#include <yaml-cpp/yaml.h>],[YAML::Node node;])],
+AC_ARG_ENABLE([yaml-cpp],
 
- [AC_MSG_RESULT([yes])]
- [AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_YAML_CPP],[true])],
+   [AS_HELP_STRING([--enable-yaml-cpp[[=yes|no]]],
+      [Enable build with yaml-cpp parser and emitter (default is yes)])],
 
- [AC_MSG_RESULT([no])]
- [AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_YAML_CPP],[false])]
- [AC_MSG_WARN([libyaml-cpp-dev is not installed.])]
- )
+   [AM_CONDITIONAL([YAML_CPP_ENABLED],
+                   [AS_IF([test "x$enable_yaml_cpp" != "xyes"],
+                          enable_yaml_cpp=no)]
+                   [test "x$enable_yaml_cpp" = "xyes"])]
+    AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_YAML_CPP],
+                   [test "x$enable_yaml_cpp" = "xyes"]),
+
+   [AM_CONDITIONAL([YAML_CPP_ENABLED], enable_yaml_cpp=yes)]
+   )
+
+AC_MSG_NOTICE([yaml-cpp parser and emitter enabled... $enable_yaml_cpp])
+
+if test "x$enable_yaml_cpp" = "xyes"
+then
+  AC_MSG_CHECKING([for yaml-cpp])
+  AC_LINK_IFELSE(
+   [AC_LANG_PROGRAM([#include <yaml-cpp/yaml.h>],[YAML::Node node;])],
+
+   [AC_MSG_RESULT([yes])]
+   [AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_YAML_CPP],[true])],
+
+   [AC_MSG_RESULT([no])]
+   [AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_YAML_CPP],[false])]
+   [AC_MSG_WARN([libyaml-cpp-dev is not installed.])]
+   )
+fi
 
 
 dnl Check for sqlite3 support
 
-dnl   AC_ARG_ENABLE([myfeature],
-dnl   [AS_HELP_STRING([--enable-myfeature], [Enable my feature])],
-dnl   [enable_myfeature=$enableval],
-dnl   [enable_myfeature=no])
-
 AC_ARG_ENABLE([sqlite3],
 
    [AS_HELP_STRING([--enable-sqlite3[[=yes|no]]],
-                  [Enable build with sqlite3 reader])],
+                  [Enable build with sqlite3 reader (default is yes)])],
 
    [AM_CONDITIONAL([SQLITE3_ENABLED],
                    [AS_IF([test "x$enable_sqlite3" != "xyes"],
@@ -141,6 +163,7 @@ AC_ARG_ENABLE([sqlite3],
    )
 
 AC_MSG_NOTICE([sqlite3 reader build is enabled... $enable_sqlite3])
+
 if test "x$enable_sqlite3" = "xyes"
 then
    AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_SQLITE_READER], [false])
