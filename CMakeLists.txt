@@ -1,6 +1,17 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5...3.22)
 
-project (gnu-gama VERSION 2.29)
+# This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp.
+# We expect the first line of the project directive
+#
+#    project (gnu-gama VERSION MAJOR.MINOR ...
+#
+# to be in compliance with the following regular expression
+#
+#   regex pattern("\\s*project\\s*\\(\\s*gnu-gama\\s+VERSION\\s+[^\\s]+.*");
+#
+project (gnu-gama VERSION   2.29
+                  LANGUAGES CXX C
+                  DESCRIPTION "GNU Gama - CMake build")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

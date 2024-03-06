@@ -8,6 +8,11 @@ mkdir -p $RESULTS
 
 COMPAREXYZ=@abs_top_builddir@/src/compare-xyz
 
+if [ ! -f "$COMPAREXYZ" ]; then
+    echo "compare-xyz is not available (depends on gama-g3 build)"
+    exit 0
+fi
+
 echo Package version @PACKAGE_VERSION@
 echo -n "compare-xyz version "
 $COMPAREXYZ --version

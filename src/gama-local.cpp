@@ -143,7 +143,7 @@ int main(int argc, char **argv)
     const char* argv_export_xml = nullptr;
     bool verbose_output { false };
 
-    // handle --help and --version as special cases
+    // handle --verbose, --help and --version as special cases
     if (argc == 2 && strcmp(argv[1], "-") && strlen(argv[1]) > 2)
       {
         c = argv[1];
@@ -151,12 +151,25 @@ int main(int argc, char **argv)
         if(*c == '-') c++;
 
         if (!strcmp(c, "help"))    return help();
+        if (!strcmp(c, "verbose")) return help();
         if (!strcmp(c, "version")) return
             GNU_gama::version("gama-local", "Ales Cepek et al.");
         if (!strcmp(c, "dumpversion"))
           {
             cout << GNU_gama::GNU_gama_version() << endl;
             return 0;
+          }
+      }
+    else if (argc == 3 && strcmp(argv[1], "-") && strlen(argv[1]) > 2)
+      {
+        c = argv[1];
+        if(*c == '-') c++;
+        if(*c == '-') c++;
+
+        if (!strcmp(c, "verbose"))
+          {
+            c = argv[2];   // no and yes cannot be names of input files
+            if (!strcmp(c, "no") || !strcmp(c, "yes")) return help();
           }
       }
 

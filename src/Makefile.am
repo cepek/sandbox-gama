@@ -3,8 +3,12 @@ GAMA_LOCAL = gama-local \
              gama-local-xml2txt \
              gama-local-xml2sql \
              gama-local-gkf2yaml \
-             krumm2gama-local \
-             compare-xyz
+             krumm2gama-local
+
+## compare-xyz depends on gama-g3 build
+if GNU_GAMA_G3_ENABLED
+   COMPARE_XYZ = compare-xyz
+endif
 
 if GNU_GAMA_G3_ENABLED
    GAMA_G3 = gama-g3
@@ -14,7 +18,7 @@ if GNU_GAMA_LOCAL_TEST_YAML_CPP
    GAMA_YAML = gama-local-yaml2gkf
 endif
 
-bin_PROGRAMS = $(GAMA_LOCAL) $(GAMA_G3) $(GAMA_YAML)
+bin_PROGRAMS = $(GAMA_LOCAL) $(COMPARE_XYZ) $(GAMA_G3) $(GAMA_YAML)
 
 gama_local_SOURCES = gama-local.cpp
 gama_local_LDADD   = $(top_builddir)/lib/libgama.a
@@ -52,6 +56,8 @@ krumm2gama_local_SOURCES  = krumm2gama-local.cpp
 krumm2gama_local_CPPFLAGS = -I $(top_srcdir)/lib
 krumm2gama_local_LDADD    = $(top_builddir)/lib/libgama.a
 
-compare_xyz_SOURCES  = compare-xyz.cpp
-compare_xyz_CPPFLAGS = -I $(top_srcdir)/lib
-compare_xyz_LDADD    = $(top_builddir)/lib/libgama.a
+if GNU_GAMA_G3_ENABLED
+   compare_xyz_SOURCES  = compare-xyz.cpp
+   compare_xyz_CPPFLAGS = -I $(top_srcdir)/lib
+   compare_xyz_LDADD    = $(top_builddir)/lib/libgama.a
+endif

@@ -4,20 +4,26 @@ set -e
 
 echo Package version @PACKAGE_VERSION@
 
-echo
-@top_builddir@/src/gama-local  --version
-echo
-@top_builddir@/src/gama-g3     --version
-echo
+BLD=@top_builddir@/src
 
-SRC=@top_builddir@/src
-echo -n "compare-xyz             ";  $SRC/compare-xyz             --version
-echo -n "gama-local-deformation  ";  $SRC/gama-local-deformation  --version
-echo -n "gama-local-gkf2yaml     ";  $SRC/gama-local-gkf2yaml     --version
-echo -n "gama-local-xml2sql      ";  $SRC/gama-local-xml2sql      --version
-echo -n "gama-local-xml2txt      ";  $SRC/gama-local-xml2txt      --version
-echo -n "gama-local-yaml2gkf     ";  $SRC/gama-local-yaml2gkf     --version
-echo -n "krumm2gama-local        ";  $SRC/krumm2gama-local        --version
+echo
+"$BLD/gama-local"  --version
+echo
+if [ -f "$BLD/gama-g3" ]; then
+    "$BLD/gama-g3"     --version
+    echo
+fi
+
+# compare-xyz depends on gama-g3 build
+if [ -f "$BLD/compare-xyz" ]; then
+    echo -n "compare-xyz             "; "$BLD/compare-xyz"             --version
+fi
+echo -n "gama-local-deformation  ";  "$BLD/gama-local-deformation"  --version
+echo -n "gama-local-gkf2yaml     ";  "$BLD/gama-local-gkf2yaml"     --version
+echo -n "gama-local-xml2sql      ";  "$BLD/gama-local-xml2sql"      --version
+echo -n "gama-local-xml2txt      ";  "$BLD/gama-local-xml2txt"      --version
+echo -n "gama-local-yaml2gkf     ";  "$BLD/gama-local-yaml2gkf"     --version
+echo -n "krumm2gama-local        ";  "$BLD/krumm2gama-local"        --version
 echo
 
 src/check_version @top_srcdir@/configure.ac @top_srcdir@/CMakeLists.txt

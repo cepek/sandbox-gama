@@ -1,6 +1,6 @@
 /*
   GNU Gama -- testing version numbers defined in configure.ac and version.cpp
-  Copyright (C) 2018, 2019  Ales Cepek <cepek@gnu.org>
+  Copyright (C) 2018, 2019, 2024  Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library
 
@@ -20,7 +20,7 @@
 
 #include <iostream>
 #include <fstream>
-// #include <config.h>
+#include <regex>
 #include <gnu_gama/version.h>
 
 using std::string;
@@ -69,34 +69,44 @@ int main(int /*argc*/, char* argv[])
 
 
   std::ifstream inpf(argv[2]);
+  using std::regex;
 
-  /* We expect the fix format of CMakeLists.txt project directive:
+  /* We expect the first line of the project directive
    *
-   * project (gnu-gama VERSION MAJOR.MINOR)
+   *    project (gnu-gama VERSION MAJOR.MINOR ...
+   *
+   * to be in compliance with the following regular expression pattern:
    */
-  const string pattern = "project (gnu-gama VERSION ";
+  regex pattern("\\s*project\\s*\\(\\s*gnu-gama\\s+VERSION\\s+[^\\s]+.*");
 
   string version_cmake;
   while (std::getline(inpf, version_cmake))
     {
-      auto indx = version_cmake.find(pattern, 0);
-      if (indx > 0) continue;
-
-      version_cmake.erase(0, pattern.size());
-      version_cmake.pop_back();
-
-      if (version_cmake != version_configure_ac)     /* CMakeLists.txt */
+      if (bool match = regex_match(version_cmake, pattern) )
         {
-          // std::cout
-          //   << "\nPackage version " << version_configure_ac
-          //   << ", defined in configure.ac, "
-          //   << "\nis different from version "
-          //   << version_cmake << ", defined in CMakeLists.txt\n\n";
+          auto b = version_cmake.begin();
+          auto e = version_cmake.end();
+          if (b == e) continue;
 
-          error++;
+          for (auto& c : version_cmake) if (c == '(') c = ' ';
+
+          std::istringstream istr(version_cmake);
+          std::string proj, gama, version;
+          istr >> proj >> gama >> version >> version_cmake;
+
+          if (version_cmake != version_configure_ac)  /* CMakeLists.txt */
+            {
+               std::cout
+                 << "\nPackage version " << version_configure_ac
+                 << ", defined in configure.ac, "
+                 << "\nis different from version "
+                 << version_cmake << ", defined in CMakeLists.txt\n\n";
+
+              error++;
+            }
+
+          break;
         }
-
-      break;
     }
     std::cout << version_cmake << " version_cmake\n";
 

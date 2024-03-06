@@ -46,7 +46,7 @@ The GNU Gama home page is
 GNU Gama is released under the GNU General Public License and is based
 on a C++ library of geodetic classes and functions and a small C++
 template matrix library @code{matvec}. For parsing XML documents GNU
-Gama calls the @code{expat} parser version 1.1, written by James
+Gama calls the @code{expat} parser, written by James
 Clark. The @code{expat} parser is not part of the GNU Gama project,
 but it is used by the project.
 

@@ -88,6 +88,7 @@ AM_COND_IF([GNU_GAMA_MAKEINFO],,
    MAKEINFO=true
 )
 
+
 dnl Optional build with legacy expat 1.1 (local copy)
 
 AC_ARG_ENABLE(
