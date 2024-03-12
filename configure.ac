@@ -95,19 +95,33 @@ AC_ARG_ENABLE(
    [expat_1_1],
    [AS_HELP_STRING([--enable-expat_1_1[[=yes|no]]],
    [Enable build with legacy expat parser version 1.1 (default is yes)])])
-AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_EXPAT_1_1], [false])
-AS_IF([test x$enable_expat_1_1 != xyes], enable_expat_1_1=no)
+
+AS_IF([test x$enable_expat_1_1 == x], enable_expat_1_1=yes)
+
 if test x$enable_expat_1_1 = xyes
 then
    AC_MSG_WARN([build with local copy of expat 1.1 XML parser])
    AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_EXPAT_1_1], [true])
    AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DGNU_gama_expat_1_1")
 else
+  AM_CONDITIONAL([GNU_GAMA_LOCAL_TEST_EXPAT_1_1], [false  ])
+
    m4_define([install_expat], [please install libexpat1-dev])
    AC_CHECK_LIB([expat], [XML_ParserCreate],,
       [AC_MSG_ERROR([XML expat parser is missing,] install_expat)])
    AC_CHECK_HEADERS([expat.h],,
       [AC_MSG_ERROR([Cannot find expat.h,] install_expat)])
+
+   # Check if pkg-config is installed
+   AC_PATH_PROG(PKG_CONFIG, [pkg-config], [no])
+   if test "$PKG_CONFIG" = "no"; then
+      AC_MSG_NOTICE([pkg-config not found. Consider installing it.])
+      AC_MSG_NOTICE([... requested expat version cannot be displayed.])
+   else
+      # Check the version of Expat library
+      EXPAT_VERSION=$(pkg-config --modversion expat)
+      AC_MSG_NOTICE([using expat version $EXPAT_VERSION])
+   fi
 fi
 
 
@@ -206,18 +220,6 @@ fi
 dnl AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DDEBUG_ACORD2")
 dnl AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DA2G_DEBUG")
 dnl AC_SUBST([CPPFLAGS], "${CPPFLAGS} -DDEBUG_REDUCED_OBS")
-
-
-## dnl Checks for header files.  ## commented out by AC
-##
-## m4_warn([obsolete],
-## [The preprocessor macro `STDC_HEADERS' is obsolete.
-##   Except in unusual embedded environments, you can safely include all
-##   ISO C90 headers unconditionally.])dnl
-# Autoupdate added the next two lines to ensure that your configure
-# script's behavior did not change.  They are probably safe to remove.
-## AC_CHECK_INCLUDES_DEFAULT
-## AC_PROG_EGREP
 
 
 AC_CONFIG_FILES([

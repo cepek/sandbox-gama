@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5...3.22)
 
-# This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp.
+# This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp
+# to be compared with gnu_gama/version.cpp and configure.ac.
+#
 # We expect the first line of the project directive
 #
 #    project (gnu-gama VERSION MAJOR.MINOR ...
@@ -16,7 +18,14 @@ project (gnu-gama VERSION   2.29
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_definitions(-DGNU_gama_expat_1_1)
+
+# Build with the local copy of legacy code expat 1.1 is implicitly enabled.
+#
+#   To disable run : cmake -DENABLE_EXPAT_1_1=OFF
+#
+option(ENABLE_EXPAT_1_1 "Enable build with expat 1.1" ON)
+message("Build GNU Gama with expat 1.1 is " ${ENABLE_EXPAT_1_1})
+
 #add_definitions(-DDEBUG_ACORD2)
 #add_definitions(-DA2G_DEBUG)
 #add_definitions(-DDEBUG_REDUCED_OBS)
@@ -27,6 +36,7 @@ add_definitions(-DGNU_gama_expat_1_1)
 #    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 #    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 #endif()
+
 
 # Library
 #
@@ -253,13 +263,15 @@ set(SRC_GAMA
    lib/krumm/string_matrix.h  lib/krumm/string_matrix.cpp
 )
 
-set(SRC_EXPAT
-   lib/expat/xmltok/xmltok.c
-   lib/expat/xmltok/xmlrole.c
-   lib/expat/xmlwf/codepage.c
-   lib/expat/xmlparse/xmlparse.c
-   lib/expat/xmlparse/hashtable.c
-)
+if (ENABLE_EXPAT_1_1)
+  set(SRC_EXPAT
+    lib/expat/xmltok/xmltok.c
+    lib/expat/xmltok/xmlrole.c
+    lib/expat/xmlwf/codepage.c
+    lib/expat/xmlparse/xmlparse.c
+    lib/expat/xmlparse/hashtable.c
+    )
+endif()
 
 set(SRC_YAMLCPP
   lib/yaml-cpp/src/binary.cpp
@@ -314,9 +326,19 @@ set(SRC_YAMLCPP
   lib/yaml-cpp/src/token.h
   )
 
-include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
+if (ENABLE_EXPAT_1_1)
+  include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
+  add_library(libgama OBJECT ${SRC_GAMA} ${SRC_EXPAT})
+else()
+  include_directories(lib)
+  add_library(libgama OBJECT ${SRC_GAMA})
 
-add_library(libgama OBJECT ${SRC_GAMA} ${SRC_EXPAT})
+  include(FindEXPAT)
+  find_package(EXPAT REQUIRED)
+  include_directories(${EXPAT_INCLUDE_DIRS})
+  link_libraries(${EXPAT_LIBRARIES})
+endif()
+
 
 # Gama install directory
 #
@@ -371,4 +393,3 @@ if (NOT DEFINED DISABLE_GNU_GAMA_TESTING)
   enable_testing()
   add_subdirectory(tests)
 endif()
-
