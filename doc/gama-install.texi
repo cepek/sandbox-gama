@@ -50,8 +50,9 @@ and info documentation.
 
 Typically, if you want to download (@pxref{Download}) and compile sources,
 you will run following commands:
+@c $ git clone git://git.sv.gnu.org/gama.git gama
 @example
-$ git clone git://git.sv.gnu.org/gama.git gama
+$ git clone https://git.savannah.gnu.org/git/gama.git
 $ cd gama
 $ ./autogen.sh
 $ ./configure
@@ -59,7 +60,7 @@ $ make
 @end example
 You should have @code{expat} XML parser and SQLite library already installed
 on your system.
-For example to be able to compile Gama on Ubuntu 10.04 you have to install
+For example to be able to compile Gama on Ubuntu you have to install
 following packages:
 @example
 make doxygen git automake autoconf libexpat1-dev libsqlite3-dev
@@ -106,29 +107,15 @@ directory. For example to build @code{gama-local} binary for Linux run
 $ mkdir build_dir
 $ cd build_dir
 $ cmake .. [ -G generator-name ]
-$ make --build .
+$ cmake --build .
+$
+$ ctest
 @end example
 
 @noindent
 where @code{build_dir} is an arbitrary directory name for
 @emph{out-of-place build} and optional @emph{generator-name} specifies
 a build system generator, for example @code{Ninja}.
-
-
-@node       pkgsrc
-@subsection pkgsrc
-@cindex     pkgsrc
-
-@code{pkgsrc} is a framework for managing third-party software on
-UNIX-like systems, currently containing over 26,000 packages. It is
-the default package manager of NetBSD and SmartOS, and can be used to
-enable freely available software to be built easily on a large number
-of other UNIX-like platforms. The binary packages that are produced by
-pkgsrc can be used without having to compile anything from source. It
-can be easily used to complement the software on an existing system.
-
-Gama is available via pkgsrc as geography/gama, see
-@uref{https://www.pkgsrc.org/} for more information.
 
 
 @node       Precompiled executables for Windows
@@ -150,10 +137,18 @@ available from the GNU FTP server
 together with command-line interface executables @code{gama-local.exe}
 and @code{gama-g3} in the subdirectory @code{bin}.
 
-@c Native builds of the command-line interface (CLI)
-@c @code{gama-local.exe} for Windows are distributed from
-@c @uref{https://sourceforge.net/projects/gnu-gama-local}.
-@c
-@c Executebles of Qt based GUI @code{qgama} and command line programs
-@c @code{gama-local} and @code{gama-g3} are available from
-@c @uref{https://sourceforge.net/projects/qgama}.
+
+@node       pkgsrc
+@subsection pkgsrc
+@cindex     pkgsrc
+
+@code{pkgsrc} is a framework for managing third-party software on
+UNIX-like systems, currently containing over 26,000 packages. It is
+the default package manager of NetBSD and SmartOS, and can be used to
+enable freely available software to be built easily on a large number
+of other UNIX-like platforms. The binary packages that are produced by
+pkgsrc can be used without having to compile anything from source. It
+can be easily used to complement the software on an existing system.
+
+Gama is available via pkgsrc as geography/gama, see
+@uref{https://pkgsrc.se/geography/gama} for more information.

@@ -1,3 +1,9 @@
+<!--
+HTML non-breaking space &nbsp; is used to avoid avoid three back ticks
+``` to get the beginning of the line when a monospaced font of a
+single word is used.
+-->
+
 # GNU Gama
 
 ## Table of contents
@@ -15,6 +21,7 @@
     - Online documentation
 - Optional features
     - YAML
+- Doxygen
 
 
 ## Release process
@@ -35,7 +42,7 @@ Before tagging,
     changes; namely if you replace a whole file, like an xml example,
     make it a single commit.
 
-  - run `make distcheck' to ensure that the distfile includes all 
+  - run `make distcheck' to ensure that the distfile includes all
     necessary files for building, and that the tests pass.
 
 Apply the tag, and ask other active contributors to test.  They can
@@ -110,9 +117,9 @@ have autoconf, automake and libtool.
   directly with Visual Studio or within Windows Subsystem for Linux
   (WSL).
 
-  ```gama-local-version``` unit test cannot check if all file names are
-  properly defined in ```CMakeLists.txt``` and you need to check the
-  *cmake build*, for example like this
+  The unit test ```gama-local-version``` cannot check if all file
+  names are properly defined in ```CMakeLists.txt``` and you need to
+  check the *cmake build*, for example like this
 
       mkdir build      # temporary directory
       cd build
@@ -153,7 +160,8 @@ have autoconf, automake and libtool.
 
       git tag gama-2.29
 
-  Push the tag to the repository (set the origin repo to ssh first if needed):
+  Push the tag to the repository (set the origin repo to ssh first if
+  needed):
 
       # git remote set-url origin ssh://user@git.sv.gnu.org/srv/git/gama.git
       git push origin <tag_name>
@@ -161,9 +169,9 @@ have autoconf, automake and libtool.
    where *user* is your login name.
 
 * You also have to send an email about the new release to
-  ```info-gama@@gnu.org``` and ```info-gnu@@gnu.org```, describing what
-  is new in the release and what bugs were fixed (if any). Here is an
-  example text sent for version 2.29
+  lists&nbsp;```info-gama@gnu.org``` and ```info-gnu@gnu.org```,
+  describing what is new in the release and what bugs were fixed (if
+  any). Here is an example text sent for version 2.29
 
       Subject: GNU gama 2.29 released
 
@@ -199,9 +207,9 @@ have autoconf, automake and libtool.
 
 ### Generate an announcement message
 
-The announce message can and should be generated with
-```announce-gen``` script from directory ```build-aux``` of GNU
-Gnulib https://www.gnu.org/software/gnulib/manual/gnulib.html
+The announce message can and should be generated
+with&nbsp;```announce-gen``` script from directory ```build-aux``` of
+GNU Gnulib https://www.gnu.org/software/gnulib/manual/gnulib.html
 
       ./announce-gen --help
       Usage: announce-gen [OPTIONS]
@@ -243,31 +251,31 @@ users rather than ChangeLog, which is of interest mainly to developpers.
 This section is given with no guarantee, GNU Gama is not tested on
 Windows Subsystem Linux. It seems that on WSL you need to install
 
-      sudo apt install automake
-      sudo apt install build-essential
+    sudo apt install automake
+    sudo apt install build-essential
 
 and it seems that you also need to explicitly enable build with local copy
 of expat parser
 
-      ./autogen
-      ./configure --enable-expat_1_1  --enable-extra-tests
+    ./autogen
+    ./configure --enable-expat_1_1  --enable-extra-tests
 
     make check    # build all and run all tests including the extra tests
 
 ### Distributing the new release
 #### Gnulib gnupload
 
-For uploading new release tarball to the GNU FTP server, use script
-```gnupload``` from directory ```build-aux``` from *GNU
+For uploading new release tarball to the GNU FTP server, use
+script&nbsp;```gnupload``` from directory ```build-aux``` from *GNU
 portability library* (gnulib, see
 https://savannah.gnu.org/git/?group=gnulib)
 
-      git clone git://git.sv.gnu.org/gnulib.git
-      ln -s gnulib/build-aux/gnupload     # create a symlink or copy ...
+    git clone git://git.sv.gnu.org/gnulib.git
+    ln -s gnulib/build-aux/gnupload     # create a symlink or copy ...
 
 To upload your new release tarball, simply run
 
-      ./gnupload --to ftp.gnu.org:gama gama-2.29.tar.gz
+    ./gnupload --to ftp.gnu.org:gama gama-2.29.tar.gz
 
 You will be asked for your gpg passphrase (twice) and you will get
 an email when your upload is finished.
@@ -287,31 +295,37 @@ can always try running ```gnupload``` with the option ```--dry-run```
 
 * Note: If you encounter this error when running gnulib
 
-      gpg: signing failed: Inappropriate ioctl for device
+    gpg: signing failed: Inappropriate ioctl for device
 
 Simply run in the command line:
 
-      export GPG_TTY=$(tty)
+    export GPG_TTY=$(tty)
 
 #### Gnulib announce-gen
 
-You may find the announce-gen script useful for creating announcements, which is available from the build-aux/ directory of the gnulib project at https://savannah.gnu.org/projects/gnulib.
+You may find the announce-gen script useful for creating
+announcements, which is available from the build-aux/ directory of the
+gnulib project at https://savannah.gnu.org/projects/gnulib.
 
-Suppose we have NEWS file, current and previous gama tarballs in a directory; run announce-gen script to generate new release announcement
+Suppose we have NEWS file, current and previous gama tarballs in a
+directory; run announce-gen script to generate new release
+announcement
 
-      ../gnulib/build-aux/announce-gen \
-          --package-name=gama \
-          --release-type=stable \
-          --current-version=$1 \
-          --previous-version=$2 \
-          --gpg-key-id 1b77fc09 \
-          --url https://ftp.gnu.org/gnu/gama \
-          --news NEWS \
-            2> announce-$1.err | tee announce-$1.txt
+    ../gnulib/build-aux/announce-gen \
+        --package-name=gama \
+        --release-type=stable \
+        --current-version=$1 \
+        --previous-version=$2 \
+        --gpg-key-id 1b77fc09 \
+        --url https://ftp.gnu.org/gnu/gama \
+        --news NEWS \
+          2> announce-$1.err | tee announce-$1.txt
 
+<!--
 **_NOTE:_** announce-gen version 2023-12-29 produced following warnings/errors
 
       fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
+
       Use '--' to separate paths from revisions, like this:
       'git <command> [<revision>...] -- [<file>...]'
       fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
@@ -328,14 +342,14 @@ Suppose we have NEWS file, current and previous gama tarballs in a directory; ru
       fatal: ambiguous argument 'v2.28..v2.29': unknown revision or path not in the working tree.
       Use '--' to separate paths from revisions, like this:
       'git <command> [<revision>...] -- [<file>...]'
-
+-->
 
 ### Online documentation
 
 To update Gama webpages and online documentation, you need to check out its repository from CVS (Concurrent Version System):
 
-      cvs -z3 -d:ext:user@cvs.savannah.gnu.org:/web/gama co -P gama
-      mv gama gama-web    # rename the local web directory
+    cvs -z3 -d:ext:user@cvs.savannah.gnu.org:/web/gama co -P gama
+    mv gama gama-web    # rename the local web directory
 
 
 Here, replace ```user``` with your login name, and ```gama ```is the directory for web pages to be checked out. The option ```-P``` is used to prune empty directories. Please note that this CVS repository is not to be confused with the Git repository of the same name. After checking out, the local web directory is renamed to ```web-gama```.
@@ -343,12 +357,12 @@ Here, replace ```user``` with your login name, and ```gama ```is the directory f
 * For generating documentation in various formats from texinfo sources,
   download and run ```gendocs``` (see ```doc/Makefile.am``` for details)
 
-      cd gama/doc                  # in gama git/ftp repository
-      make download-gendocs.sh
-      make run-gendocs.sh
+    cd gama/doc                  # in gama git/ftp repository
+    make download-gendocs.sh
+    make run-gendocs.sh
 
 * Copy the ```manual``` directory generated by the gendocs script from gama
-  repository to CVS ```web-gama``` 
+  repository to CVS ```web-gama```
 
 * Run script ```./update-manual.sh``` from CVS repositorsy ```web-gama```
 
@@ -387,15 +401,14 @@ installed (on Debian based systems package ```libyaml-cpp-dev```).
 #### Alternative build system (cmake)
 
 Alternatively with cmake build you can compile gama with source codes
-of yaml-cpp C++ parser included. To do this you must clone the
-```yaml-cpp project``` from the git repository
+of yaml-cpp C++ parser included. To do this you must clone
+the&nbsp;```yaml-cpp project``` from the git repository
 
-````
-   cd "GNU Gama sources"/lib
-   git clone https://github.com/jbeder/yaml-cpp
-````
+    cd "GNU Gama sources"/lib
+    git clone https://github.com/jbeder/yaml-cpp
 
-<!--  not needed here, described in the section New release 
+
+<!--  not needed here, described in the section New release
  and run
 
 ````
@@ -405,3 +418,23 @@ of yaml-cpp C++ parser included. To do this you must clone the
    cmake --build .
 ````
 -->
+
+## Doxygen
+
+Doxygen generator for source codes documentation is available for Gama
+project, but it is not consistantly used for  all classes and
+functions. The Doxygen main page is defined in the file ```gama.dox```
+and the the configuration in ```Doxygen``` file.
+
+To generate the Doxygen documentation run
+
+    doxygen
+
+from the top project directory, ```doxygen``` creates directory
+```dox``` with two subdirectories ```html``` and ```latex``` with
+corresponding output format. For html open the file
+```html/index.html`` for latex run
+
+    pdflate index.tex
+
+to build ```index.pdf``` document.
