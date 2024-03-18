@@ -1,7 +1,7 @@
 <!--
-HTML non-breaking space &nbsp; is used to avoid avoid three back ticks
-``` to get the beginning of the line when a monospaced font of a
-single word is used.
+HTML non-breaking space &nbsp; is used when three back ticks ```
+occure at the beginning of a line, but the monospaced font applies only
+to a single word/phrase, like ```cmake```, for example.
 -->
 
 # GNU Gama
@@ -30,6 +30,7 @@ The logical flow of a release is a tag in git, and then "make dist" of
 a checkout of that tag, with the resulting tarball made available.
 
 Before tagging,
+
   - choose a version number
   - update NEWS and ChangeLog
   - update the version in the following three files
@@ -433,8 +434,10 @@ To generate the Doxygen documentation run
 from the top project directory, ```doxygen``` creates directory
 ```dox``` with two subdirectories ```html``` and ```latex``` with
 corresponding output format. For html open the file
-```html/index.html`` for latex run
+```html/index.html```. For latex change to ```latex``` subdirectory
+and run
 
-    pdflate index.tex
+    make [ ps | pdf ]
 
-to build ```index.pdf``` document.
+to build ```refman.dvi``` (implicit format),
+```refman.ps``` or ```refman.pdf``` format.
