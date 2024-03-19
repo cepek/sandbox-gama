@@ -49,7 +49,7 @@ namespace GNU_gama {
    *
    * Checked by tests/gama-local/scripts/check_version.cpp
    */
-  std::string GNU_gama_version() { return "2.29"; }
+  std::string GNU_gama_version() { return "2.30"; }
 
   std::string GNU_gama_minion_version(std::string minion_version)
   {

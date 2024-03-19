@@ -1,5 +1,16 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.30 (2024-03-19)
+
+  The maintenance release, no user-visible changes in existing
+  programs.
+
+  - README files changed to README.md format, some minor formulation
+    changes and enhancements.
+
+  - Review of doxygen handling, include brief section on doxygen into
+    documentation.
+
 Changes in release 2.29 (2024-02-19)
 
   The maintenance release, no user-visible changes in existing

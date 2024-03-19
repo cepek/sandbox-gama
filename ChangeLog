@@ -1,3 +1,10 @@
+2024-03-19   Ales Cepek <cepek@gnu.org>
+
+	* Maintenance release gama-2.29, no user-visible changes.
+
+	- Review of doxygen handling, include brief section on doxygen
+	into documentation. README file changed to README.md format.
+
 2024-02-19   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.29, no user-visible changes.
