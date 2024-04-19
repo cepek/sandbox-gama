@@ -96,7 +96,7 @@ AC_ARG_ENABLE(
    [AS_HELP_STRING([--enable-expat_1_1[[=yes|no]]],
    [Enable build with legacy expat parser version 1.1 (default is yes)])])
 
-AS_IF([test x$enable_expat_1_1 == x], enable_expat_1_1=yes)
+AS_IF([test x$enable_expat_1_1 = x], enable_expat_1_1=yes)
 
 if test x$enable_expat_1_1 = xyes
 then
