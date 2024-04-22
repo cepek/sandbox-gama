@@ -928,12 +928,13 @@ $$
 The angle @gmat{\alpha} (the bearing of semimajor axis) is measured
 clockwise from X axis.
 
-
+q
 Probability that standard ellipse covers real position of a point is
-relatively low. For this reason program @code{gama-local} computes extra
+relatively low (about 29% to 39%).
+For this reason program @code{gama-local} computes extra
 @emph{confidence ellipse} for which the probability of covering real
 point position is equal to the given confidence probability.  Both
-ellipses are located in the same center, they share the same bearing of
+ellipses are located at the same center, they share the same bearing of
 semimajor axes and they are similar.  For lengths of their semi-axis
 holds
 @c % \cite[p. 191]{charamza:geodetpc}
