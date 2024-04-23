@@ -4,6 +4,12 @@ occure at the beginning of a line, but the monospaced font applies only
 to a single word/phrase, like ```cmake```, for example.
 -->
 
+<!--
+  Code blocks are normally indented four spaces or one tab.
+  When they’re in a list, indent them eight spaces or two tabs
+-->
+
+
 # GNU Gama
 
 ## Table of contents
@@ -94,18 +100,18 @@ have autoconf, automake and libtool.
 
 * Update release version in the following three files
 
-      configure.ac
-      lib/gnu_gama/version.cpp
-      CMakeLists.txt
+        configure.ac
+        lib/gnu_gama/version.cpp
+        CMakeLists.txt
 
   Unit test ```tests/gama-local/gama-local-version``` checks that the
   release version is identical in all these files (run ```make check```).
 
 * Run full set of unit tests with *extra tests* enabled
 
-      ./autogen.sh
-      ./configure  --enable-extra-tests
-      make check
+        ./autogen.sh
+        ./configure  --enable-extra-tests
+        make check
 
    Script ```autogen.sh``` usually only needs to be run for the first
    time after substantial changes in the project configuration.
@@ -122,50 +128,50 @@ have autoconf, automake and libtool.
   names are properly defined in ```CMakeLists.txt``` and you need to
   check the *cmake build*, for example like this
 
-      mkdir build      # temporary directory
-      cd build
-      cmake ..
-      make
-      ctest
+        mkdir build      # temporary directory
+        cd build
+        cmake ..
+        make
+        ctest
 
   or if you want to use the Ninja build system for a faster run
 
-      cmake .. -G Ninja
-      ninja
-      ctest
+        cmake .. -G Ninja
+        ninja
+        ctest
 
   The following steps work on Windows as well as Linux:
 
-      mkdir build
-      cd build
-      cmake ..
-      cmake --build . --config Release
-      ctest -C Release
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config Release
+        ctest -C Release
 
 * Now we need to check if all the files have been committed to the
   Gama git server. Create a *working/temporary* directory, clone the
   project and repeat all the steps above
 
-      git clone https://git.savannah.gnu.org/git/gama.git temp-gama
-      cd temp-gama
+        git clone https://git.savannah.gnu.org/git/gama.git temp-gama
+        cd temp-gama
 
 * If everything passed, you can generate the new distribution tarball
 
-      ./autogen.sh
-      ./configure
-      make distcheck
+        ./autogen.sh
+        ./configure
+        make distcheck
 
 * Now when you have the release tarball and all other release file ready
   (for example ```gama-2.29.tar.gz``` and ```announce-2.29.txt```),
   you commit all changes and tag the git repository, for example
 
-      git tag gama-2.29
+        git tag gama-2.29
 
   Push the tag to the repository (set the origin repo to ssh first if
   needed):
 
-      # git remote set-url origin ssh://user@git.sv.gnu.org/srv/git/gama.git
-      git push origin <tag_name>
+        # git remote set-url origin ssh://user@git.sv.gnu.org/srv/git/gama.git
+        git push origin <tag_name>
 
    where *user* is your login name.
 
@@ -174,37 +180,37 @@ have autoconf, automake and libtool.
   describing what is new in the release and what bugs were fixed (if
   any). Here is an example text sent for version 2.29
 
-      Subject: GNU gama 2.29 released
+        Subject: GNU gama 2.29 released
 
-      We are pleased to announce the release of GNU Gama 2.29.
+        We are pleased to announce the release of GNU Gama 2.29.
 
-      There is one major fix visible to end users. Implicit value of XML
-      parameter 'update_constrained_coordinates' was changed to "yes". The
-      behavior of adjustment calculation was well and clearly described in
-      the documentation, but in some cases the old implicit value ("no")
-      might had lead to poor numerical results. The input data XML parameter
-      'update_constrained_coordinates' is preserved only for backward
-      compatibility and is likely to be removed in some future release.
+        There is one major fix visible to end users. Implicit value of XML
+        parameter 'update_constrained_coordinates' was changed to "yes". The
+        behavior of adjustment calculation was well and clearly described in
+        the documentation, but in some cases the old implicit value ("no")
+        might had lead to poor numerical results. The input data XML parameter
+        'update_constrained_coordinates' is preserved only for backward
+        compatibility and is likely to be removed in some future release.
 
-      Several other minor internal issues were fixed, none of them visible to
-      end users.
+        Several other minor internal issues were fixed, none of them visible to
+        end users.
 
-      About
+        About
 
-      GNU Gama package is dedicated to adjustment of geodetic networks. It
-      is intended for use with traditional geodetic surveyings which are
-      still used and needed in special measurements (e.g., underground or
-      high precision engineering measurements) where the Global Positioning
-      System (GPS) cannot be used.
+        GNU Gama package is dedicated to adjustment of geodetic networks. It
+        is intended for use with traditional geodetic surveyings which are
+        still used and needed in special measurements (e.g., underground or
+        high precision engineering measurements) where the Global Positioning
+        System (GPS) cannot be used.
 
-      Adjustment in local coordinate systems is fully supported by a
-      command-line program gama-local that adjusts geodetic (free) networks
-      of observed distances, directions, angles, height differences, 3D
-      vectors and observed coordinates (coordinates with given
-      variance-covariance matrix). Adjustment in global coordinate systems
-      is supported only partly as a gama-g3 program.
+        Adjustment in local coordinate systems is fully supported by a
+        command-line program gama-local that adjusts geodetic (free) networks
+        of observed distances, directions, angles, height differences, 3D
+        vectors and observed coordinates (coordinates with given
+        variance-covariance matrix). Adjustment in global coordinate systems
+        is supported only partly as a gama-g3 program.
 
-      https://www.gnu.org/software/gama/
+        https://www.gnu.org/software/gama/
 
 ### Generate an announcement message
 
@@ -212,36 +218,36 @@ The announce message can and should be generated
 with&nbsp;```announce-gen``` script from directory ```build-aux``` of
 GNU Gnulib https://www.gnu.org/software/gnulib/manual/gnulib.html
 
-      ./announce-gen --help
-      Usage: announce-gen [OPTIONS]
-      Generate an announcement message.  Run this from builddir.
+    ./announce-gen --help
+    Usage: announce-gen [OPTIONS]
+    Generate an announcement message.  Run this from builddir.
 
-      OPTIONS:
+    OPTIONS:
 
-      These options must be specified:
+    These options must be specified:
 
-      --release-type=TYPE          TYPE must be one of alpha beta stable
-      --package-name=PACKAGE_NAME
-      --previous-version=VER
-      --current-version=VER
-      --gpg-key-id=ID         The GnuPG ID of the key used to sign the tarballs
-      --url-directory=URL_DIR
+    --release-type=TYPE          TYPE must be one of alpha beta stable
+    --package-name=PACKAGE_NAME
+    --previous-version=VER
+    --current-version=VER
+    --gpg-key-id=ID         The GnuPG ID of the key used to sign the tarballs
+    --url-directory=URL_DIR
 
-      The following are optional:
+    The following are optional:
 
-      --news=NEWS_FILE             include the NEWS section about this release
-                                   from this NEWS_FILE; accumulates.
-      ......
+    --news=NEWS_FILE             include the NEWS section about this release
+                                 from this NEWS_FILE; accumulates.
+    ......
 
    For example:
 
-      ./announce-gen --package-name gama \
-         --release-type stable \
-         --current-version 2.28 \
-         --previous-version 2.27 \
-         --gpg-key-id 1b77fc09 \
-         --url https://ftp.gnu.org/gnu/gama \
-         --news NEWS
+    ./announce-gen --package-name gama \
+       --release-type stable \
+       --current-version 2.28 \
+       --previous-version 2.27 \
+       --gpg-key-id 1b77fc09 \
+       --url https://ftp.gnu.org/gnu/gama \
+       --news NEWS
 
    Including the ```NEWS``` file (the NEWS section about this release)
 is highly recommended, ```NEWS``` are generally more interesting to
@@ -285,7 +291,7 @@ an email when your upload is finished.
 FTP server, a post-release distfile modification makes the release
 unusable for packaging systems.
 
-<!--
+<!-- !!! NEWER DO THIS !!!
 Similarly you can replace the tarball, in case it is needed
 
       ./gnupload --replace --to ftp.gnu.org:gama gama-2.29.tar.gz
@@ -347,39 +353,44 @@ announcement
 
 ### Online documentation
 
-To update Gama webpages and online documentation, you need to check out its repository from CVS (Concurrent Version System):
+To update Gama webpages and online documentation, you need to check
+out its repository from CVS (Concurrent Version System):
 
     cvs -z3 -d:ext:user@cvs.savannah.gnu.org:/web/gama co -P gama
     mv gama gama-web    # rename the local web directory
 
 
-Here, replace ```user``` with your login name, and ```gama ```is the directory for web pages to be checked out. The option ```-P``` is used to prune empty directories. Please note that this CVS repository is not to be confused with the Git repository of the same name. After checking out, the local web directory is renamed to ```web-gama```.
+Here, replace ```user``` with your login name, and ```gama ```is the
+directory for web pages to be checked out. The option ```-P``` is used
+to prune empty directories. Please note that this CVS repository is
+not to be confused with the Git repository of the same name. After
+checking out, the local web directory is renamed to ```web-gama```.
 
 * For generating documentation in various formats from texinfo sources,
   download and run ```gendocs``` (see ```doc/Makefile.am``` for details)
 
-    cd gama/doc                  # in gama git/ftp repository
-    make download-gendocs.sh
-    make run-gendocs.sh
+        cd gama/doc                  # in gama git/ftp repository
+        make download-gendocs.sh
+        make run-gendocs.sh
 
 * Copy the ```manual``` directory generated by the gendocs script from gama
   repository to CVS ```web-gama```
 
 * Run script ```./update-manual.sh``` from CVS repositorsy ```web-gama```
 
-      #!/bin/sh
+        #!/bin/sh
 
-      find . -type f -name "*.html" -print0 | xargs -0 cvs add
-      find . -type f -name "*.gz"   -print0 | xargs -0 cvs add
-      find . -type f -name "*.pdf"  -print0 | xargs -0 cvs add
-      find . -type f -name "*.txt"  -print0 | xargs -0 cvs add
+        find . -type f -name "*.html" -print0 | xargs -0 cvs add
+        find . -type f -name "*.gz"   -print0 | xargs -0 cvs add
+        find . -type f -name "*.pdf"  -print0 | xargs -0 cvs add
+        find . -type f -name "*.txt"  -print0 | xargs -0 cvs add
 
-      for m in html_chapter html_node html_section
-      do
-          echo
-          echo manual/$m/.symlinks :
-          cat manual/$m/.symlinks
-      done
+        for m in html_chapter html_node html_section
+        do
+            echo
+            echo manual/$m/.symlinks :
+            cat manual/$m/.symlinks
+        done
 
 * add ```gama.html index.html``` to ```manual/html_*/.symlinks```
   (if not there already)
@@ -388,7 +399,33 @@ Here, replace ```user``` with your login name, and ```gama ```is the directory f
 
   Run
 
-      cvs commit .   # only cvs is available for GNU web pages, no git
+        cvs commit .   # only cvs is available for GNU web pages, no git
+
+
+### GNU Gama Home Page
+
+To updade GNU Gama [Home Page](https://www.gnu.org/software/gama/) you
+need to download web pages from CVS as described above
+
+    cvs -z3 -d:ext:user@cvs.savannah.gnu.org:/web/gama co -P gama
+
+edit the file ```gama/gama.html``` and commit your changes
+
+    cvs commit .
+
+
+## Cmake - alternative build system
+
+Cmake is an alternative build system to ```GNU autotools```. To build
+GNU Gama release with ```cmake``` run
+
+    mkdir build
+    cd build
+    cmake .. -G Ninja
+    cmake --build . --config Release
+
+For more information on ```cmake``` consult the
+[documentation](https://cmake.org/).
 
 ## Optional features
 
@@ -409,18 +446,7 @@ the&nbsp;```yaml-cpp project``` from the git repository
     git clone https://github.com/jbeder/yaml-cpp
 
 
-<!--  not needed here, described in the section New release
- and run
-
-````
-   mkdir build
-   cd build
-   cmake .. -G Ninja
-   cmake --build .
-````
--->
-
-## Doxygen
+### Doxygen
 
 Doxygen generator for source codes documentation is available for Gama
 project, but it is not consistantly used for  all classes and
