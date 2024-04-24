@@ -25,8 +25,12 @@ to a single word/phrase, like ```cmake```, for example.
         - Gnulib gnupload
         - Gnulib announce-gen
     - Online documentation
+    - GNU Gama Home Page
+- Cmake - alternative build system
 - Optional features
     - YAML
+        - The primary build system (autotools)
+        - Alternative build system (cmake)
 - Doxygen
 
 
