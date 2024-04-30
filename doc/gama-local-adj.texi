@@ -937,7 +937,8 @@ point position is equal to the given confidence probability.  Both
 ellipses are located at the same center, they share the same bearing of
 semimajor axes and they are similar.  For lengths of their semi-axis
 holds
-@c % \cite[p. 191]{charamza:geodetpc}
+@c % 29% to 39% \cite[p. 191]{charamza:geodetpc}
+@c % 35% to 39% Ghilani  https://www.xyht.com/surveying/error-ellipses/
 @c % ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 @tex
 $$
