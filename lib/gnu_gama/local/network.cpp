@@ -523,7 +523,7 @@ void LocalNetwork::revision_observations()
     }
 
   RSM.clear();
-  // removed_obs.clear();  1.17b
+  removed_obs.clear();  // revert edit from 1.17b f7b8f888 prev f093720
   for (ObservationData::iterator i=OD.begin(), e=OD.end(); i!=e; ++i)
     {
       Observation* m = *i;
