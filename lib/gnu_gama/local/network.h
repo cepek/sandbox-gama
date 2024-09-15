@@ -1,5 +1,5 @@
 /* GNU Gama -- adjustment of geodetic networks
-   Copyright (C) 1999, 2006, 2012, 2014, 2015, 2017, 2020, 2023
+   Copyright (C) 1999, 2006, 2012, 2014, 2015, 2017, 2020, 2023, 2024
                  Ales Cepek <cepek@gnu.org>
 
    This file is part of the GNU Gama C++ library.
@@ -110,9 +110,9 @@ namespace GNU_gama { namespace local
       revision_points(); return pocbod_;
     }
     void  revision_observations();
-    const ObservationList& rejected_observations_count() const
+    const ObservationList& rejected_observations() const
     {
-      return removed_obs;
+      return removed_obs_;
     }
     int observations_count() const
     {
@@ -144,11 +144,11 @@ namespace GNU_gama { namespace local
 
     Observation* ptr_obs(int i)
     {
-      return RSM[i-1];
+      return revised_obs_[i-1];
     }
     double weight_obs(int i)
     {
-      double p = m_0_apr_/RSM[i-1]->stdDev();
+      double p = m_0_apr_/revised_obs_[i-1]->stdDev();
       return p*p;
     }
     double test_abs_term(int i);                   // 0 or abs_term(i)
@@ -345,13 +345,13 @@ namespace GNU_gama { namespace local
     std::string ellipsoid_;
     bool        has_ellipsoid_;
 
-    RevisedObsList          RSM;
+    RevisedObsList revised_obs_;
 
     PointIDList undefined_xy_z_;      // revision of points
     int pocbod_;
     bool tst_redbod_;
 
-    ObservationList removed_obs;      // revision of observations
+    ObservationList removed_obs_;     // revision of observations
     int pocmer_;
     bool tst_redmer_;
 

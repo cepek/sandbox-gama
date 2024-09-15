@@ -1,5 +1,5 @@
 /* GNU Gama C++ library
-   Copyright (C) 2012, 2013, 2014, 2016, 2018, 2022, 2023
+   Copyright (C) 2012, 2013, 2014, 2016, 2018, 2022, 2023, 2024
    Ales Cepek <cepek@gnu.org>
 
    This file is part of the GNU Gama C++ library.
@@ -1543,7 +1543,7 @@ void GamaLocalHTML::htmlRejected()
   if (!lnet->is_adjusted()) return;
 
   bool points = !lnet->removed_points.empty();
-  bool obs    =  lnet->rejected_observations_count().size() > 0;
+  bool obs    =  lnet->rejected_observations().size() > 0;
   if (!points && !obs) return;
 
   str  = "<h2>" + std::string(T_HTML_rejected) + "</h2>\n";
@@ -1591,8 +1591,8 @@ void GamaLocalHTML::htmlRejected()
       str += "<table id='rejected_observations'>\n";
 
       for (ObservationList::const_iterator
-             i = lnet->rejected_observations_count().begin(),
-             e = lnet->rejected_observations_count().end();
+             i = lnet->rejected_observations().begin(),
+             e = lnet->rejected_observations().end();
              i !=e; ++i
            )
         {

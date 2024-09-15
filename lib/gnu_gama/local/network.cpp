@@ -1,7 +1,8 @@
 /* GNU Gama -- adjustment of geodetic networks
     Copyright (C) 1999, 2006, 2010  Ales Cepek <cepek@fsv.cvut.cz>
                   2011  Vaclav Petras <wenzeslaus@gmail.com>
-                  2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2023
+                  2012, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2023,
+                  2024
                   Ales Cepek <cepek@gnu.org>
 
    This file is part of the GNU Gama C++ library.
@@ -522,16 +523,16 @@ void LocalNetwork::revision_observations()
       (*cit)->update();
     }
 
-  RSM.clear();
-  removed_obs.clear();  // revert edit from 1.17b f7b8f888 prev f093720
+  revised_obs_.clear();
+  removed_obs_.clear(); // revert edit from 1.17b f7b8f888 prev f093720
   for (ObservationData::iterator i=OD.begin(), e=OD.end(); i!=e; ++i)
     {
       Observation* m = *i;
 
-      if (m->active()) RSM.push_back(m);
-      else             removed_obs.push_back(m);
+      if (m->active()) revised_obs_.push_back(m);
+      else             removed_obs_.push_back(m);
     }
-  pocmer_ = RSM.size();
+  pocmer_ = revised_obs_.size();
 
   tst_redmer_ = true;
   update(Residuals);
@@ -573,7 +574,7 @@ void LocalNetwork::project_equations()
 
     int  r = 0;
     pocet_neznamych_ = 0;
-    for (RevisedObsList::iterator m=RSM.begin(); m!=RSM.end(); ++m)
+    for (RevisedObsList::iterator m=revised_obs_.begin(); m!=revised_obs_.end(); ++m)
       {
         Observation* obs = *m;
         obs->accept(&loclin);
@@ -965,7 +966,7 @@ void LocalNetwork::update(Update etapa)
 
 double LocalNetwork::test_abs_term(int indm)
 {
-  Observation* m = RSM[indm-1];
+  Observation* m = revised_obs_[indm-1];
 
   const LocalPoint& stan = PD[m->from()];
   const LocalPoint& cil  = PD[m->to()];   // ignoring second angle target here
@@ -985,7 +986,7 @@ void LocalNetwork::remove_huge_abs_terms()
   if (!huge_abs_terms()) return;
 
   int r = 0;
-  for (RevisedObsList::iterator m = RSM.begin(); m!=RSM.end(); ++m)
+  for (RevisedObsList::iterator m = revised_obs_.begin(); m!=revised_obs_.end(); ++m)
     if (test_abs_term(++r))
       (*m)->set_passive();
 
