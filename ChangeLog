@@ -1,3 +1,26 @@
+2024-09-15   Ales Cepek <cepek@gnu.org>
+
+	* New release gama-2.31
+
+	- This release fixes a bug in local::Network class, where in
+	Network::revision_observations() was not cleared the list of
+	removed observations. This bug did not influence command line tool
+	gama-local, but was fatal for qgama interactive application.
+
+	The release reverts edit from 1.17b f7b8f888 prev f093720,
+	`removed_obs` must be cleared in the observations revision. This
+	bug did not influence command line tool `gama-local`, but was
+	fatal for qgama interactive application, where repeated call for
+	revision_observations() is possible.
+
+	- Several forgotten Czech local variable names in the local
+	adjustment section were renamed to English.
+
+2024-03-19   Ales Cepek <cepek@gnu.org>
+
+	The maintenance release, no user-visible changes in existing
+	programs.
+
 2024-03-19   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.29, no user-visible changes.

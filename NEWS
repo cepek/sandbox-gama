@@ -1,5 +1,12 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.31 (2024-09-15)
+
+  This release fixes a bug in handling the list of removed
+  observations (local network adjustment). This bug did not influence
+  command line tool gama-local, but was fatal for qgama interactive
+  application.
+
 Changes in release 2.30 (2024-03-19)
 
   The maintenance release, no user-visible changes in existing

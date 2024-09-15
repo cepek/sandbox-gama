@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.5...3.22)
 #
 #   regex pattern("\\s*project\\s*\\(\\s*gnu-gama\\s+VERSION\\s+[^\\s]+.*");
 #
-project (gnu-gama VERSION   2.30
+project (gnu-gama VERSION   2.31
                   LANGUAGES CXX C
                   DESCRIPTION "GNU Gama - CMake build")
 
