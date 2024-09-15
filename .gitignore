@@ -3,6 +3,7 @@
 #    gnulib/bin-aux/
 #
 announce-gen
+gnulib
 #
 ## yaml-cpp copy for optional alternative build
 #
@@ -17,6 +18,7 @@ TAGS
 *~
 \#*\#
 gama-*.*.tar.gz
+gama-*.*.tar.gz.sig
 *.zip
 a.out
 *.pro*
