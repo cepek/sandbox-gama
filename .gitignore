@@ -19,6 +19,8 @@ TAGS
 \#*\#
 gama-*.*.tar.gz
 gama-*.*.tar.gz.sig
+announce-*.*.err
+announce-*.*.txt
 *.zip
 a.out
 *.pro*
