@@ -1,6 +1,42 @@
 How to add a new language
 #########################
 
+* We use two letters ISO 639 language codes
+
+* GNU Gama output messages are organized in language directories in
+  xml/lang/code, usually in several files, where 'code' corresponds to
+  the corresponing language code (ca cz du en es ...).
+
+* Please, try to keep language file names as 'thematic_area.code.lang'
+  for example
+
+    gamalib.es.lang    gkfparser.es.lang pobs.es.lang   rmpoints.es.lang
+    gama-local.es.lang network.es.lang   review.es.lang
+
+* The reference language is English, encoding UTF-8, and translation
+  files follow the structure of English reference files. Translation
+  definition files (in XML) keep three atributes id, EN and two letter
+  code, for example
+
+     <e id="T_POBS_bad_data"
+        EN="bad data"
+        cz="chybný údaj" />
+
+
+  Where EN is the original English text, capital EN acts as a comment,
+  and cz (lower case) in this example is the corresponding Czech
+  translation of en/pobs.lang
+
+     <e id="T_POBS_bad_data"
+        en="bad data" />
+
+* Programs slovnikar.cpp and gama-local.cpp and xml/Makefile.am must
+  be updated, as shown bellow
+
+
+
+See the example diff for Chinese bellow (version 1.11 --> 1.12)
+
 1) add a new code into scripts/slovnikar.cpp
 ============================================
 
