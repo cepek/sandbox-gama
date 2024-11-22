@@ -134,13 +134,13 @@ have autoconf, automake and libtool.
 
         mkdir build      # temporary directory
         cd build
-        cmake ..
+        cmake -S .. -B .
         make
         ctest
 
   or if you want to use the Ninja build system for a faster run
 
-        cmake .. -G Ninja
+        cmake -S .. -B . -G Ninja
         ninja
         ctest
 
@@ -148,7 +148,7 @@ have autoconf, automake and libtool.
 
         mkdir build
         cd build
-        cmake ..
+        cmake -S .. -B .
         cmake --build . --config Release
         ctest -C Release
 
@@ -440,10 +440,9 @@ edit the file ```gama/gama.html``` and commit your changes
 Cmake is an alternative build system to ```GNU autotools```. To build
 GNU Gama release with ```cmake``` run
 
-    mkdir build
-    cd build
-    cmake .. -G Ninja
-    cmake --build . --config Release
+    cmake -S . -B    build -G Ninja
+    cmake --build    build --config Release
+    ctest --test-dir build
 
 For more information on ```cmake``` consult the
 [documentation](https://cmake.org/).
