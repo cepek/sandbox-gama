@@ -24,15 +24,17 @@
  *
  * ------------------------------------------------------------------------ */
 
-         const char* language[] = { "en",
-                                    "ca", "cz", "du", "es", "fi",
-                                    "fr", "hu", "ru", "ua", "zh" };
+const char* language[] = {
+  "en", "ca", "cz", "du", "es", "fi", "fr", "hu", "ru", "tr", "ua", "zh" };
 
-         const int N = sizeof(language)/sizeof(const char*);
-
-         const char* version = "1.16";
+const int N = sizeof(language)/sizeof(const char*);
+const char* version = "1.17";
 
 /* ---------------------------------------------------------------------------
+ *
+ * 1.17  2024-11-20
+ *
+ *       - support for Turkish language
  *
  * 1.16  2020-07-21
  *
@@ -168,6 +170,10 @@ using Discard    = set<string>;
 
 Dictionary dict;
 Discard    discard;
+
+// ignored languagues (the translation is not finished etc.)
+std::set<std::string>  ignored {"tr"};
+std::set<std::string>  active;
 
 // ---------------------------------------------------------------------------
 
@@ -345,6 +351,14 @@ void Parser::error(const char* message)
 
 int main()
 {
+  for (int i=0; i<N; i++) {
+    std::string lang = language[i];
+    if (ignored.find(lang) == ignored.end()) active.insert(lang);
+  }
+  std::cerr << "***  active languages ";
+  for (auto& f : active) std::cout << f << " ";
+  std::cerr << "\n";
+
   /* reading all input files */
   {
     string f;
@@ -356,9 +370,9 @@ int main()
   {
     ofstream out("discarded_entries");
     out << "";
-    for (auto e : discard)
+    for (auto& e : discard)
       {
-        cerr << "discarded " << e << endl;
+        cerr << "***  discarded entry  " << e << endl;
         out  << e << endl;
         dict.erase(e);
       }
@@ -384,6 +398,23 @@ int main()
       }
     out << " };\n";
     out << "void set_gama_language(gama_language);\n\n";
+
+    /* used in  gama-local --help */
+    {
+      out << "const char* const active_language_help = \"";
+      auto lang_list = active;
+      if (lang_list.find("en") != lang_list.cend())
+        {
+          out << "en";
+          lang_list.erase("en");
+        }
+      for (auto w = lang_list.begin(); w != lang_list.end(); w++)
+      {
+        out << " | " << *w;
+      }
+
+      out << "\";\n\n";
+    }
 
     for (Dictionary::const_iterator i=dict.begin(); i!=dict.end(); ++i)
       {
@@ -471,6 +502,13 @@ int main()
     out << "   default:\n";
     for (int l=0; l<N; l++)
       {
+      if (ignored.find(string(language[l])) != ignored.end())
+        {
+          out << "   // ignored language " << language[l] << "\n\n";
+          cerr << "***  ignored language " << language[l] << "\n";
+          continue;
+        }
+
       out << "   case " << language[l] << ":\n";
       for (i=dict.begin(); i!=dict.end(); ++i)
         {

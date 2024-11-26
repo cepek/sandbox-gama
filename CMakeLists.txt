@@ -368,6 +368,9 @@ target_link_libraries(compare-xyz PUBLIC libgama)
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
 target_link_libraries(gama-local-deformation PUBLIC libgama)
 
+add_executable(slovnikar scripts/slovnikar.cpp)
+target_link_libraries(slovnikar PUBLIC libgama)
+
 if (EXISTS ${CMAKE_SOURCE_DIR}/lib/yaml-cpp)
    include_directories(lib/yaml-cpp/include)
    add_library(libyaml STATIC ${SRC_YAMLCPP})

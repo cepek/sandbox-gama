@@ -1,12 +1,14 @@
 #ifndef GNU_gama_local_language_header_file_h
 #define GNU_gama_local_language_header_file_h
 
-/* !!! DO NOT EDIT !!!  created by slovnikar 1.16 */
+/* !!! DO NOT EDIT !!!  created by slovnikar 1.17 */
 
 namespace GNU_gama { namespace local {
 
-enum gama_language { en, ca, cz, du, es, fi, fr, hu, ru, ua, zh };
+enum gama_language { en, ca, cz, du, es, fi, fr, hu, ru, tr, ua, zh };
 void set_gama_language(gama_language);
+
+const char* const active_language_help = "en | ca | cz | du | es | fi | fr | hu | ru | ua | zh";
 
 extern const char* T_GKF_bad_angle;
 extern const char* T_GKF_bad_attribute_angle_dev;

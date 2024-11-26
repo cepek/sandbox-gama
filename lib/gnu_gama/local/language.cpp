@@ -1,4 +1,4 @@
-/* !!! DO NOT EDIT !!!  created by slovnikar 1.16 */
+/* !!! DO NOT EDIT !!!  created by slovnikar 1.17 */
 
 #include <gnu_gama/local/language.h>
 
@@ -2688,6 +2688,8 @@ void set_gama_language(gama_language lang)
 	T_POBS_zero_or_negative_slope_distance="нулевое или отрицательное наклонное расстояние";
 	T_POBS_zero_or_negative_zenith_angle="нулевой или отрицательный зенитный угол";
 	return;
+
+   // ignored language tr
 
    case ua:
 	T_GKF_bad_angle="невірний кут: ";

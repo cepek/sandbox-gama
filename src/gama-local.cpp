@@ -80,7 +80,7 @@ int help()
     "\nOptions:\n\n"
 
     "--algorithm  gso | svd | cholesky | envelope\n"
-    "--language   en | ca | cz | du | es | fi | fr | hu | ru | ua | zh\n"
+    "--language   " << GNU_gama::local::active_language_help << "\n"
     "--encoding   utf-8 | iso-8859-2 | iso-8859-2-flat | cp-1250 | cp-1251\n"
     "--angular    400 | 360\n"
     "--latitude   <latitude>\n"
