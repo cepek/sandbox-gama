@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<entries>
+
+<e id="T_IE_internal_error"
+   EN="internal error" 
+   00="" />
+
+<e id="T_GaMa_from_equals_to"
+   EN="station and target are identical" 
+   00="" />
+
+</entries>

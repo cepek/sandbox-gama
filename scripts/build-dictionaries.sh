@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # builds dictionaris for GNU Gama
-# 
+#
 
 echo
 echo Building dictionaries
@@ -13,7 +13,7 @@ SLOVNIKAR=$(pwd)/scripts/slovnikar
 
 # source directory for language.{h|cpp}
 cd lib/gnu_gama/local
-FILES=$(find ../../../xml/lang -name *.lang)
+FILES=$(find ../../../xml/lang -name *.lang | grep -v 00.lang)
 
 echo input files: $FILES
 echo
