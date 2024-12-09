@@ -2,11 +2,11 @@
 <entries>
 
 <e id="T_LN_undefined_confidence_level"
-   EN="undefined confidence level" 
+   EN="undefined confidence level"
    00="" />
 
 <e id="T_LN_undefined_type_of_actual_sigma"
-   EN="Type of actual sigma is not defined (apriori / aposteriori)" 
+   EN="Type of actual sigma is not defined (apriori / aposteriori)"
    00="" />
 
 </entries>

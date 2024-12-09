@@ -2,39 +2,39 @@
 <entries>
 
 <e id="T_LN_rm_removed_points"
-   EN="Removed points and coordinates" 
+   EN="Removed points and coordinates"
    00="" />
 
 <e id="T_LN_rm_missing_xyz"
-   EN="missing coordiantes xyz" 
+   EN="missing coordiantes xyz"
    00="" />
 
 <e id="T_LN_rm_missing_xy"
-   EN="missing coordiantes xy" 
+   EN="missing coordiantes xy"
    00="" />
 
 <e id="T_LN_rm_missing_z"
-   EN="missing coordiantes z" 
+   EN="missing coordiantes z"
    00="" />
 
 <e id="T_LN_rm_singular_xy"
-   EN="singular coordiantes xy" 
+   EN="singular coordiantes xy"
    00="" />
 
 <e id="T_LN_rm_singular_z"
-   EN="singular coordiante z" 
+   EN="singular coordiante z"
    00="" />
 
 <e id="T_LN_rm_huge_cov_xyz"
-   EN="indeterminable coordinates xyz" 
+   EN="indeterminable coordinates xyz"
    00="" />
 
 <e id="T_LN_rm_huge_cov_xy"
-   EN="indeterminable coordinates xy" 
+   EN="indeterminable coordinates xy"
    00="" />
 
 <e id="T_LN_rm_huge_cov_z"
-   EN="indeterminable coordinate z" 
+   EN="indeterminable coordinate z"
    00="" />
 
 </entries>
