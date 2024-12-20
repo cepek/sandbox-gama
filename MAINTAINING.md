@@ -20,12 +20,13 @@ to a single word/phrase, like ```cmake```, for example.
 - Source Organization
 - New release
     - Generate an announcement message
-    - Builds on WSL
     - Distributing the new release
         - Gnulib gnupload
         - Gnulib announce-gen
     - Online documentation
     - GNU Gama Home Page
+    - Note
+      - Builds on WSL
 - Cmake - alternative build system
 - Optional features
     - YAML
@@ -33,6 +34,7 @@ to a single word/phrase, like ```cmake```, for example.
         - Alternative build system (cmake)
 - Doxygen
 - Notes
+    - Languages
 
 
 ## Release process
@@ -258,22 +260,6 @@ GNU Gnulib https://www.gnu.org/software/gnulib/manual/gnulib.html
 is highly recommended, ```NEWS``` are generally more interesting to
 users rather than ChangeLog, which is of interest mainly to developpers.
 
-### Builds on WSL
-
-This section is given with no guarantee, GNU Gama is not tested on
-Windows Subsystem Linux. It seems that on WSL you need to install
-
-    sudo apt install automake
-    sudo apt install build-essential
-
-and it seems that you also need to explicitly enable build with local copy
-of expat parser
-
-    ./autogen
-    ./configure --enable-expat_1_1  --enable-extra-tests
-
-    make check    # build all and run all tests including the extra tests
-
 ### Distributing the new release
 #### Gnulib gnupload
 
@@ -426,7 +412,7 @@ checking out, the local web directory is renamed to ```web-gama```.
 
 ### GNU Gama Home Page
 
-To updade GNU Gama [Home Page](https://www.gnu.org/software/gama/) you
+To update GNU Gama [Home Page](https://www.gnu.org/software/gama/) you
 need to download web pages from CVS as described above
 
     cvs -z3 -d:ext:user@cvs.savannah.gnu.org:/web/gama co -P gama
@@ -434,6 +420,24 @@ need to download web pages from CVS as described above
 edit the file ```gama/gama.html``` and commit your changes
 
     cvs commit .
+
+### Note
+#### Builds on WSL
+
+This section is given with no guarantee, GNU Gama is not consistently
+tested on Windows Subsystem Linux (WSL). On WSL you need to
+install
+
+    sudo apt install automake
+    sudo apt install build-essential
+
+and you need to explicitly enable build with a local copy
+of expat parser
+
+    ./autogen
+    ./configure --enable-expat_1_1  --enable-extra-tests
+
+    make check    # build all and run all tests including the extra tests
 
 
 ## Cmake - alternative build system
