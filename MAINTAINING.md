@@ -36,6 +36,8 @@ to a single word/phrase, like ```cmake```, for example.
     - YAML
         - The primary build system (autotools)
         - Alternative build system (cmake)
+- Related projects
+    - QGama - Qt based GUI for ```gama-local``` adjustment
 - Notes
     - Languages
     - Doxygen
@@ -456,9 +458,9 @@ GNU Gama release with ```cmake``` run
 For more information on ```cmake``` consult the
 [documentation](https://cmake.org/).
 
+
 ## Optional features
 
-<!-- YAML section was copied from deleted file lib/README.yaml-cpp -->
 ### YAML
 #### The primary build system (autotools)
 
@@ -473,6 +475,22 @@ the&nbsp;```yaml-cpp project``` from the git repository
 
     cd "GNU Gama sources"/lib
     git clone https://github.com/jbeder/yaml-cpp
+
+
+### Related projects
+
+#### Qgama
+
+Qgama is a Qt application for adjustment of local geodetic networks,
+where the database can be a simple SQLite3 flat file or any
+full-featured relational DBMS with Qt driver available like PostgreSQL
+or MySQL. It is build on the GNU Gama adjustment library.
+
+    https://www.gnu.org/software/gama/qgama
+
+Precompiled binaries for Windows are distributed from
+
+    https://ftp.gnu.org/gnu/gama/windows/
 
 
 ### Notes
