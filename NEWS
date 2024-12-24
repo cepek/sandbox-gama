@@ -1,5 +1,19 @@
 GNU Gama NEWS - History of user-visible changes.
 
+Changes in release 2.32 (2024-12-23)
+
+  The maintenance release, no user-visible changes in existing
+  programs.
+
+  - Updated release version in configure.ac, lib/gnu_gama/version.cpp
+    and CMakeLists.txt
+
+  - A new language, 'tr' (Turkish), has been added to the helper
+    program 'slovnikar' (meaning "lexicographer" in Czech), which
+    generates translation data structures for the GNU Gama
+    project. Since the Turkish translations are incomplete, a list of
+    incomplete languages was implemented to ensure they are ignored.
+
 Changes in release 2.31 (2024-09-15)
 
   This release fixes a bug in handling the list of removed

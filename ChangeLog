@@ -1,3 +1,13 @@
+2024-12-24   Ales Cepek <cepek@gnu.org>
+
+	* Maintenance release gama-2.32
+
+	- A new language, 'tr' (Turkish), has been added to the helper
+	program 'slovnikar' (meaning "lexicographer" in Czech), which
+	generates translation data structures for the GNU Gama
+	project. Since the Turkish translations are incomplete, a list of
+	incomplete languages was implemented to ensure they are ignored.
+
 2024-09-15   Ales Cepek <cepek@gnu.org>
 
 	* New release gama-2.31
