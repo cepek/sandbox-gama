@@ -94,9 +94,9 @@ dnl Optional build with legacy expat 1.1 (local copy)
 AC_ARG_ENABLE(
    [expat_1_1],
    [AS_HELP_STRING([--enable-expat_1_1[[=yes|no]]],
-   [Enable build with legacy expat parser version 1.1 (default is yes)])])
+   [Enable build with legacy expat parser version 1.1 (default is no)])])
 
-AS_IF([test x$enable_expat_1_1 = x], enable_expat_1_1=yes)
+AS_IF([test x$enable_expat_1_1 = x], enable_expat_1_1=no)
 
 if test x$enable_expat_1_1 = xyes
 then

@@ -1,3 +1,10 @@
+	* New release ...
+
+	- The Expat parser has been updated from the legacy Expat 1.1
+	(included in the source code) to the system-installed Expat
+	library, as defined in configure.ac. For the alternative CMake
+	build, the old Expat 1.1 is still used.
+
 2024-12-24   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.32
