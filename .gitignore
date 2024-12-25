@@ -4,6 +4,7 @@
 #
 announce-gen
 gnulib
+gnupload
 #
 ## yaml-cpp copy for optional alternative build
 #
@@ -19,6 +20,7 @@ TAGS
 \#*\#
 gama-*.*.tar.gz
 gama-*.*.tar.gz.sig
+gama-*.*.tar.gz.asc
 announce-*.*.err
 announce-*.*.txt
 *.zip
