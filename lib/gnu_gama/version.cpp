@@ -38,6 +38,7 @@
 #endif
 
 #include <gnu_gama/version.h>
+#include <gnu_gama/xml_expat.h>
 #include <iostream>
 
 #define str(s)  # s
@@ -104,9 +105,17 @@ namespace GNU_gama {
 
   int version(const char* program, const char* copyright_holder)
   {
+    // https://libexpat.github.io/doc/api/latest/#XML_ExpatVersion
+    //
+    //    XML_MAJOR_VERSION, XML_MINOR_VERSION, XML_MICRO_VERSION
+    //
+    // Testing these constants is currently the best way to determine
+    // if particular parts of the Expat API are available.
+
     std::cout
       << program << " (GNU Gama) " << GNU_gama_version()
-      << " / " << GNU_gama_compiler() << "\n"
+      << " / " << GNU_gama_compiler() << " / expat "
+      << XML_MAJOR_VERSION << "." << XML_MINOR_VERSION << "\n"
       << "Copyright (C) " << GNU_gama_year << " "
       << copyright_holder << "\n" <<
       "License GPLv3+: GNU GPL version 3 or later "

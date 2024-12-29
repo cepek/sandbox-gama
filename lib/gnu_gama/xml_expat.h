@@ -29,20 +29,23 @@
  * still build GNU Gama using old expat version 1.1 */
 #include <expat/xmlparse/xmlparse.h>
 
+// https://libexpat.github.io/doc/api/latest/#XML_ExpatVersion
+//
+//    XML_MAJOR_VERSION, XML_MINOR_VERSION, XML_MICRO_VERSION
+//
+// Testing these constants is currently the best way to determine
+// if particular parts of the Expat API are available.
+
+#define XML_MAJOR_VERSION 1
+#define XML_MINOR_VERSION 1
+#define XML_MICRO_VERSION 0
+
 #else
 
-/* For expat 1.95.2 or (hopefully) any later */
+/* For expat 1.95.2 or any later */
 #include <expat.h>
 
 #endif
 
 
 #endif
-
-
-
-
-
-
-
-

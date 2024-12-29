@@ -27,6 +27,7 @@
 #include <cstring>
 #include <gnu_gama/version.h>
 #include <gnu_gama/intfloat.h>
+#include <gnu_gama/xml_expat.h>
 #include <gnu_gama/xml/localnetworkoctave.h>
 #include <gnu_gama/xml/localnetworkxml.h>
 #include <gnu_gama/xml/gkfparser.h>
@@ -62,7 +63,9 @@ int help()
   cout << "\n"
        << "Adjustment of local geodetic network"
        << "        version: "<< GNU_gama::GNU_gama_version()
-       << " / " << GNU_gama::GNU_gama_compiler() << "\n"
+       << " / " << GNU_gama::GNU_gama_compiler()
+       << " / expat " << XML_MAJOR_VERSION << "." << XML_MINOR_VERSION
+       << "\n"
        << "************************************\n"
        << "https://www.gnu.org/software/gama/\n\n";
 
