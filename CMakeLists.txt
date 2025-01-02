@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5...3.22)
+cmake_minimum_required(VERSION 3.5...3.28)
 
 # This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp
 # to be compared with gnu_gama/version.cpp and configure.ac.
@@ -19,11 +19,11 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-# Build with the local copy of legacy code expat 1.1 is implicitly enabled.
+# Build with the local copy of legacy code expat 1.1 is implicitly disabled.
 #
-#   To disable run : cmake -DENABLE_EXPAT_1_1=OFF
+#   To enable run : cmake -DENABLE_EXPAT_1_1=ON
 #
-option(ENABLE_EXPAT_1_1 "Enable build with expat 1.1" ON)
+option(ENABLE_EXPAT_1_1 "Enable build with expat 1.1" OFF)
 message("Build GNU Gama with expat 1.1 is " ${ENABLE_EXPAT_1_1})
 
 #add_definitions(-DDEBUG_ACORD2)
@@ -327,6 +327,9 @@ set(SRC_YAMLCPP
   )
 
 if (ENABLE_EXPAT_1_1)
+  # see GNU Gama autotools definitions in lib/gnu_gama/xml_expat.h
+  add_compile_definitions(GNU_gama_expat_1_1)
+
   include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
   add_library(libgama OBJECT ${SRC_GAMA} ${SRC_EXPAT})
 else()
