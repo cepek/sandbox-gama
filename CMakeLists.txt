@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5...3.28)
+cmake_minimum_required(VERSION 3.5)
 
 # This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp
 # to be compared with gnu_gama/version.cpp and configure.ac.
