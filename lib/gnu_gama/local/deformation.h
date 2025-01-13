@@ -114,7 +114,7 @@ public:
   }
 
   std::string version() const {
-    return GNU_gama_minion_version("0.3");
+    return GNU_gama_sub_version("0.3");
   }
 
   bool good() const { return  vec_errors.empty(); }

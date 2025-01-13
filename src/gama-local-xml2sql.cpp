@@ -30,10 +30,10 @@
 int help()
 {
   using std::cerr;
-  
-  cerr << "Usage: gama-local-xml2sql configuration (xml_input|-) [sql_output|-]\n\n" 
+
+  cerr << "Usage: gama-local-xml2sql configuration (xml_input|-) [sql_output|-]\n\n"
        << "Convert XML adjustment input of gama-local to SQL\n\n";
-  
+
   return 1;
 }
 
@@ -42,7 +42,7 @@ int help()
 int parameters(int argc, char* argv[], std::istream*& xml, std::ostream*& sql)
 {
   if (argc < 2 || argc > 4) return help();
-  
+
   if (argv[1][0] == '-' ) return help();
 
   const char* inp = "-";
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
       if (vset.find(argv[i]) != vset.end())
         {
           using namespace std;
-          cout << GNU_gama::GNU_gama_minion_version("1.00") << endl;
+          cout << GNU_gama::GNU_gama_sub_version("1.00") << endl;
           return 0;
         }
     }
@@ -98,11 +98,11 @@ int main(int argc, char* argv[])
       GNU_gama::local::LocalNetwork2sql ln2sql(lnet);
       ln2sql.readGkf(*inp);
       ln2sql.write  (*out, argv[1]);
-      out->flush(); 
+      out->flush();
    }
   catch (GNU_gama::Exception::parser perr)
     {
-      std::cerr << "parser error : " << perr.error_code 
+      std::cerr << "parser error : " << perr.error_code
                 << "  line : "       << perr.line
                 << "  text : "       << perr.str
                 << std::endl;
@@ -113,5 +113,3 @@ int main(int argc, char* argv[])
       std::cerr << "unknown exception\n";
     }
 }
-
-

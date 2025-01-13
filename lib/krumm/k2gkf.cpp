@@ -51,5 +51,5 @@ void K2gkf::run()
 std::string K2gkf::version()
 {
   //return "1.00";
-  return GNU_gama::GNU_gama_minion_version("1.00");
+  return GNU_gama::GNU_gama_sub_version("1.00");
 }
