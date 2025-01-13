@@ -1,5 +1,5 @@
 set(TEST_BASE_DIR ${PROJECT_SOURCE_DIR}/tests/acord2)
-set(RESULT_DIR ${CMAKE_BINARY_DIR}/tests/acord2/results/${VERSION}/acord2-a2g)
+set(RESULT_DIR ${CMAKE_BINARY_DIR}/tests/acord2/results/${PROJECT_VERSION}/acord2-a2g)
 set(INPUT_DIR ${TEST_BASE_DIR}/input)
 
 file(MAKE_DIRECTORY ${RESULT_DIR})
