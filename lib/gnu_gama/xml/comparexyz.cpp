@@ -13,7 +13,7 @@ using namespace GNU_gama;
 
 std::string CompareXYZ::version() const
 {
-  return GNU_gama_sub_version("0.3");
+  return GNU_gama::sub_version("0.3");
 }
 
 void CompareXYZ::fetch_files(std::string file_1, std::string file_2)

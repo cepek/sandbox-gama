@@ -1,6 +1,6 @@
 /*
     GNU Gama -- adjustment of geodetic networks
-    Copyright (C) 2013  Ales Cepek <cepek@gnu.org>
+    Copyright (C) 2013, 2025  Ales Cepek <cepek@gnu.org>
 
     This file is part of the GNU Gama C++ library.
 
@@ -114,7 +114,7 @@ public:
   }
 
   std::string version() const {
-    return GNU_gama_sub_version("0.3");
+    return GNU_gama::sub_version("0.3");
   }
 
   bool good() const { return  vec_errors.empty(); }

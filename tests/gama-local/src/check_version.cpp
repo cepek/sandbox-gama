@@ -1,6 +1,6 @@
 /*
   GNU Gama -- testing version numbers defined in configure.ac and version.cpp
-  Copyright (C) 2018, 2019, 2024  Ales Cepek <cepek@gnu.org>
+  Copyright (C) 2018, 2019, 2024, 2025  Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library
 
@@ -30,7 +30,7 @@ int main(int /*argc*/, char* argv[])
 {
   int error = 0;
 
-  string version_cpp = GNU_gama::GNU_gama_version(); /* gnu_gama/version.cpp */
+  string version_cpp = GNU_gama::version(); /* gnu_gama/version.cpp */
   std::cout << version_cpp << " version_cpp\n";
 
   // string version_configure_ac = string(VERSION);

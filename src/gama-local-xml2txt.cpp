@@ -1,6 +1,6 @@
 /*
     GNU Gama -- adjustment of geodetic networks
-    Copyright (C) 2009, 2010  Ales Cepek <cepek@gnu.org>
+    Copyright (C) 2009, 2010, 2025  Ales Cepek <cepek@gnu.org>
 
     This file is part of the GNU Gama C++ library.
 
@@ -148,7 +148,7 @@ int parameters(int argc, char* argv[], Adjustment& adj, OutStream& out)
       else if (name == "version"   )
         {
           // return 1+GNU_gama::version("gama-local-xml2txt", "Ales Cepek");
-          std::cout << GNU_gama::GNU_gama_version()
+          std::cout << GNU_gama::version()
                     << "-" << XML2TXT_minion_version << std::endl;
           return -1;
         }
@@ -1556,4 +1556,3 @@ void adjusted_observations(Stream& cout,const Adjustment& adj)
         }
     }
 }
-

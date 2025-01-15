@@ -2,7 +2,8 @@
   GNU Gama C++ library
   Copyright (C) 2006, 2010  Ales Cepek <cepek@gnu.org>
     2011  Vaclav Petras <wenzeslaus@gmail.com>
-    2012, 2013, 2014, 2018, 2019, 2022, 2023  Ales Cepek <cepek@gnu.org>
+    2012, 2013, 2014, 2018, 2019, 2022, 2023,
+    2025  Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library
 
@@ -319,14 +320,11 @@ void LocalNetworkXML::write(std::ostream& out) const
 
   {
     {
-      using GNU_gama::GNU_gama_version;
-      using GNU_gama::GNU_gama_compiler;
-
       out << "\n<network-general-parameters\n";
 
-      out << "   gama-local-version=\""   << GNU_gama_version()  << "\"\n";
-      out << "   gama-local-algorithm=\"" << netinfo->algorithm()<< "\"\n";
-      out << "   gama-local-compiler=\""  << GNU_gama_compiler() << "\"\n";
+      out << "   gama-local-version=\""   << GNU_gama::version()  << "\"\n";
+      out << "   gama-local-algorithm=\"" << netinfo->algorithm() << "\"\n";
+      out << "   gama-local-compiler=\""  << GNU_gama::compiler() << "\"\n";
 
       out << "   axes-xy=\"";
       switch (netinfo->PD.local_coordinate_system)

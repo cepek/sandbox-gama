@@ -1,8 +1,7 @@
 /*
   GNU Gama --- Geodesy and Mapping C++ library
   Copyright (C) 1999, 2003, 2005, 2011, 2014, 2018, 2021, 2022, 2023,
-                2024
-                Ales Cepek <cepek@gnu.org>
+                2024, 2025  Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library.
 
@@ -46,19 +45,21 @@
 
 namespace GNU_gama {
 
-  /* GNU_gama_version() must return the same value as defined in
+  /* GNU_gama::version() must return the same value as defined in
    * configures.ac (VERSION defined in config.h).
    *
    * Checked by tests/gama-local/scripts/check_version.cpp
    */
-  std::string GNU_gama_version() { return "2.32"; }
+  std::string version() { return "2.32"; }
 
-  std::string GNU_gama_sub_version(std::string minion_version)
+  std::string year()    { return "2025"; }
+
+  std::string sub_version(std::string minion_version)
   {
-    return GNU_gama_version() + "-" + minion_version;
+    return version() + "-" + minion_version;
   }
 
-  std::string GNU_gama_compiler()
+  std::string compiler()
   {
     return
 
@@ -100,8 +101,6 @@ namespace GNU_gama {
     ;
   }
 
-  std::string GNU_gama_year = "2021";
-
 
   int version(const char* program, const char* copyright_holder)
   {
@@ -113,10 +112,10 @@ namespace GNU_gama {
     // if particular parts of the Expat API are available.
 
     std::cout
-      << program << " (GNU Gama) " << GNU_gama_version()
-      << " / " << GNU_gama_compiler() << " / expat "
+      << program << " (GNU Gama) " << GNU_gama::version()
+      << " / " << compiler() << " / expat "
       << XML_MAJOR_VERSION << "." << XML_MINOR_VERSION << "\n"
-      << "Copyright (C) " << GNU_gama_year << " "
+      << "Copyright (C) " << GNU_gama::year() << " "
       << copyright_holder << "\n" <<
       "License GPLv3+: GNU GPL version 3 or later "
       "<http://gnu.org/licenses/gpl.html>\n"

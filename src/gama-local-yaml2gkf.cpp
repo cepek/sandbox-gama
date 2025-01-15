@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
       if (vset.find(argv[i]) != vset.end())
         {
           using namespace std;
-          cout << GNU_gama::GNU_gama_sub_version("1.00") << endl;
+          cout << GNU_gama::sub_version("1.00") << endl;
           return 0;
         }
     }

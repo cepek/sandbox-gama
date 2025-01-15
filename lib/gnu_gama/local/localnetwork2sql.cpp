@@ -2,8 +2,8 @@
     GNU Gama -- adjudstment of geodetic networks
     Copyright (C) 2010  Ales Cepek <cepek@gnu.org>,
                   2010 Jiri Novak <jiri.novak@petriny.net>,
-                  2012, 2013, 2014, 2015, 2017, 2019, 2020
-                  Ales Cepek <cepek@gnu.org>
+                  2012, 2013, 2014, 2015, 2017, 2019, 2020,
+                  2025 Ales Cepek <cepek@gnu.org>
 
     This file is part of the GNU Gama C++ library.
 
@@ -664,9 +664,9 @@ void LocalNetwork2sql::write(std::ostream& ostr, std::string conf)
         ostr << "insert into gnu_gama_local_adj_network_general_parameters "
              << "(conf_id, gmversion, algorithm, compiler, epoch, axes, angles) "
              << "values ("
-             << cnfg() << ", '" << GNU_gama::GNU_gama_version() << "', "
+             << cnfg() << ", '" << GNU_gama::version() << "', "
              << (netinfo->algorithm().length() ? ("'"+netinfo->algorithm()+"'") : "NULL")
-             << ", '" << GNU_gama::GNU_gama_compiler() << "', ";
+             << ", '" << GNU_gama::compiler() << "', ";
 
         if (netinfo->has_epoch()) ostr << netinfo->epoch() << ", ";  else  ostr << "NULL, ";
 

@@ -1,6 +1,6 @@
 /*
   GNU Gama C++ library
-  Copyright (C) 2018, 2020  Ales Cepek <cepek@gnu.org>
+  Copyright (C) 2018, 2020, 2025  Ales Cepek <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ library
 
@@ -38,7 +38,7 @@ void LocalNetworkOctave::write(std::ostream& out) const
   out << "% gama-local adjustment results for GNU Octave (.m script)\n"
       << "%\n"
       << "% version    1.02\n"
-      << "% gama-local " << GNU_gama_version() << "\n"
+      << "% gama-local " << GNU_gama::version() << "\n"
       << "%\n"
       << "% https://www.gnu.org/software/octave/\n"
       << "% https://www.gnu.org/software/gama/\n"

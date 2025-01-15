@@ -1,5 +1,5 @@
 /* Krumm2gama-local -- conversion from F. Krumm format to XML gama-local
-   Copyright (C) 2022, 2024 Ales Cepek <cepek@gnu.org>
+   Copyright (C) 2022, 2024, 2025  Ales Cepek <cepek@gnu.org>
 
    This file is part of Krumm2gama-local.
 
@@ -51,5 +51,5 @@ void K2gkf::run()
 std::string K2gkf::version()
 {
   //return "1.00";
-  return GNU_gama::GNU_gama_sub_version("1.00");
+  return GNU_gama::sub_version("1.00");
 }

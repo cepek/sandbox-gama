@@ -1,6 +1,6 @@
 /* GNU Gama C++ library
-   Copyright (C) 1999, 2002, 2003, 2010, 2011, 2012, 2014, 2018, 2020, 2021
-                 Ales Cepek <cepek@gnu.org>
+   Copyright (C) 1999, 2002, 2003, 2010, 2011, 2012, 2014, 2018, 2020, 2021,
+                 2025  Ales Cepek <cepek@gnu.org>
 
    This file is part of the GNU Gama C++ library.
 
@@ -62,8 +62,8 @@ int help()
 
   cout << "\n"
        << "Adjustment of local geodetic network"
-       << "        version: "<< GNU_gama::GNU_gama_version()
-       << " / " << GNU_gama::GNU_gama_compiler()
+       << "        version: "<< GNU_gama::version()
+       << " / " << GNU_gama::compiler()
        << " / expat " << XML_MAJOR_VERSION << "." << XML_MINOR_VERSION
        << "\n"
        << "************************************\n"
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
             GNU_gama::version("gama-local", "Ales Cepek et al.");
         if (!strcmp(c, "dumpversion"))
           {
-            cout << GNU_gama::GNU_gama_version() << endl;
+            cout << GNU_gama::version() << endl;
             return 0;
           }
       }
@@ -507,9 +507,9 @@ int main(int argc, char **argv)
 
     {
       cout << T_GaMa_Adjustment_of_geodetic_network << "        "
-           << T_GaMa_version << GNU_gama::GNU_gama_version()
+           << T_GaMa_version << GNU_gama::version()
            << "-" << IS->algorithm()
-           << " / " << GNU_gama::GNU_gama_compiler() << "\n"
+           << " / " << GNU_gama::compiler() << "\n"
            << underline(T_GaMa_Adjustment_of_geodetic_network, '*') << "\n"
            << "http://www.gnu.org/software/gama/\n\n";
     }
@@ -716,7 +716,7 @@ int main(int argc, char **argv)
         if (network_can_be_adjusted && argv_export_xml)
           {
             std::string ver = "<!-- created by gama-local "
-                + GNU_gama::GNU_gama_version() + " -->\n";
+                + GNU_gama::version() + " -->\n";
             std::string xml = IS->export_xml(ver);
 
             if (!strcmp(argv_export_xml, "-"))
