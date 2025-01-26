@@ -7,6 +7,7 @@
 namespace GNU_gama {
 
 const char * const gama_ellipsoid_caption[] = { "",
+   "World Geodetic System 1984",
    "Airy ellipsoid 1830",
    "Modified Airy",
    "Appl. Physics. 1965",
@@ -53,11 +54,11 @@ const char * const gama_ellipsoid_caption[] = { "",
    "Walbeck",
    "WGS 60",
    "WGS 66",
-   "WGS 72",
-   "World Geodetic System 1984"
+   "WGS 72"
 };
 
 const char * const gama_ellipsoid_id[] = { "",
+   "wgs84",
    "airy",
    "airy_mod",
    "apl1965",
@@ -104,13 +105,16 @@ const char * const gama_ellipsoid_id[] = { "",
    "walbeck",
    "wgs60",
    "wgs66",
-   "wgs72",
-   "wgs84"
+   "wgs72"
 };
 
 int set(Ellipsoid* E, gama_ellipsoid T)
 {
    switch(T) {
+   case ellipsoid_wgs84 :
+      E->set_af1( 6378137, 298.257223563 );
+      E->id = ellipsoid_wgs84;
+      break;
    case ellipsoid_airy :
       E->set_ab( 6377563.396, 6356256.910 );
       E->id = ellipsoid_airy;
@@ -299,10 +303,6 @@ int set(Ellipsoid* E, gama_ellipsoid T)
       E->set_af1( 6378135, 298.26 );
       E->id = ellipsoid_wgs72;
       break;
-   case ellipsoid_wgs84 :
-      E->set_af1( 6378137, 298.257223563 );
-      E->id = ellipsoid_wgs84;
-      break;
    default :
       E->id = ellipsoid_unknown;
       return 1;
@@ -317,7 +317,8 @@ gama_ellipsoid ellipsoid(const char* s)
 
    gama_ellipsoid T = ellipsoid_unknown;
 
-   if      (!strcmp("airy", s))  T = ellipsoid_airy;
+   if      (!strcmp("wgs84", s))  T = ellipsoid_wgs84;
+   else if (!strcmp("airy", s))  T = ellipsoid_airy;
    else if (!strcmp("airy_mod", s))  T = ellipsoid_airy_mod;
    else if (!strcmp("apl1965", s))  T = ellipsoid_apl1965;
    else if (!strcmp("andrae1876", s))  T = ellipsoid_andrae1876;
@@ -364,7 +365,6 @@ gama_ellipsoid ellipsoid(const char* s)
    else if (!strcmp("wgs60", s))  T = ellipsoid_wgs60;
    else if (!strcmp("wgs66", s))  T = ellipsoid_wgs66;
    else if (!strcmp("wgs72", s))  T = ellipsoid_wgs72;
-   else if (!strcmp("wgs84", s))  T = ellipsoid_wgs84;
 
    return T;
 }

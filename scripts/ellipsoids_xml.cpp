@@ -3,9 +3,15 @@
  * ==========================================================================
  */
 
-const char* version = "1.00";
+const char* version = "1.01";
 
 /* ---------------------------------------------------------------------------
+ *
+ * 1.01  2025-01-26
+ *
+ *       - explicitly define underlying type in 'enum gama_ellipsoid'
+ *         in file 'ellipsoids.h' to 'int' to be compliant with definition
+ *         'int id {1};' in 'ellipsoid.h'
  *
  * 1.00  2017-11-21
  *
@@ -296,7 +302,7 @@ void Parser::xml2h(ostream& out)
       << "// http://www.gnu.org/software/gama/xml/ellipsoids.xml"
       << " revision " << revision << "\n\n"
       << "namespace GNU_gama {\n\n"
-      << "enum gama_ellipsoid {\n\n"
+      << "enum gama_ellipsoid : int {\n\n"
       << "ellipsoid_unknown,\n";
 
   for (list<Entry>::iterator i=elist.begin(); i!=elist.end();)

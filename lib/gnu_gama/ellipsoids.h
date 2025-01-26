@@ -8,9 +8,10 @@
 
 namespace GNU_gama {
 
-enum gama_ellipsoid {
+enum gama_ellipsoid : int {
 
 ellipsoid_unknown,
+ellipsoid_wgs84,		// 6378137   298.257223563
 ellipsoid_airy,		// 6377563.396   6356256.910
 ellipsoid_airy_mod,		// 6377340.189   6356034.446
 ellipsoid_apl1965,		// 6378137   298.25
@@ -57,8 +58,7 @@ ellipsoid_sa1969,		// 6378160   298.25
 ellipsoid_walbeck,		// 6376896   6355834.8467
 ellipsoid_wgs60,		// 6378165   298.3
 ellipsoid_wgs66,		// 6378145   298.25
-ellipsoid_wgs72,		// 6378135   298.26
-ellipsoid_wgs84		// 6378137   298.257223563
+ellipsoid_wgs72		// 6378135   298.26
 
 };
 
