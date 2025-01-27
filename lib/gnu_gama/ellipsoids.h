@@ -8,7 +8,7 @@
 
 namespace GNU_gama {
 
-enum gama_ellipsoid {
+enum gama_ellipsoid : int {
 
 ellipsoid_unknown,
 ellipsoid_wgs84,		// 6378137   298.257223563
