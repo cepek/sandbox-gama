@@ -70,6 +70,8 @@ tests/gama-local/xmllint-gama-local-adjustment-xsd
 tests/gama-g3/src/check_ellipsoid_xyz2blh
 tests/krumm/cmp_xml_file
 #
+Testing/
+#
 doc/version.texi
 doc/gama.html
 doc/gama.info
