@@ -1,6 +1,6 @@
 /*
     GNU Gama -- adjustment of geodetic networks
-    Copyright (C) 2002, 2023  Ales Cepek <cepek@gnu.org>
+    Copyright (C) 2002, 2023, 2025  Ales Cepek <cepek@gnu.org>
 
     This file is part of the GNU Gama C++ library.
 
@@ -20,16 +20,16 @@
 */
 
 #include <cmath>
-#include <gnu_gama/ellipsoid.h>
+#include <gnu_gama/ellipsoids.h>
 #include <gnu_gama/radian.h>
 
 
 using namespace std;
 using namespace GNU_gama;
 
-Ellipsoid::Ellipsoid()
+Ellipsoid::Ellipsoid(int eid)
 {
-  set_af1(6378137, 298.257223563); // WGS 84
+  set(this, gama_ellipsoid(eid));     // implicit WGS 84
 }
 
 double Ellipsoid::M(double b) const

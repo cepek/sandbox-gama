@@ -27,7 +27,7 @@ namespace GNU_gama {
   class Ellipsoid {
   public:
 
-    Ellipsoid();
+    Ellipsoid(int ellipsoid_id=1);
 
     double a() const { return A;  }
     double b() const { return B;  }
@@ -46,7 +46,7 @@ namespace GNU_gama {
     void set_af (double pa, double pf) { set_abff1( pa,  0, pf,  0); }
     void set_af1(double pa, double pf) { set_abff1( pa,  0,  0, pf); }
 
-    int id;
+    int id {1};
 
   private:
 
