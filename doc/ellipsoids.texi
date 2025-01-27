@@ -1,8 +1,9 @@
-@comment GNU Gama ellipsoids (revision 0.10)
+@comment GNU Gama ellipsoids (revision 1.00)
 @comment http://www.gnu.org/software/gama/xml/ellipsoids.xml
 @multitable @columnfractions .20 .20 .20 .30 .10
 @item id @tab a  @tab b, 1/f, f @tab description
 
+@item wgs84 @tab 6378137 @tab 298.257223563 @tab World Geodetic System 1984 @tab [1]
 @item airy @tab 6377563.396 @tab 6356256.910 @tab Airy ellipsoid 1830 @tab [4]
 @item airy_mod @tab 6377340.189 @tab 6356034.446 @tab Modified Airy @tab [4]
 @item apl1965 @tab 6378137 @tab 298.25 @tab Appl. Physics. 1965 @tab [4]
@@ -50,7 +51,6 @@
 @item wgs60 @tab 6378165 @tab 298.3 @tab WGS 60 @tab [4]
 @item wgs66 @tab 6378145 @tab 298.25 @tab WGS 66 @tab [4]
 @item wgs72 @tab 6378135 @tab 298.26 @tab WGS 72 @tab [4]
-@item wgs84 @tab 6378137 @tab 298.257223563 @tab World Geodetic System 1984 @tab [1]
 @end multitable
 
 @multitable @columnfractions .07 .93
