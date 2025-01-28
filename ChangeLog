@@ -1,9 +1,18 @@
-	* New release ...
+2025-01-29   Ales Cepek <cepek@gnu.org>
+
+	* Maintenance release gama-2.33
 
 	- The Expat parser has been updated from the legacy Expat 1.1
 	(included in the source code) to the system-installed Expat
 	library, as defined in configure.ac. For the alternative CMake
 	build, the old Expat 1.1 is still used.
+
+	- Added an enhanced version of the test for converting XYZ
+	coordinates to ellipsoidal BLH and back, applied to a given list
+	of ellipsoids. See tests/gama-g3/gama-g3-ellipsoid-xyz2blh-list.sh
+	for details. The previous version,
+	tests/gama-g3/gama-g3-ellipsoid-xyz2blh.sh, remains part of the
+	testing suite.
 
 2024-12-24   Ales Cepek <cepek@gnu.org>
 
@@ -128,7 +137,7 @@
 	<reference-variance-aposteriori/>
 
 	* Added a test on conversion of coordinates XYZ to ellipsoidal BLH
-	and back Add an implicit constructor to the Ellipsoid class
+	and back. Add an implicit constructor to the Ellipsoid class
 	(implicit ellipsoid is SWG 84) and enable the next iteration in
 	xyz2blh(), which improves the transformation XYZ to BLS from 1e-7
 	to 1e-9 meters. Added a test on conversion from BLH to XYZ to the
