@@ -50,7 +50,7 @@ namespace GNU_gama {
    *
    * Checked by tests/gama-local/scripts/check_version.cpp
    */
-  std::string version() { return "2.32"; }
+  std::string version() { return "2.33"; }
 
   std::string year()    { return "2025"; }
 

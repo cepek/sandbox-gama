@@ -19,12 +19,12 @@ Z = (N(1-e^2) + H)sin B
 @end example
 @end ifnottex
 
-@noindent where 
+@noindent where
 @tex
-@math{N = a/\sqrt{1 - e^2 sin^2 B}} 
+@math{N = a/\sqrt{1 - e^2 sin^2 B}}
 @end tex
 @ifnottex
-@math{N = a/sqrt(1 - e^2 sin^2 B)} 
+@math{N = a/sqrt(1 - e^2 sin^2 B)}
 @end ifnottex
 is the radius of curvature in the prime vertical, @math{e^2 = (a^2 -
 b^2)/a^2} is the first eccentricity for the given rotational
@@ -44,7 +44,7 @@ tan L = Y / X.
 @end example
 
 @end ifnottex
-@noindent Now we can introduce 
+@noindent Now we can introduce
 @tex
 $D = \sqrt{X^2 + Y^2},$
 @end tex
@@ -55,7 +55,7 @@ D = sqrt(X^2 + Y^2),
 @end example
 
 @end ifnottex
-@noindent so that the cartesian system become @math{(D, Z)}. 
+@noindent so that the cartesian system become @math{(D, Z)}.
 Coordinates @math{B} and @math{H} are then usually computed by
 iteration with some starting value of @math{B_0}, for example
 @tex
@@ -70,7 +70,7 @@ tan B_0 = Z/D/(1 - e^2),
 @end ifnottex
 
 @tex
-$$ \tan B_i = Z/D  + {N_{i-1}  \over (N_{i-1}+H_{i-1})} e^2 \tan B_{i-1}, 
+$$ \tan B_i = Z/D  + {N_{i-1}  \over (N_{i-1}+H_{i-1})} e^2 \tan B_{i-1},
     \quad H_i  = D / \cos B_{i-1} = Z / \sin B_{i-1} - N(1-e^2)$$
 @end tex
 @ifnottex
@@ -128,8 +128,7 @@ $\tan u = (Z/D)(a/b).$
 @math{tan u = (Z/D)(a/b)}.
 @end ifnottex
 @c
-@noindent Maximum error in earth bound region is 3e-8 of 
+@c @noindent is useless inside of a paragraph
+Maximum error in earth bound region is 3e-8 of
 sexagesimal arc seconds (5e-7 millimetres); maximum is 0.0018'' (0.1
 millimetres) at height H = 2a.
- 
-
