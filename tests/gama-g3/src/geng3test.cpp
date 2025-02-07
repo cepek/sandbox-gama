@@ -4,6 +4,7 @@
 // ......................................................  .h
 #include <string>
 #include <vector>
+//#include <algorithm>
 #include <gnu_gama/ellipsoids.h>
 
 class GenG3 {
@@ -62,6 +63,14 @@ int main()
   cout << geng3.xml_observations();
 
   cout << geng3.xml_end();
+
+  std::istringstream sin(
+      "\tX  \n"
+      "  \t \n"
+      "*\t abcd        \n"
+      "\tX\tY  \t  Z\n"
+      );
+  geng3.read(sin);
   return 0;
 }
 
@@ -127,22 +136,20 @@ std::string GenG3::xml_observations() const
 
 std::istream& GenG3::read(std::istream& inp)
 {
-  cout << "******************** std::istream& GenG3read(std::istream& inp)\n";
   std::string str;
-  do {
-    std::getline(inp, str);
-    cout << "... " << str << endl;
+  while (std::getline(inp, str)) {
+    std::cout << "read -->" << str << "<--\n";
 
-    continue;
+    // Normalize whitespace to space using std::transform
+    //std::transform(str.begin(), str.end(), str.begin(),
+    //     [](char c) { return std::isspace(static_cast<unsigned char>(c)) ? ' ' : c; });
 
+    std::istringstream tokens(str);
     std::string token;
-    std::stringstream tokens(str);
-    while(getline(tokens, token, ' '))
-    {
-      cout << "TOKEN " << token << "\n";
+    while (tokens >> token) { // Extracts tokens, automatically skipping spaces
+      std::cout << "TOKEN ~~>" << token << "<~~\n";
     }
-
-  } while (inp);
-
+    std::cout << "\n";
+  }
   return inp;
 }
