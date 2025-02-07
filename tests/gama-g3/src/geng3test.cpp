@@ -3,6 +3,7 @@
 
 // ......................................................  .h
 #include <string>
+#include <vector>
 #include <gnu_gama/ellipsoids.h>
 
 class GenG3 {
@@ -14,25 +15,51 @@ public:
   std::string xml_header() const;
   std::string xml_end() const;
 
+  std::string xml_points() const;
+  std::string xml_observations() const;
+
+  std::istream& read(std::istream&);
+
 private:
   GNU_gama::Ellipsoid ell_id;
 
   std::string text() { return ""; }
+
+  enum point_status_BLH {
+    BLH_undefined = 0,
+    BLH_fixed_fixed, BLH_fixed_free,   BLH_fixed_constr,
+    BLH_free_free,   BLH_free_fixed,   BLH_free_constr,
+    BLH_constr_free, BLH_constr_fixed, BLH_constr_constr
+  };
+
+  struct g3point {
+    point_status_BLH status;
+    std::string id;
+  };
+
+  std::vector<g3point> points;
 };
 
 
 // ......................................................
+
 using std::cout;
 using std::endl;
 
 int main()
 {
   GenG3 geng3;
+
+  //char c;
+  //while (input >> c) std::cout << c  << "...\n";
+
   if (0)cout << "# geng3test :   ellipsoid  "
        << "id = " << geng3.ellipsoid_id() << "   "
        << geng3.ellipsoid_caption() << "\n";
 
   cout << geng3.xml_header();
+  cout << geng3.xml_points();
+  cout << geng3.xml_observations();
 
   cout << geng3.xml_end();
   return 0;
@@ -72,12 +99,50 @@ std::string GenG3::xml_header() const
     << "      <ellipsoid>" << ellipsoid_id() << "</ellipsoid>\n"
     << "   </constants>\n";
 
-
-
   return s.str();
 }
 
 std::string GenG3::xml_end() const
 {
   return "\n</g3-model>\n</gnu-gama-data>\n";
+}
+
+std::string GenG3::xml_points() const
+{
+  point_status_BLH blh_status{BLH_undefined}, prev_status{BLH_undefined};
+
+  std::ostringstream s("\n<!-- Points -->\n\n");
+
+
+  return s.str();
+}
+
+std::string GenG3::xml_observations() const
+{
+  std::ostringstream s("\n<!-- Observations -->\n\n");
+
+
+  return s.str();
+}
+
+std::istream& GenG3::read(std::istream& inp)
+{
+  cout << "******************** std::istream& GenG3read(std::istream& inp)\n";
+  std::string str;
+  do {
+    std::getline(inp, str);
+    cout << "... " << str << endl;
+
+    continue;
+
+    std::string token;
+    std::stringstream tokens(str);
+    while(getline(tokens, token, ' '))
+    {
+      cout << "TOKEN " << token << "\n";
+    }
+
+  } while (inp);
+
+  return inp;
 }
