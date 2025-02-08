@@ -1,18 +1,18 @@
 # geng3test
 
-Program `geng3test` generate a testing input files for the program
-adjustment program `gama-g3` (adjustment in global coordinate system),
-see
+Program `geng3test` generates testing input files for the geodetic 
+adjustment program `gama-g3`, which performs network adjustment 
+in a global coordinate system. See:
 
-    https://www.gnu.org/software/gama/
+   https://www.gnu.org/software/gama/
 
-`Geng3test` reads a textual file, defining parameters of the testing
-task, with simple syntax. The input file is read by lines, the first
-character of each line defines the following contents.
+`geng3test` reads a textual file that defines the parameters of the testing task
+using a simple syntax. The input file is read line by line, where the first 
+character of each line determines the content:
 
-* comments start with `#`, empty lines are ignored,
-* a line starting with `*` defines information about a point
-* and description of an observation starts with `>`
+* Lines starting with # are comments; empty lines are ignored.
+* Lines starting with * define point information.
+* Lines starting with > describe observations.
 
 
 ## Elliopsoid
@@ -20,14 +20,29 @@ character of each line defines the following contents.
 
 ## Points
 
-A point information line starts an asterisk (`*`) followed by the
-point id and BLH ellipsoid coordinates in gradian (BL) and meters H.
-Following is information on coordinates type for B,L and H (free,
-constr and fixed, where constr is the abbreviation for
-constrained). The three are differences for B and L in centesimal
-second of arc (`cc`) and dH in millimeters.
+A point information line starts with an asterisk (*), followed by the point ID 
+and ellipsoidal coordinates (B, L, and H), where B (latitude) and L (longitude) 
+are given in gradians, and H (height) is given in meters. The line also specifies
+the coordinate status for B, L, and H—whether they are free, constrained (constr), 
+or fixed. Additionally, the line includes differences for B and L in 
+centesimal seconds of arc (cc) and dH in millimeters.
 
-* id   B L H  BL_type H_type  dB dL dH
+### Format
+* id   B L H  BL_status H_status  dB dL dH
 
-[note] Angular data can be alternatively entered in sexadecimal format
-dd-mm-ss for B, L, dB and dL
+[note] Alternatively, angular data for B, L, dB, and dL can be entered in sexagesimal
+format (degrees-minutes-seconds: dd-mm-ss).
+
+### Internal Representation
+
+    struct gend3point {
+      std::string id;        // Point ID
+      double B, L, H;        // Ellipsoidal coordinates
+      double dB, dL, dH;     // Simulated coordinate errors
+      enum Status {
+        fixed, free, constr  // "constrained"
+      } BL_status, H_status;
+    };
+    
+
+

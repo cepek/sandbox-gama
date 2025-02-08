@@ -9,6 +9,15 @@
 using Tokens = std::vector<std::vector<std::string>>;
 using std::cout;
 
+struct gend3point {
+  std::string id;        // point ID
+  double B, L, H;        // ellipsoidal coordinates
+  double dB, dL, dH;     // simulated coordinate errors
+  enum Status {
+    fixed, free, constr  // "constrained"
+  } BL_status, H_type;
+};
+
 class GenG3 {
 public:
   GenG3(GNU_gama::Ellipsoid e=GNU_gama::ellipsoid_wgs84);
@@ -87,7 +96,7 @@ int main()
       "  # comment line1  \n"
       "#comment line 2\n"
       "     * \t 2.\n"
-      "  *B missing space before B\n"
+      "  *B missing space after asterisk\n"
       "     *\t abcd  xyz 12345      3.\n"
       "*\tX\tY  \t  Z POSLEDNI\n"
       " q \n"
@@ -163,7 +172,7 @@ std::istream& GenG3::read(std::istream& inp)
   int line = 0;
   std::string str;
   while (std::getline(inp, str)) {
-    std::string str_copy = str;
+    std::string str_copy = str;  // used in a possible error message
     line++;
 
     std::istringstream istr_tokens(str);
