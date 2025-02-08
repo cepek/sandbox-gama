@@ -4,8 +4,10 @@
 // ......................................................  .h
 #include <string>
 #include <vector>
-//#include <algorithm>
 #include <gnu_gama/ellipsoids.h>
+
+using Tokens = std::vector<std::vector<std::string>>;
+using std::cout;
 
 class GenG3 {
 public:
@@ -20,8 +22,23 @@ public:
   std::string xml_observations() const;
 
   std::istream& read(std::istream&);
+  void write()
+  {
+    for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
+    {
+      std::vector<std::string> record = *t1;
 
+      for (auto i=0; i<record.size(); i++)
+      {
+        if (i == 0) std::cout << "record  ";
+        std::cout << record[i] << " ";
+      }
+      std::cout << "\n";
+    }
+  }
 private:
+  Tokens tokens;
+
   GNU_gama::Ellipsoid ell_id;
 
   std::string text() { return ""; }
@@ -65,12 +82,19 @@ int main()
   cout << geng3.xml_end();
 
   std::istringstream sin(
-      "\tX  \n"
-      "  \t \n"
-      "*\t abcd        \n"
-      "\tX\tY  \t  Z\n"
+      " *\tPRVNI  \n"
+      "   \n"
+      "  # comment line1  \n"
+      "#comment line 2\n"
+      "     * \t 2.\n"
+      "  *B missing space before B\n"
+      "     *\t abcd  xyz 12345      3.\n"
+      "*\tX\tY  \t  Z POSLEDNI\n"
+      " q \n"
       );
+
   geng3.read(sin);
+  geng3.write();
   return 0;
 }
 
@@ -136,20 +160,28 @@ std::string GenG3::xml_observations() const
 
 std::istream& GenG3::read(std::istream& inp)
 {
+  int line = 0;
   std::string str;
   while (std::getline(inp, str)) {
-    std::cout << "read -->" << str << "<--\n";
+    std::string str_copy = str;
+    line++;
 
-    // Normalize whitespace to space using std::transform
-    //std::transform(str.begin(), str.end(), str.begin(),
-    //     [](char c) { return std::isspace(static_cast<unsigned char>(c)) ? ' ' : c; });
+    std::istringstream istr_tokens(str);
+    std::vector<std::string> vec_tokens;
 
-    std::istringstream tokens(str);
-    std::string token;
-    while (tokens >> token) { // Extracts tokens, automatically skipping spaces
-      std::cout << "TOKEN ~~>" << token << "<~~\n";
+    while (istr_tokens >> str) { // Extracts tokens, automatically skipping spaces
+      vec_tokens.push_back(str);
     }
-    std::cout << "\n";
+
+    if (vec_tokens.empty()) continue;      // skip empty records
+    if (vec_tokens[0][0] == '#') continue; // skip comments
+
+    if (vec_tokens[0] == "*")    tokens.push_back(vec_tokens);
+    else
+      std::cout << "ERROR LINE " <<  line
+                << " bad data format: " << str_copy << std::endl;
+
+    //std::cout << "\n";
   }
   return inp;
 }
