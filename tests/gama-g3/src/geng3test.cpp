@@ -10,12 +10,13 @@ using Tokens = std::vector<std::vector<std::string>>;
 using std::cout;
 
 struct gend3point {
-  std::string id;        // point ID
-  double B, L, H;        // ellipsoidal coordinates
-  double dB, dL, dH;     // simulated coordinate errors
+  std::string id;               // point ID
+  double B{0}, L{0}, H{0};      // ellipsoidal coordinates
+  double X{0}, Y{0}, Z{0};      // ... corresponding XZY
+  double dB{0}, dL{0}, dH{0};   // simulated coordinate errors
   enum Status {
-    fixed, free, constr  // "constrained"
-  } BL_status, H_type;
+    fixed, free, constr         // "constrained"
+  } BL_status{fixed}, H_type{fixed};
 };
 
 class GenG3 {

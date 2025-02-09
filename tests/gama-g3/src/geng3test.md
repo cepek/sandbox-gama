@@ -38,6 +38,7 @@ format (degrees-minutes-seconds: dd-mm-ss).
     struct gend3point {
       std::string id;        // Point ID
       double B, L, H;        // Ellipsoidal coordinates
+      double X, Y, Z;        // Corresponding XYZ coordinates
       double dB, dL, dH;     // Simulated coordinate errors
       enum Status {
         fixed, free, constr  // "constrained"
