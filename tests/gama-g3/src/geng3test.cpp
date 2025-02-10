@@ -16,7 +16,7 @@ struct gend3point {
   double dB{0}, dL{0}, dH{0};   // simulated coordinate errors
   enum Status {
     fixed, free, constr         // "constrained"
-  } BL_status{fixed}, H_type{fixed};
+  } BL_status{fixed}, H_status{fixed};
 };
 
 class GenG3 {
@@ -40,7 +40,7 @@ public:
 
       for (auto i=0; i<record.size(); i++)
       {
-        if (i == 0) std::cout << "record  ";
+        //if (i == 0) std::cout << "record  ";
         std::cout << record[i] << " ";
       }
       std::cout << "\n";
@@ -92,15 +92,15 @@ int main()
   cout << geng3.xml_end();
 
   std::istringstream sin(
-      " *\tPRVNI  \n"
-      "   \n"
-      "  # comment line1  \n"
-      "#comment line 2\n"
-      "     * \t 2.\n"
-      "  *B missing space after asterisk\n"
-      "     *\t abcd  xyz 12345      3.\n"
-      "*\tX\tY  \t  Z POSLEDNI\n"
-      " q \n"
+      "# ghilani-gnss-v1.xml \n"
+      "# \n"
+
+      "* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0\n"
+      "* B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0\n"
+      "* C  free  free   12046.58080 -4649394.08240  4353160.06450       0 0 0\n"
+      "* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0\n"
+      "* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 0 0\n"
+      "* F  free  free    1518.80120 -4648399.14540  4354116.69140      0 0 0\n"
       );
 
   geng3.read(sin);

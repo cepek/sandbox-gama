@@ -28,10 +28,19 @@ or fixed. Additionally, the line includes differences for B and L in
 centesimal seconds of arc (cc) and dH in millimeters.
 
 ### Format
-* id   B L H  BL_status H_status  dB dL dH
 
-[note] Alternatively, angular data for B, L, dB, and dL can be entered in sexagesimal
-format (degrees-minutes-seconds: dd-mm-ss).
+    *  id   B L H   dB dL dH   BL_status H_status
+    *  id   X Y Z   dB dL dH   BL_status H_status
+
+Coordinates B, L, H must be given in sexagesimal format 
+degrees-minutes-seconds (for example 56-21-38.74). Values dB and dL are
+always given in seconds of arc, dH is given in millimeters. 
+
+BL_status and H_status must be fixed, free or constr ("constrained").
+
+[note] If point information is too long to fit in a single line, 
+it may contine on the following lines (to form all 10 tokens).
+
 
 ### Internal Representation
 
@@ -45,5 +54,8 @@ format (degrees-minutes-seconds: dd-mm-ss).
       } BL_status, H_status;
     };
     
+Missing triple XYZ or BLH is calculated internally.
+
+
 
 
