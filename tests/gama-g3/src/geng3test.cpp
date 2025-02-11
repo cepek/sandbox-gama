@@ -1,10 +1,12 @@
 #include <iostream>
 #include <sstream>
+#include <set>
 
 // ......................................................  .h
 #include <string>
 #include <vector>
 #include <gnu_gama/ellipsoids.h>
+
 
 using Tokens = std::vector<std::vector<std::string>>;
 using std::cout;
@@ -46,6 +48,10 @@ public:
       std::cout << "\n";
     }
   }
+
+  std::string example() const;
+  std::string help() const;
+
 private:
   Tokens tokens;
 
@@ -71,40 +77,29 @@ private:
 
 // ......................................................
 
+//#include <set>
+
 using std::cout;
 using std::endl;
+using std::string;
 
-int main()
+int main(int argc, char* argv[])
 {
   GenG3 geng3;
 
-  //char c;
-  //while (input >> c) std::cout << c  << "...\n";
+  const std::set<string> example {"-e", "-example", "--example"};
+  const std::set<string> help    {"-h", "-help",    "--help"};
 
-  if (0)cout << "# geng3test :   ellipsoid  "
-       << "id = " << geng3.ellipsoid_id() << "   "
-       << geng3.ellipsoid_caption() << "\n";
+  for (int p=1; p<argc; p++) {
+    if (example.find(string(argv[p])) != example.end()) {
+      cout << geng3.example();
+      return 0;
+    } else if (help.find(string(argv[p])) != help.end()) {
+      cout << geng3.help();
+      return 0;
+    }
+  }
 
-  cout << geng3.xml_header();
-  cout << geng3.xml_points();
-  cout << geng3.xml_observations();
-
-  cout << geng3.xml_end();
-
-  std::istringstream sin(
-      "# ghilani-gnss-v1.xml \n"
-      "# \n"
-
-      "* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0\n"
-      "* B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0\n"
-      "* C  free  free   12046.58080 -4649394.08240  4353160.06450       0 0 0\n"
-      "* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0\n"
-      "* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 0 0\n"
-      "* F  free  free    1518.80120 -4648399.14540  4354116.69140      0 0 0\n"
-      );
-
-  geng3.read(sin);
-  geng3.write();
   return 0;
 }
 
@@ -194,4 +189,97 @@ std::istream& GenG3::read(std::istream& inp)
     //std::cout << "\n";
   }
   return inp;
+}
+
+std::string GenG3::example() const
+{
+  std::string header =
+      "# geng3test :  file = ghilani-gnss-v1.xml\n"
+      "# ellipsoid id = " + ellipsoid_id() +
+      "   " + ellipsoid_caption() + "\n";
+
+  std::string data =
+R"GHILANI_V1(# Example from Section 17.8
+#
+# Ghilani Charles D. (2010): Adjustment Computations. Spatial Data
+# Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
+# ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
+
+* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0
+* B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
+* C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
+* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0
+* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 0 0
+* F  free  free    1518.80120 -4648399.14540  4354116.69140      0 0 0
+
+)GHILANI_V1";
+
+  return header + data;
+}
+
+
+std::string GenG3::help() const
+{
+  std::string data =
+R"GENG3HELP(# geng3test
+
+Program `geng3test` generates testing input files for the geodetic
+adjustment program `gama-g3`, which performs network adjustment
+in a global coordinate system. See:
+
+   https://www.gnu.org/software/gama/
+
+`geng3test` reads a textual file that defines the parameters of the testing task
+using a simple syntax. The input file is read line by line, where the first
+character of each line determines the content:
+
+* Lines starting with # are comments; empty lines are ignored.
+* Lines starting with * define point information.
+* Lines starting with > describe observations.
+
+
+## Elliopsoid
+
+
+## Points
+
+A point information line starts with an asterisk (*), followed by the point ID
+and ellipsoidal coordinates (B, L, and H), where B (latitude) and L (longitude)
+are given in gradians, and H (height) is given in meters. The line also specifies
+the coordinate status for B, L, and H—whether they are free, constrained (constr),
+or fixed. Additionally, the line includes differences for B and L in
+centesimal seconds of arc (cc) and dH in millimeters.
+
+### Format
+
+    *  id   B L H   dB dL dH   BL_status H_status
+    *  id   X Y Z   dB dL dH   BL_status H_status
+
+Coordinates B, L, H must be given in sexagesimal format
+degrees-minutes-seconds (for example 56-21-38.74). Values dB and dL are
+always given in seconds of arc, dH is given in millimeters.
+
+BL_status and H_status must be fixed, free or constr ("constrained").
+
+[note] If point information is too long to fit in a single line,
+it may contine on the following lines (to form all 10 tokens).
+
+
+### Internal Representation
+
+    struct gend3point {
+      std::string id;        // Point ID
+      double B, L, H;        // Ellipsoidal coordinates
+      double X, Y, Z;        // Corresponding XYZ coordinates
+      double dB, dL, dH;     // Simulated coordinate errors
+      enum Status {
+        fixed, free, constr  // "constrained"
+      } BL_status, H_status;
+    };
+
+Missing triple XYZ or BLH is calculated internally.
+
+)GENG3HELP";
+
+  return data;
 }
