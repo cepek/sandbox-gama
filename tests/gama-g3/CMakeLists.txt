@@ -16,7 +16,8 @@ add_executable(check_ellipsoid_xyz2blh
 add_executable(check_ellipsoid_xyz2blh_list
     src/check_ellipsoid_xyz2blh_list.cpp $<TARGET_OBJECTS:libgama> )
 add_executable(geng3test
-    src/geng3test.cpp $<TARGET_OBJECTS:libgama> )
+    src/geng3test.cpp $<TARGET_OBJECTS:libgama>
+    src/geng3test-md.h )
 
 add_test(NAME gama-g3-ellipsoid-xyz2blh COMMAND check_ellipsoid_xyz2blh)
 add_test(NAME gama-g3-ellipsoid-xyz2blh_list

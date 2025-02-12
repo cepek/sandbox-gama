@@ -1,4 +1,5 @@
 #include "geng3test.h"
+#include "geng3test-md.h"
 
 #include <iostream>
 #include <sstream>
@@ -144,9 +145,6 @@ R"GHILANI_V1(# Example from Section 17.8
 
 std::string GenG3::help() const
 {  
-  std::string data =
-  #include "geng3test.md"
-
-  return data;
+  return geng3test_help_md;
 }
 

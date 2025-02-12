@@ -1,4 +1,7 @@
-R"GENG3HELP(
+#ifndef GENG3TEST_MD_HELP_H
+#define GENG3TEST_MD_HELP_H
+
+const char* const geng3test_help_md = R"GENG3HELP(
 # geng3test
 
 Program `geng3test` generates testing input files for the geodetic
@@ -16,7 +19,7 @@ character of each line determines the content:
 * Lines starting with > describe observations.
 
 
-## Elliopsoid
+## Ellipsoid
 
 
 ## Points
@@ -55,3 +58,6 @@ BL_status and H_status must be fixed, free or constr ("constrained").
 Missing triple XYZ or BLH is calculated internally.
 
 )GENG3HELP";
+
+
+#endif // GENG3TEST_MD_HELP_H
