@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <set>
 
 using std::cout;
@@ -11,6 +12,17 @@ using std::string;
 
 int main(int argc, char* argv[])
 {
+  if (argc == 1) {
+    std::cerr << "Usage: geng3test [input_file] | [options]\n"
+              << "    input_file  Process the specified input file (use -h for format details)\n"
+              << "Options:\n"
+              << "        -h  Display full program help in markdown format\n"
+              << "        -e  Show example input data\n"
+              << "        -f  Show results for the example input data\n"
+              << "\nUse -h for complete documentation.\n";
+    return 1;
+  }
+
   GenG3 geng3;
 
   const std::set<string> example {"-e", "-example", "--example"};
@@ -25,6 +37,21 @@ int main(int argc, char* argv[])
       return 0;
     }
   }
+
+  std::istream* istr {};
+  std::ifstream inpf;
+
+  if (argc == 2) {
+    inpf.open(argv[1]);
+    istr = &inpf;
+  }
+  else {
+    istr = &std::cin;
+  }
+
+  geng3.read(*istr);
+
+  geng3.write();
 
   return 0;
 }
@@ -101,6 +128,8 @@ std::istream& GenG3::read(std::istream& inp)
     std::vector<std::string> vec_tokens;
 
     while (istr_tokens >> str) { // Extracts tokens, automatically skipping spaces
+
+      if (str[0] == '#') break;  // trailing comments are ignored
       vec_tokens.push_back(str);
     }
 
@@ -131,7 +160,7 @@ R"GHILANI_V1(# Example from Section 17.8
 # Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
 # ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
 
-* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0
+* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
 * B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
 * C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
 * D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0
