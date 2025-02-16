@@ -3,7 +3,7 @@
 	* ... release 2.34
 
 	- CMakeLists.tst:  set(CMAKE_CXX_STANDARD 20)
-	- Removed volatile attributes from SVD template (lib/matvec/svd.h)
+	- Removed volatile attributes from the SVD template (lib/matvec/svd.h)
 	- In the class Acord2 make operators == and < const
 
 2025-01-29   Ales Cepek <cepek@gnu.org>
