@@ -6,7 +6,10 @@
 #include <vector>
 #include <gnu_gama/ellipsoids.h>
 
+// #define GenG3_DEBUG
+
 class GenG3 {
+
 public:
   GenG3(GNU_gama::Ellipsoid e=GNU_gama::ellipsoid_wgs84);
 
@@ -19,20 +22,7 @@ public:
   std::string xml_observations() const;
 
   std::istream& read(std::istream&);
-  void write()
-  {
-    for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
-    {
-      std::vector<std::string> record = *t1;
-
-      for (auto i=0; i<record.size(); i++)
-      {
-        //if (i == 0) std::cout << "record  ";
-        std::cout << record[i] << " ";
-      }
-      std::cout << "\n";
-    }
-  }
+  void write(std::ostream&);
 
   std::string example() const;
   std::string help() const;

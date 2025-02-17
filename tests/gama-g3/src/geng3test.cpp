@@ -7,19 +7,23 @@
 #include <set>
 
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::string;
+
+const char* const main_help =
+  "Usage: geng3test [input_file] | [options]\n"
+  "    input_file  Process the specified input file (use -h for format details)\n"
+  "Options:\n"
+  "        -h  Display full program help in markdown format\n"
+  "        -e  Show example input data\n"
+  "        -r  Show results for the example input data\n"
+  "\nUse -h for complete documentation.\n";
 
 int main(int argc, char* argv[])
 {
   if (argc == 1) {
-    std::cerr << "Usage: geng3test [input_file] | [options]\n"
-              << "    input_file  Process the specified input file (use -h for format details)\n"
-              << "Options:\n"
-              << "        -h  Display full program help in markdown format\n"
-              << "        -e  Show example input data\n"
-              << "        -f  Show results for the example input data\n"
-              << "\nUse -h for complete documentation.\n";
+    cerr << main_help;
     return 1;
   }
 
@@ -27,14 +31,28 @@ int main(int argc, char* argv[])
 
   const std::set<string> example {"-e", "-example", "--example"};
   const std::set<string> help    {"-h", "-help",    "--help"};
+  const std::set<string> result  {"-r", "-result",  "--result"};
 
   for (int p=1; p<argc; p++) {
     if (example.find(string(argv[p])) != example.end()) {
       cout << geng3.example();
       return 0;
-    } else if (help.find(string(argv[p])) != help.end()) {
+    }
+    else if (result.find(string(argv[p])) != result.end()) {
+      string example = geng3.example();
+      std::istringstream istr(example);
+      geng3.read(istr);
+      geng3.write(cout);
+
+      return 0;
+    }
+    else if (help.find(string(argv[p])) != help.end()) {
       cout << geng3.help();
       return 0;
+    }
+    else if (argv[p][0] == '-') { // unknown option
+      cerr << main_help;
+      return 1;
     }
   }
 
@@ -50,8 +68,7 @@ int main(int argc, char* argv[])
   }
 
   geng3.read(*istr);
-
-  geng3.write();
+  geng3.write(cout);
 
   return 0;
 }
@@ -121,20 +138,22 @@ std::istream& GenG3::read(std::istream& inp)
   int line = 0;
   std::string str;
   while (std::getline(inp, str)) {
+#ifdef GenG3_DEBUG
+    cerr << str << "\n";
+#endif
     std::string str_copy = str;  // used in a possible error message
     line++;
 
     std::istringstream istr_tokens(str);
     std::vector<std::string> vec_tokens;
 
-    while (istr_tokens >> str) { // Extracts tokens, automatically skipping spaces
-
-      if (str[0] == '#') break;  // trailing comments are ignored
+    while (istr_tokens >> str)    // Extracts tokens, skipping ws characters
+    {
+      if (str[0] == '#') break;   // leading and trailing comments are ignored
       vec_tokens.push_back(str);
     }
-
     if (vec_tokens.empty()) continue;      // skip empty records
-    if (vec_tokens[0][0] == '#') continue; // skip comments
+
 
     if (vec_tokens[0] == "*")    tokens.push_back(vec_tokens);
     else
@@ -145,6 +164,26 @@ std::istream& GenG3::read(std::istream& inp)
   }
   return inp;
 }
+
+void GenG3::write(std::ostream& output)
+{
+  for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
+  {
+    std::vector<std::string> record = *t1;
+
+#ifdef GenG3_DEBUG
+  for (auto i=0; i<record.size(); i++)
+  {
+    if (i == 0) cerr << "size " << record.size() << " record  ";
+    cerr << record[i] << " ";
+  }
+  cerr << "\n";
+#endif
+
+
+  }
+}
+
 
 std::string GenG3::example() const
 {
@@ -166,10 +205,23 @@ R"GHILANI_V1(# Example from Section 17.8
 * D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0
 * E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 0 0
 * F  free  free    1518.80120 -4648399.14540  4354116.69140      0 0 0
-
 )GHILANI_V1";
 
-  return header + data;
+#ifdef GenG3_DEBUG
+  std::string errors =
+R"ERRORS(
+# ERRORS
+#
+* err01  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0     # not ennough tokens
+* err02  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0 0 0 # too many tokens
+
+)ERRORS";
+#else
+  std::string errors {};
+#endif
+
+
+  return header + data + errors;
 }
 
 std::string GenG3::help() const
