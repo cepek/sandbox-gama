@@ -6,9 +6,12 @@
 #include <vector>
 #include <gnu_gama/ellipsoids.h>
 
+struct ErrorsCount {
+  static int errors;
+};
 // #define GenG3_DEBUG
 
-class GenG3 {
+class GenG3 : public ErrorsCount {
 
 public:
   GenG3(GNU_gama::Ellipsoid e=GNU_gama::ellipsoid_wgs84);
@@ -26,6 +29,7 @@ public:
 
   std::string example() const;
   std::string help() const;
+  int errors() const { return GenG3::geng3point::errors; }
 
 private:
 

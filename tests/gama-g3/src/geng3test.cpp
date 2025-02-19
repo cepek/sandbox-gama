@@ -12,7 +12,7 @@ using std::cerr;
 using std::endl;
 using std::string;
 
-int GenG3::geng3point::errors {0};
+int ErrorsCount::errors {0};
 
 const char* const main_help =
   "Usage: geng3test [input_file] | [options]\n"
@@ -72,6 +72,8 @@ int main(int argc, char* argv[])
 
   geng3.read(*istr);
   geng3.write(cout);
+
+  cerr << "Total number of errors: " << ErrorsCount::errors << "\n";
 
   return 0;
 }
@@ -138,7 +140,7 @@ std::string GenG3::xml_observations() const
 
 std::istream& GenG3::read(std::istream& inp)
 {
-  geng3point::errors = 0;
+  ErrorsCount::errors = 0;
   int line_count = 0;
   std::string str;
 
@@ -247,10 +249,10 @@ std::string GenG3::help() const
 void GenG3::error(int line_number, std::string line, std::string message)
 {
   const int line_nuber_width {4};
-  std::cerr << "\nline" << std::setw(line_nuber_width) << line_number
+  std::cerr << "line" << std::setw(line_nuber_width) << line_number
             << " : "  << str_copy << std::endl
             << "    " << std::setw(line_nuber_width+3)
             << "error: " << message << std::endl;
 
-  geng3point::errors++;
+  ErrorsCount::errors++;
 }
