@@ -30,7 +30,7 @@ public:
 private:
 
      std::string str_copy;
-  void error(int line_number, std::string line, std::string message);
+    void error(int line_number, std::string line, std::string message);
 
   struct geng3point {
     std::string id;               // point ID

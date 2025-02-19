@@ -144,7 +144,7 @@ std::istream& GenG3::read(std::istream& inp)
 
   while (std::getline(inp, str)) {
 #ifdef GenG3_DEBUG
-    cerr << str << "\n";
+    // cerr << str << "\n";
 #endif
     str_copy = str;  // used in a possible error message
     line_count++;
@@ -159,16 +159,18 @@ std::istream& GenG3::read(std::istream& inp)
     }
     if (vec_tokens.empty()) continue;      // skip empty records
 
+    if (vec_tokens[0] == "*") {
 
-    if (vec_tokens[0] == "**") {
+      if (vec_tokens.size() != 10) {
+        error(line_count, str_copy, "Wrong number of tokens, must be 10");
+        continue;
+      }
 
       tokens.push_back(vec_tokens);
     }
     else
     {
-      //std::cout << "ERROR LINE " <<  line_count
-      //          << " bad data format: " << str_copy << std::endl;
-      error(line_count, str, "unknown record type");
+      error(line_count, str_copy, "unknown record type");
     }
 
     //std::cout << "\n";
@@ -178,6 +180,10 @@ std::istream& GenG3::read(std::istream& inp)
 
 void GenG3::write(std::ostream& output)
 {
+#ifdef GenG3_DEBUG
+  cerr << "\n";
+#endif
+
   for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
   {
     std::vector<std::string> record = *t1;
@@ -190,8 +196,6 @@ void GenG3::write(std::ostream& output)
   }
   cerr << "\n";
 #endif
-
-
   }
 }
 
@@ -243,8 +247,10 @@ std::string GenG3::help() const
 void GenG3::error(int line_number, std::string line, std::string message)
 {
   const int line_nuber_width {4};
-  std::cerr << "line" << std::setw(line_nuber_width) << line_number
-            << " : " << str_copy << std::endl
+  std::cerr << "\nline" << std::setw(line_nuber_width) << line_number
+            << " : "  << str_copy << std::endl
             << "    " << std::setw(line_nuber_width+3)
             << "error: " << message << std::endl;
+
+  geng3point::errors++;
 }
