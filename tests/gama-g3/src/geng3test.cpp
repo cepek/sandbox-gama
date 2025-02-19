@@ -4,12 +4,15 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <iomanip>
 #include <set>
 
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
+
+int GenG3::geng3point::errors {0};
 
 const char* const main_help =
   "Usage: geng3test [input_file] | [options]\n"
@@ -135,14 +138,16 @@ std::string GenG3::xml_observations() const
 
 std::istream& GenG3::read(std::istream& inp)
 {
-  int line = 0;
+  geng3point::errors = 0;
+  int line_count = 0;
   std::string str;
+
   while (std::getline(inp, str)) {
 #ifdef GenG3_DEBUG
     cerr << str << "\n";
 #endif
-    std::string str_copy = str;  // used in a possible error message
-    line++;
+    str_copy = str;  // used in a possible error message
+    line_count++;
 
     std::istringstream istr_tokens(str);
     std::vector<std::string> vec_tokens;
@@ -155,10 +160,16 @@ std::istream& GenG3::read(std::istream& inp)
     if (vec_tokens.empty()) continue;      // skip empty records
 
 
-    if (vec_tokens[0] == "*")    tokens.push_back(vec_tokens);
+    if (vec_tokens[0] == "**") {
+
+      tokens.push_back(vec_tokens);
+    }
     else
-      std::cout << "ERROR LINE " <<  line
-                << " bad data format: " << str_copy << std::endl;
+    {
+      //std::cout << "ERROR LINE " <<  line_count
+      //          << " bad data format: " << str_copy << std::endl;
+      error(line_count, str, "unknown record type");
+    }
 
     //std::cout << "\n";
   }
@@ -229,3 +240,11 @@ std::string GenG3::help() const
   return geng3test_help_md;
 }
 
+void GenG3::error(int line_number, std::string line, std::string message)
+{
+  const int line_nuber_width {4};
+  std::cerr << "line" << std::setw(line_nuber_width) << line_number
+            << " : " << str_copy << std::endl
+            << "    " << std::setw(line_nuber_width+3)
+            << "error: " << message << std::endl;
+}

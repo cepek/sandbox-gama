@@ -29,7 +29,10 @@ public:
 
 private:
 
-  struct gend3point {
+     std::string str_copy;
+  void error(int line_number, std::string line, std::string message);
+
+  struct geng3point {
     std::string id;               // point ID
     double B{0}, L{0}, H{0};      // ellipsoidal coordinates
     double X{0}, Y{0}, Z{0};      // ... corresponding XZY
@@ -37,6 +40,10 @@ private:
     enum Status {
       fixed, free, constr         // "constrained"
     } BL_status{fixed}, H_status{fixed};
+
+    static int errors;
+    std::string line;
+    int line_number {0};
   };
 
   using Tokens = std::vector<std::vector<std::string>>;
