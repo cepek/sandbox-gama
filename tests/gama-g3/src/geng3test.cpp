@@ -242,14 +242,14 @@ R"ERRORS(
 }
 
 std::string GenG3::help() const
-{  
+{
   return geng3test_help_md;
 }
 
 void GenG3::error(int line_number, std::string line, std::string message)
 {
-  const int line_nuber_width {4};
-  std::cerr << "line" << std::setw(line_nuber_width) << line_number
+  const int line_nuber_width {3};
+  std::cerr << "line " << std::setw(line_nuber_width) << line_number
             << " : "  << str_copy << std::endl
             << "    " << std::setw(line_nuber_width+3)
             << "error: " << message << std::endl;
