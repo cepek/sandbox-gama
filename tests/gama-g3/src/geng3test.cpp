@@ -46,7 +46,6 @@ int main(int argc, char* argv[])
       std::istringstream istr(example);
       geng3.read(istr);
       geng3.write(cout);
-
       return 0;
     }
     else if (help.find(string(argv[p])) != help.end()) {
@@ -80,6 +79,7 @@ int main(int argc, char* argv[])
 
 
 // ......................................................  .cpp
+
 GenG3::GenG3(GNU_gama::Ellipsoid e) : ell_id(e)
 {
 }
@@ -148,7 +148,7 @@ std::istream& GenG3::read(std::istream& inp)
 #ifdef GenG3_DEBUG
     // cerr << str << "\n";
 #endif
-    str_copy = str;  // used in a possible error message
+    line_copy = str;  // used in a possible error message
     line_count++;
 
     std::istringstream istr_tokens(str);
@@ -164,7 +164,7 @@ std::istream& GenG3::read(std::istream& inp)
     if (vec_tokens[0] == "*") {
 
       if (vec_tokens.size() != 10) {
-        error(line_count, str_copy, "Wrong number of tokens, must be 10");
+        error(line_count, line_copy, "Wrong number of tokens, must be 10");
         continue;
       }
 
@@ -172,7 +172,7 @@ std::istream& GenG3::read(std::istream& inp)
     }
     else
     {
-      error(line_count, str_copy, "unknown record type");
+      error(line_count, line_copy, "unknown record type");
     }
 
     //std::cout << "\n";
@@ -250,7 +250,7 @@ void GenG3::error(int line_number, std::string line, std::string message)
 {
   const int line_nuber_width {3};
   std::cerr << "line " << std::setw(line_nuber_width) << line_number
-            << " : "  << str_copy << std::endl
+            << " : "  << line_copy << std::endl
             << "    " << std::setw(line_nuber_width+3)
             << "error: " << message << std::endl;
 

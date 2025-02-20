@@ -30,7 +30,7 @@ public:
   static int errors() { return GenG3::error_count; }
 private:
 
-    std::string str_copy;
+    std::string line_copy;
     static int error_count;
     void error(int line_number, std::string line, std::string message);
 
