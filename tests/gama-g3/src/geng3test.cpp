@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
   geng3.read(*istr);
   geng3.write(cout);
 
-  cout << "Total number of errors: " << GenG3::errors() << endl;
+  cout << "\nTotal number of errors: " << GenG3::errors() << endl;
 
   return 0;
 }
