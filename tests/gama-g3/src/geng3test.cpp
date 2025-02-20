@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 #include <set>
 
 using std::cout;
@@ -168,6 +169,15 @@ std::istream& GenG3::read(std::istream& inp)
         continue;
       }
 
+      const std::set<std::string> position {"fixed", "free", "constr"};
+      bool position_error = true || false;
+      if (position.find(vec_tokens[1]) == position.end()) position_error = true;
+      if (position.find(vec_tokens[2]) == position.end()) position_error = true;
+      if (position_error) {
+        error(line_count, line_copy, "Bad position, must be 'fixed', 'free' or 'constr'");
+        continue;
+      }
+
       tokens.push_back(vec_tokens);
     }
     else
@@ -175,7 +185,6 @@ std::istream& GenG3::read(std::istream& inp)
       error(line_count, line_copy, "unknown record type");
     }
 
-    //std::cout << "\n";
   }
   return inp;
 }
@@ -186,7 +195,7 @@ void GenG3::write(std::ostream& output)
   cerr << "\n";
 #endif
 
-  for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
+for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
   {
     std::vector<std::string> record = *t1;
 
@@ -198,6 +207,10 @@ void GenG3::write(std::ostream& output)
   }
   cerr << "\n";
 #endif
+
+    // * A fixed fixed 402.35087 -4652995.30109 4349760.77753 0 0 0
+
+
   }
 }
 
