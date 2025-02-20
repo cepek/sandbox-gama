@@ -6,12 +6,9 @@
 #include <vector>
 #include <gnu_gama/ellipsoids.h>
 
-struct ErrorsCount {
-  static int errors;
-};
 // #define GenG3_DEBUG
 
-class GenG3 : public ErrorsCount {
+class GenG3 {
 
 public:
   GenG3(GNU_gama::Ellipsoid e=GNU_gama::ellipsoid_wgs84);
@@ -29,11 +26,12 @@ public:
 
   std::string example() const;
   std::string help() const;
-  int errors() const { return GenG3::geng3point::errors; }
 
+  static int errors() { return GenG3::error_count; }
 private:
 
-     std::string str_copy;
+    std::string str_copy;
+    static int error_count;
     void error(int line_number, std::string line, std::string message);
 
   struct geng3point {
@@ -45,7 +43,6 @@ private:
       fixed, free, constr         // "constrained"
     } BL_status{fixed}, H_status{fixed};
 
-    static int errors;
     std::string line;
     int line_number {0};
   };
@@ -63,13 +60,6 @@ private:
     BLH_free_free,   BLH_free_fixed,   BLH_free_constr,
     BLH_constr_free, BLH_constr_fixed, BLH_constr_constr
   };
-
-  struct g3point {
-    point_status_BLH status;
-    std::string id;
-  };
-
-  std::vector<g3point> points;
 };
 
 #endif
