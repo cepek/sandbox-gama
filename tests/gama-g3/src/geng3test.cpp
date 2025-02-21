@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <vector>
 #include <set>
+#include <charconv>
 
 using std::cout;
 using std::cerr;
@@ -23,6 +24,17 @@ const char* const main_help =
   "        -e  Show example input data\n"
   "        -r  Show results for the example input data\n"
   "\nUse -h for complete documentation.\n";
+
+
+bool parse_double(const std::string& input, double& result) {
+  const char* begin = input.data();
+  const char* end = begin + input.size();
+
+  auto [ptr, ec] = std::from_chars(begin, end, result);
+
+  // Success only if conversion succeeded and no extra characters remain
+  return ec == std::errc() && ptr == end;
+}
 
 int main(int argc, char* argv[])
 {
@@ -170,13 +182,18 @@ std::istream& GenG3::read(std::istream& inp)
       }
 
       const std::set<std::string> position {"fixed", "free", "constr"};
-      bool position_error = true || false;
-      if (position.find(vec_tokens[1]) == position.end()) position_error = true;
+      bool position_error = false;
       if (position.find(vec_tokens[2]) == position.end()) position_error = true;
+      if (position.find(vec_tokens[3]) == position.end()) position_error = true;
       if (position_error) {
-        error(line_count, line_copy, "Bad position, must be 'fixed', 'free' or 'constr'");
+        error(line_count, line_copy, "Bad coordinates status, must be fixed, free or constr");
         continue;
       }
+
+      double db, dl, dh;
+      bool test_db = parse_double(vec_tokens[7], db);
+      bool test_dl = parse_double(vec_tokens[8], dl);
+      bool test_dh = parse_double(vec_tokens[9], dh);
 
       tokens.push_back(vec_tokens);
     }
@@ -244,6 +261,9 @@ R"ERRORS(
 #
 * err01  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0     # not ennough tokens
 * err02  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0 0 0 # too many tokens
+* err03  fixe  fixed    402.35087 -4652995.30109  4349760.77753   0 0 0   # bad status fixe
+* err04  fixed  ixed    8086.03178 -4642712.84739  4360439.08326   0 0 0  # bad status ixed
+
 
 )ERRORS";
 #else
