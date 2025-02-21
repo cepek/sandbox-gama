@@ -154,19 +154,16 @@ std::string GenG3::xml_observations() const
 std::istream& GenG3::read(std::istream& inp)
 {
   error_count = 0;
-  int line_count = 0;
+  line_count  = 0;
   std::string str;
 
-  while (std::getline(inp, str)) {
-#ifdef GenG3_DEBUG
-    // cerr << str << "\n";
-#endif
-    line_copy = str;  // used in a possible error message
+  while (std::getline(inp, current_line))
+  {
     line_count++;
-
-    std::istringstream istr_tokens(str);
+    std::istringstream istr_tokens(current_line);
     std::vector<std::string> vec_tokens;
 
+    std::string str;
     while (istr_tokens >> str)    // Extracts tokens, skipping ws characters
     {
       if (str[0] == '#') break;   // leading and trailing comments are ignored
@@ -177,7 +174,7 @@ std::istream& GenG3::read(std::istream& inp)
     if (vec_tokens[0] == "*") {
 
       if (vec_tokens.size() != 10) {
-        error(line_count, line_copy, "Wrong number of tokens, must be 10");
+        error("Wrong number of tokens, must be 10");
         continue;
       }
 
@@ -186,7 +183,7 @@ std::istream& GenG3::read(std::istream& inp)
       if (position.find(vec_tokens[2]) == position.end()) position_error = true;
       if (position.find(vec_tokens[3]) == position.end()) position_error = true;
       if (position_error) {
-        error(line_count, line_copy, "Bad coordinates status, must be fixed, free or constr");
+        error("Bad coordinates status, must be fixed, free or constr");
         continue;
       }
 
@@ -199,7 +196,7 @@ std::istream& GenG3::read(std::istream& inp)
     }
     else
     {
-      error(line_count, line_copy, "unknown record type");
+      error("unknown record type");
     }
 
   }
@@ -279,11 +276,11 @@ std::string GenG3::help() const
   return geng3test_help_md;
 }
 
-void GenG3::error(int line_number, std::string line, std::string message)
+void GenG3::error(std::string message)
 {
   const int line_nuber_width {3};
-  std::cerr << "line " << std::setw(line_nuber_width) << line_number
-            << " : "  << line_copy << std::endl
+  std::cerr << "line " << std::setw(line_nuber_width) << line_count
+            << " : "  << current_line << std::endl
             << "    " << std::setw(line_nuber_width+3)
             << "error: " << message << std::endl;
 

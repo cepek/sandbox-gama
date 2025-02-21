@@ -30,9 +30,10 @@ public:
   static int errors() { return GenG3::error_count; }
 private:
 
-    std::string line_copy;
+    std::string current_line;
+    int line_count;
     static int error_count;
-    void error(int line_number, std::string line, std::string message);
+    void error(std::string message);
 
   struct geng3point {
     std::string id;               // point ID
