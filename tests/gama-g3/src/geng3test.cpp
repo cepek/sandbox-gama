@@ -9,6 +9,9 @@
 #include <set>
 #include <charconv>
 
+#include <gnu_gama/ellipsoid.h>
+#include <gnu_gama/gon2deg.h>
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -93,18 +96,18 @@ int main(int argc, char* argv[])
 
 // ......................................................  .cpp
 
-GenG3::GenG3(GNU_gama::Ellipsoid e) : ell_id(e)
+GenG3::GenG3(GNU_gama::Ellipsoid e) : ellipsoid(e)
 {
 }
 
 std::string GenG3::ellipsoid_caption() const
 {
-  return GNU_gama::gama_ellipsoid_caption[ell_id.id];
+  return GNU_gama::gama_ellipsoid_caption[ellipsoid.id];
 }
 
 std::string GenG3::ellipsoid_id() const
 {
-  return GNU_gama::gama_ellipsoid_id[ell_id.id];
+  return GNU_gama::gama_ellipsoid_id[ellipsoid.id];
 }
 
 std::string GenG3::xml_header() const
@@ -171,8 +174,8 @@ std::istream& GenG3::read(std::istream& inp)
     }
     if (vec_tokens.empty()) continue;      // skip empty records
 
-    if (vec_tokens[0] == "*") {
-
+    if (vec_tokens[0] == "*")
+    {
       if (vec_tokens.size() != 10) {
         error("Wrong number of tokens, must be 10");
         continue;
@@ -187,10 +190,49 @@ std::istream& GenG3::read(std::istream& inp)
         continue;
       }
 
+      // point coordinates XYZ or BLH
+
+      double X, Y, Z;
+      double B, L, H;
+
+      bool is_X = parse_double(vec_tokens[4], X);
+      bool is_Y = parse_double(vec_tokens[5], Y);
+      bool is_Z = parse_double(vec_tokens[6], Z);
+
+      if (is_X && is_Y && is_Z)   // the triple of carthesian coordinate
+      {
+        ellipsoid.xyz2blh(X, Y, Z,  B, L, H);
+      }
+      else if (is_Z)   //possibly ellipsoidal coordinates BLH
+      {
+        H = Z;
+        bool B_ok = GNU_gama::deg2gon(vec_tokens[4], B);
+        bool L_ok = GNU_gama::deg2gon(vec_tokens[5], L);
+
+	if (B_ok && L_ok)
+	{
+	  ellipsoid.blh2xyz(B, L, H,  X, Y, Z);
+	}
+	else
+	{
+	  error("Format error in BL coordinates");
+	  continue;
+	}
+      }
+      else
+      {
+        error("Format error in XYZ / BLH triple");
+        continue;
+      }
+
       double db, dl, dh;
-      bool test_db = parse_double(vec_tokens[7], db);
-      bool test_dl = parse_double(vec_tokens[8], dl);
-      bool test_dh = parse_double(vec_tokens[9], dh);
+      bool err_db = !parse_double(vec_tokens[7], db);
+      bool err_dl = !parse_double(vec_tokens[8], dl);
+      bool err_dh = !parse_double(vec_tokens[9], dh);
+      if (err_db || err_dl || err_dh) {
+        error("Bad numeric format in dB / dL / dH");
+        continue;
+      }
 
       tokens.push_back(vec_tokens);
     }
@@ -259,8 +301,13 @@ R"ERRORS(
 * err01  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0     # not ennough tokens
 * err02  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0 0 0 # too many tokens
 * err03  fixe  fixed    402.35087 -4652995.30109  4349760.77753   0 0 0   # bad status fixe
-* err04  fixed  ixed    8086.03178 -4642712.84739  4360439.08326   0 0 0  # bad status ixed
+* err04  fixed  ixed    8086.03178 -4642712.84739  4360439.08326  0 0 0   # bad status ixed
 
+* err05  free  free  43-23-16.3401747err -90-02-16.8958323 894.01416    0 0 0 # bad format B
+* err06  free  free  43-23-16.3401747 -90-02-16.8958323err 894.01416    0 0 0 # bad format L
+* err07  fixed fixed    402.35087 -4652995.30109  4349760.77753   db 0 0  # bad number format dB
+* err08  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 dl 0  # bad number format dL
+* err09  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0 dh  # bad number format dH
 
 )ERRORS";
 #else

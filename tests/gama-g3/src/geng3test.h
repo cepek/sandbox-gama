@@ -51,7 +51,7 @@ private:
   using Tokens = std::vector<std::vector<std::string>>;
   Tokens tokens;
 
-  GNU_gama::Ellipsoid ell_id;
+  GNU_gama::Ellipsoid ellipsoid;
 
   std::string text() { return ""; }
 
