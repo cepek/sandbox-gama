@@ -203,14 +203,18 @@ std::istream& GenG3::read(std::istream& inp)
       {
         ellipsoid.xyz2blh(X, Y, Z,  B, L, H);
       }
-      else if (is_Z)   //possibly ellipsoidal coordinates BLH
+      else if (is_Z)   // possibly ellipsoidal coordinates BLH
       {
         H = Z;
-        bool B_ok = GNU_gama::deg2gon(vec_tokens[4], B);
-        bool L_ok = GNU_gama::deg2gon(vec_tokens[5], L);
+        bool is_B = GNU_gama::deg2gon(vec_tokens[4], B);
+        bool is_L = GNU_gama::deg2gon(vec_tokens[5], L);
 
-	if (B_ok && L_ok)
+	if (is_B && is_L)
 	{
+	  // M_PI is defined in <gnu_gama/gon2deg.h>
+	  B /= (200.0/M_PI);    // gon to rad
+	  L /= (200.0/M_PI);
+
 	  ellipsoid.blh2xyz(B, L, H,  X, Y, Z);
 	}
 	else
@@ -226,19 +230,27 @@ std::istream& GenG3::read(std::istream& inp)
       }
 
       double db, dl, dh;
-      bool err_db = !parse_double(vec_tokens[7], db);
-      bool err_dl = !parse_double(vec_tokens[8], dl);
-      bool err_dh = !parse_double(vec_tokens[9], dh);
-      if (err_db || err_dl || err_dh) {
+      bool shift_db = !parse_double(vec_tokens[7], db);
+      bool shift_dl = !parse_double(vec_tokens[8], dl);
+      bool shift_dh = !parse_double(vec_tokens[9], dh);
+      if (shift_db || shift_dl || shift_dh) {
         error("Bad numeric format in dB / dL / dH");
         continue;
       }
 
-      tokens.push_back(vec_tokens);
+      /*
+      vec_tokens[1]; // ********** tady mam vse o bodu !!! ... temer vse
+      vec_tokens[2], vec_tokens[3] // position bl a h ... overeno, ulozen vec_tokens[2] a [3]
+      X, Y, Z, B, L, H; // vypocteny souradnice XYZ a BLH
+      db, dl, dh;  // vypocteny posuny db, dl a dh
+      // CHYBI POSUNUTE SOURADNICE !!!
+
+      tokens.push_back(vec_tokens);  // ... to uz nepotrebuji ukladat !!!
+      */
     }
     else
     {
-      error("unknown record type");
+      error("Unknown record type");
     }
 
   }
@@ -265,8 +277,6 @@ for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
 #endif
 
     // * A fixed fixed 402.35087 -4652995.30109 4349760.77753 0 0 0
-
-
   }
 }
 
@@ -325,10 +335,10 @@ std::string GenG3::help() const
 
 void GenG3::error(std::string message)
 {
-  const int line_nuber_width {3};
-  std::cerr << "line " << std::setw(line_nuber_width) << line_count
+  const int line_number_width {3};
+  std::cerr << "line " << std::setw(line_number_width) << line_count
             << " : "  << current_line << std::endl
-            << "    " << std::setw(line_nuber_width+3)
+            << "    " << std::setw(line_number_width+3)
             << "error: " << message << std::endl;
 
   error_count++;

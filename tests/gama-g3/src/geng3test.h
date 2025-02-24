@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 #include <gnu_gama/ellipsoids.h>
 
 // #define GenG3_DEBUG
@@ -35,16 +36,23 @@ private:
     static int error_count;
     void error(std::string message);
 
+    std::map<std::string, geng3point> ggg;
+
   struct geng3point {
-    std::string id;               // point ID
-    double B{0}, L{0}, H{0};      // ellipsoidal coordinates
-    double X{0}, Y{0}, Z{0};      // ... corresponding XZY
-    double dB{0}, dL{0}, dH{0};   // simulated coordinate errors
+    std::string id;                   // point ID
+    double B{0}, L{0}, H{0};          // ellipsoidal coordinates
+    double X{0}, Y{0}, Z{0};          // ... corresponding XYZ
+
+    double dB{0}, dL{0}, dH{0};       // simulated BLH coordinate errors ss, ss, mm
+
+    double errB{0}, errL{0}, errH{0}; // simulated incorrect coordinates
+    double errX{0}, errY{0}, errZ{0};
+
     enum Status {
-      fixed, free, constr         // "constrained"
+      fixed, free, constr             // "constrained"
     } BL_status{fixed}, H_status{fixed};
 
-    std::string line;
+    std::string line;                 // reference to original input data
     int line_number {0};
   };
 
