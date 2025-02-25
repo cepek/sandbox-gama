@@ -61,8 +61,8 @@ namespace GNU_gama { namespace local {
         {}
         Point() : id(PointID()), coords(LocalPoint())
         {}
-        bool operator< (const Point &p)	{ return (id <  p.id); }
-        bool operator==(const Point &p)	{ return (id == p.id); }
+        bool operator< (const Point &p) const { return (id <  p.id); }
+        bool operator==(const Point &p) const { return (id == p.id); }
       };
 
       StandPoint* find_standpoint(const PointID& pt);
