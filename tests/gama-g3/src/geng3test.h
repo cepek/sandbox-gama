@@ -29,6 +29,7 @@ public:
   std::string help() const;
 
   static int errors() { return GenG3::error_count; }
+
 private:
 
     std::string current_line;

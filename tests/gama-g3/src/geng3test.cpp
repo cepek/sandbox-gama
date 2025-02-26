@@ -140,8 +140,64 @@ std::string GenG3::xml_points() const
 {
   point_status_BLH blh_status{BLH_undefined}, prev_status{BLH_undefined};
 
-  std::ostringstream s("\n<!-- Points -->\n\n");
+  std::ostringstream s("\n<!-- Points -->\n", std::ios::ate);
+  s.setf(std::ios::fixed);
+  s.precision(5);
 
+  int blh_prev {-1}, blh_code {0};
+
+  for (auto p=points.begin(); p!=points.end(); p++) {
+
+    const geng3point g3p = p->second;
+
+    blh_code = -100;     // error code
+    if      (g3p.BL_status == "fixed")  blh_code =  0;
+    else if (g3p.BL_status == "free")   blh_code = 10;
+    else if (g3p.BL_status == "constr") blh_code = 20;
+    else blh_code = -100;
+    if      (g3p.H_status  == "fixed")  blh_code += 0;
+    else if (g3p.H_status  == "free")   blh_code += 1;
+    else if (g3p.H_status  == "constr") blh_code += 2;
+    else blh_code = -100;
+
+    if (blh_code != blh_prev) {
+      s << "\n";
+      switch (blh_code)
+      {
+        case  0+0: s << "<fixed> <n/> <e/> <h/> </fixed>";
+          break;
+        case  0+1: s << "<fixed> <n/> <e/> </fixed> <free> <h/> </free>";
+          break;
+        case  0+2: s << "<fixed> <n/> <e/> </fixed> <constr> <h/> </constr>";
+          break;
+
+	case 10+0: s << "<free> <n/> <e/> </free> <fixed> <h/> </fixed>";
+	  break;
+	case 10+1: s << "<free> <n/> <e/> <h/> </free>";
+	  break;
+	case 10+2: s << "<fixed> <n/> <e/> </fixed> <constr> <h/> </constr>";
+	  break;
+
+	case 20+0: s << "<constr> <n/> <e/> </constr> <fixed> <h/> </fixed>";
+	  break;
+	case 20+1: s << "<constr> <n/> <e/> <constr>  <free> <h/> </free>";
+	  break;
+	case 20+2: s << "<constr> <n/> <e/> <h/> </constr>";
+	  break;
+
+	default: s << "<UNKNOWN> <n/> <e/> <u/> </UNKNOWN>";  // error in XML input
+	  break;
+      }
+      s << "\n\n";
+    }
+    blh_prev = blh_code;
+
+    s << "<point> <id>" << g3p.id << "</id>"
+      << " <x>" << g3p.X << "</x>"
+      << " <y>" << g3p.Y << "</y>"
+      << " <z>" << g3p.Z << "</z>"
+      << " </point>\n";
+  }
 
   return s.str();
 }
@@ -245,36 +301,19 @@ std::istream& GenG3::read(std::istream& inp)
       g3p.H = H;
 
       double db, dl, dh;
-      bool shift_db = !parse_double(vec_tokens[7], db);
-      bool shift_dl = !parse_double(vec_tokens[8], dl);
-      bool shift_dh = !parse_double(vec_tokens[9], dh);
-      if (shift_db || shift_dl || shift_dh) {
+      bool valid_db = !parse_double(vec_tokens[7], db);
+      bool valid_dl = !parse_double(vec_tokens[8], dl);
+      bool valid_dh = !parse_double(vec_tokens[9], dh);
+      if (valid_db || valid_dl || valid_dh) {
         error("Bad numeric format in dB / dL / dH");
         continue;
       }
 
-      cerr << "\n" << db << " dB in arcsecons --> ";
       g3p.dB = db/180/60/60 * M_PI;  // arc seconds to radians
-      cerr << g3p.dB << " dB in radians\n";
-
-      cerr << dl << " dL in arcsecons --> ";
       g3p.dL = dl/180/60/60 * M_PI;
-      cerr << g3p.dL << " dL in radians\n";
+      g3p.dH = dh/1000;              // millimeters to meters
 
-      cerr << dh << " dH in millimeters ";
-      g3p.dH = dh/1000;   // millimeters to meters
-      cerr << g3p.dH << " dh in meters \n";
-
-      /*
-      vec_tokens[1]; // ********** tady mam vse o bodu !!! ... temer vse
-      vec_tokens[2], vec_tokens[3] // position bl a h ... overeno, ulozen vec_tokens[2] a [3]
-      X, Y, Z, B, L, H; // vypocteny souradnice XYZ a BLH
-      db, dl, dh;  // vypocteny posuny db, dl a dh
-      // CHYBI POSUNUTE SOURADNICE !!!
-
-      tokens.push_back(vec_tokens);  // ... to uz nepotrebuji ukladat !!!
-      */
-
+      points[g3p.id] = g3p;
 
     } // "*" point record
 
