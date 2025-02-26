@@ -202,21 +202,21 @@ std::istream& GenG3::read(std::istream& inp)
       double X, Y, Z;
       double B, L, H;
 
-      bool is_X = parse_double(vec_tokens[4], X);
-      bool is_Y = parse_double(vec_tokens[5], Y);
-      bool is_Z = parse_double(vec_tokens[6], Z);
+      bool valid_X = parse_double(vec_tokens[4], X);
+      bool valid_Y = parse_double(vec_tokens[5], Y);
+      bool valid_Z = parse_double(vec_tokens[6], Z);
 
-      if (is_X && is_Y && is_Z)   // the triple of carthesian coordinate
+      if (valid_X && valid_Y && valid_Z)   // the triple of carthesian coordinate
       {
         ellipsoid.xyz2blh(X, Y, Z,  B, L, H);
       }
-      else if (is_Z)   // possibly ellipsoidal coordinates BLH
+      else if (valid_Z)   // possibly ellipsoidal coordinates BLH
       {
         H = Z;
-        bool is_B = GNU_gama::deg2gon(vec_tokens[4], B);
-        bool is_L = GNU_gama::deg2gon(vec_tokens[5], L);
+        bool valid_B = GNU_gama::deg2gon(vec_tokens[4], B);
+        bool valid_L = GNU_gama::deg2gon(vec_tokens[5], L);
 
-	if (is_B && is_L)
+	if (valid_B && valid_L)
 	{
 	  // M_PI is defined in <gnu_gama/gon2deg.h>
 	  B /= (200.0/M_PI);    // gon to rad
@@ -309,6 +309,11 @@ for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
 
     // * A fixed fixed 402.35087 -4652995.30109 4349760.77753 0 0 0
   }
+
+  output << xml_header();
+  output << xml_points();
+  output << xml_observations();
+  output << xml_end();
 }
 
 
