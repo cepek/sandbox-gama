@@ -1,6 +1,8 @@
 /*
   C++ Matrix/Vector templates (GNU Gama / matvec)
-  Copyright (C) 1999, 2001, 2005, 2007, 2018  Ales Cepek <cepek@gnu.org>
+
+  Copyright (C) 1999, 2001, 2005, 2007, 2018, 2025
+                Ales Cepek  <cepek@gnu.org>
 
   This file is part of the GNU Gama C++ Matrix/Vector template library.
 
@@ -54,7 +56,9 @@ namespace GNU_gama {
 
       -------------------------------------------------------------------------
 
-      .....2011-04-17  (AC) suppressed g++ optimization (volatile variables)
+      2025-02-16  removed all volatile attributes, set(CMAKE_CXX_STANDARD 20)
+
+      2011-04-17  (AC) suppressed g++ optimization (volatile variables)
 
       2001-02-30  (AC) Occasional problems with SVD convergence:
 
@@ -147,7 +151,7 @@ namespace GNU_gama {
     Index decomposed;
     void svd();
 
-    volatile Float W_tol;
+    Float W_tol;
     Vec<Float, Index, Exc> inv_W_;
     void set_inv_W();
 
@@ -178,9 +182,9 @@ namespace GNU_gama {
   template <typename Float, typename Index, typename Exc>
   void SVD<Float, Index, Exc>::set_inv_W()
   {
-    if (W_tol == 0)
-      {             // if not defined set W_tol to 1000*comp_epsilon
-        volatile Float  eps, eps_1, eps_min, eps_max, sum;
+    if (W_tol == 0)   // if not defined set W_tol to 1000*comp_epsilon
+      {
+        Float  eps, eps_1, eps_min, eps_max, sum;
         const Float one = 1;
 
         eps_min = Float();
@@ -198,7 +202,7 @@ namespace GNU_gama {
         W_tol = 1000*eps;
       }
 
-    volatile Float vmax = Float();
+    Float vmax = Float();
     for (Index k = 1; k <= W_.dim(); k++) if (W[k] > vmax) vmax = W[k];
     const Float vmin = W_tol * vmax;
     defect = 0;
@@ -216,7 +220,7 @@ namespace GNU_gama {
 
   template <typename Float> inline Float PYTHAG( Float a, Float b )
   {
-    volatile Float at, bt, ct;
+    Float at, bt, ct;
 
     return
       (( at = ABS(a) )  > ( bt = ABS(b) ) )     ?
@@ -236,9 +240,9 @@ namespace GNU_gama {
     const Float TWO  = 2;
 
     Index  i, i1, its, j, k, k1, L, L1;
-    volatile Float  c, f, h, s, x, y, z ;
-    volatile Float  s1=ZERO, g=ZERO, scale=ZERO, r, s2;
-    volatile Float  tmp1;
+    Float  c, f, h, s, x, y, z ;
+    Float  s1=ZERO, g=ZERO, scale=ZERO, r, s2;
+    Float  tmp1;
     Index  mn;
 
     reset_UWV();
@@ -510,7 +514,7 @@ namespace GNU_gama {
                                 const Vec<Float, Index, Exc>& w)
   {
     reset(A);
-    volatile Float wi;
+    Float wi;
     for (Index i = 1; i <= A.rows(); i++)
       {
         wi = w(i);
@@ -571,7 +575,7 @@ namespace GNU_gama {
     // A = U*W*trans(V)
     // Covariance = V * inv_W * trans(inv_W) * trans(V);
     if (!decomposed) svd();
-    volatile Float c = Float();
+    Float c = Float();
     for (Index k = 1; k <= n; k++)
       c += V[i][k] * inv_W[k] * inv_W[k] * V[j][k];
     return c;
@@ -586,7 +590,7 @@ namespace GNU_gama {
     // A = U*W*trans(V)
     // Covariance = U * trans(U);
     if (!decomposed) svd();
-    volatile Float c = Float();
+    Float c = Float();
     for (Index k = 1; k <= n; k++)
       if (inv_W[k] != 0)
         c += U[i][k] * U[j][k];
@@ -602,7 +606,7 @@ namespace GNU_gama {
     // A = U*W*trans(V)
     // Covariance = U * trans(V);
     if (!decomposed) svd();
-    volatile Float c = Float();
+    Float c = Float();
     for (Index k = 1; k <= n; k++)
       c += U[i][k] * inv_W[k] * V[j][k];
     return c;
@@ -657,11 +661,11 @@ namespace GNU_gama {
       throw Exc(Exception::BadRegularization, "void SVD::min_subset_x()");
 
     Index im;
-    volatile Float s;
+    Float s;
     for (Index k = 1; k <= n; k++)
       if (inv_W[k] == 0)
         {
-          volatile Float Vimk;
+          Float Vimk;
           s = Float();
           for (Index i = 0; i < n_min; i++) {
             im = list_min[i];
@@ -698,7 +702,7 @@ namespace GNU_gama {
     Vec<Float, Index, Exc> t_(n);
     typename Vec<Float, Index, Exc>::const_iterator b = rhs.begin();
     typename Vec<Float, Index, Exc>::iterator t = t_.begin();
-    volatile Float s;
+    Float s;
 
     // t = trans(U)*b*inv(W);
     {   // for ...

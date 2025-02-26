@@ -15,7 +15,7 @@ project (gnu-gama VERSION   2.33
                   LANGUAGES CXX C
                   DESCRIPTION "GNU Gama - CMake build")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 

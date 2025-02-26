@@ -36,7 +36,6 @@ private:
     static int error_count;
     void error(std::string message);
 
-    std::map<std::string, geng3point> ggg;
 
   struct geng3point {
     std::string id;                   // point ID
@@ -48,13 +47,15 @@ private:
     double errB{0}, errL{0}, errH{0}; // simulated incorrect coordinates
     double errX{0}, errY{0}, errZ{0};
 
-    enum Status {
+    /*enum Status {
       fixed, free, constr             // "constrained"
-    } BL_status{fixed}, H_status{fixed};
+    }*/ std::string BL_status{"fixed"}, H_status{"fixed"};
 
     std::string line;                 // reference to original input data
     int line_number {0};
   };
+
+  std::map<std::string, geng3point> points;
 
   using Tokens = std::vector<std::vector<std::string>>;
   Tokens tokens;

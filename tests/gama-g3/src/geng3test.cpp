@@ -174,12 +174,16 @@ std::istream& GenG3::read(std::istream& inp)
     }
     if (vec_tokens.empty()) continue;      // skip empty records
 
+
     if (vec_tokens[0] == "*")
     {
       if (vec_tokens.size() != 10) {
         error("Wrong number of tokens, must be 10");
         continue;
       }
+
+      geng3point g3p;
+      g3p.id = vec_tokens[1];
 
       const std::set<std::string> position {"fixed", "free", "constr"};
       bool position_error = false;
@@ -189,6 +193,9 @@ std::istream& GenG3::read(std::istream& inp)
         error("Bad coordinates status, must be fixed, free or constr");
         continue;
       }
+
+      g3p.BL_status = vec_tokens[2];
+      g3p.H_status  = vec_tokens[3];
 
       // point coordinates XYZ or BLH
 
@@ -229,6 +236,14 @@ std::istream& GenG3::read(std::istream& inp)
         continue;
       }
 
+      g3p.X = X;
+      g3p.Y = Y;
+      g3p.Z = Z;
+
+      g3p.B = B;
+      g3p.L = L;
+      g3p.H = H;
+
       double db, dl, dh;
       bool shift_db = !parse_double(vec_tokens[7], db);
       bool shift_dl = !parse_double(vec_tokens[8], dl);
@@ -237,6 +252,18 @@ std::istream& GenG3::read(std::istream& inp)
         error("Bad numeric format in dB / dL / dH");
         continue;
       }
+
+      cerr << "\n" << db << " dB in arcsecons --> ";
+      g3p.dB = db/180/60/60 * M_PI;  // arc seconds to radians
+      cerr << g3p.dB << " dB in radians\n";
+
+      cerr << dl << " dL in arcsecons --> ";
+      g3p.dL = dl/180/60/60 * M_PI;
+      cerr << g3p.dL << " dL in radians\n";
+
+      cerr << dh << " dH in millimeters ";
+      g3p.dH = dh/1000;   // millimeters to meters
+      cerr << g3p.dH << " dh in meters \n";
 
       /*
       vec_tokens[1]; // ********** tady mam vse o bodu !!! ... temer vse
@@ -247,13 +274,17 @@ std::istream& GenG3::read(std::istream& inp)
 
       tokens.push_back(vec_tokens);  // ... to uz nepotrebuji ukladat !!!
       */
-    }
+
+
+    } // "*" point record
+
     else
     {
       error("Unknown record type");
     }
 
   }
+
   return inp;
 }
 
@@ -298,9 +329,9 @@ R"GHILANI_V1(# Example from Section 17.8
 * A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
 * B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
 * C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
-* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416    0 0 0
-* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 0 0
-* F  free  free    1518.80120 -4648399.14540  4354116.69140      0 0 0
+* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416   10  0  0
+* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 20  0
+* F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0 30
 )GHILANI_V1";
 
 #ifdef GenG3_DEBUG
