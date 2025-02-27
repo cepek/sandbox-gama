@@ -125,7 +125,7 @@ std::string GenG3::xml_header() const
     <<        "</apriori-standard-deviation>\n"
     << "      <confidence-level>" << 0.95 << "</confidence-level>\n"
     << "      <angular-units-gons/>\n"
-    << "      <ellipsoid>" << ellipsoid_id() << "</ellipsoid>\n"
+    << "      <ellipsoid><id>" << ellipsoid_id() << "</id></ellipsoid>\n"
     << "   </constants>\n";
 
   return s.str();
@@ -150,11 +150,10 @@ std::string GenG3::xml_points() const
 
     const geng3point g3p = p->second;
 
-    blh_code = -100;     // error code
     if      (g3p.BL_status == "fixed")  blh_code =  0;
     else if (g3p.BL_status == "free")   blh_code = 10;
     else if (g3p.BL_status == "constr") blh_code = 20;
-    else blh_code = -100;
+    else blh_code = -100;  // error code
     if      (g3p.H_status  == "fixed")  blh_code += 0;
     else if (g3p.H_status  == "free")   blh_code += 1;
     else if (g3p.H_status  == "constr") blh_code += 2;
@@ -164,28 +163,31 @@ std::string GenG3::xml_points() const
       s << "\n";
       switch (blh_code)
       {
-        case  0+0: s << "<fixed> <n/> <e/> <h/> </fixed>";
+        case  0+0: s << "<fixed> <n/> <e/> <u/> </fixed>";
           break;
-        case  0+1: s << "<fixed> <n/> <e/> </fixed> <free> <h/> </free>";
+        case  0+1: s << "<fixed> <n/> <e/> </fixed> <free> <u/> </free>";
           break;
-        case  0+2: s << "<fixed> <n/> <e/> </fixed> <constr> <h/> </constr>";
+        case  0+2: s << "<fixed> <n/> <e/> </fixed> <constr> <u/> </constr>";
           break;
 
-	case 10+0: s << "<free> <n/> <e/> </free> <fixed> <h/> </fixed>";
+	case 10+0: s << "<free> <n/> <e/> </free> <fixed> <u/> </fixed>";
 	  break;
-	case 10+1: s << "<free> <n/> <e/> <h/> </free>";
+	case 10+1: s << "<free> <n/> <e/> <u/> </free>";
 	  break;
-	case 10+2: s << "<fixed> <n/> <e/> </fixed> <constr> <h/> </constr>";
-	  break;
-
-	case 20+0: s << "<constr> <n/> <e/> </constr> <fixed> <h/> </fixed>";
-	  break;
-	case 20+1: s << "<constr> <n/> <e/> <constr>  <free> <h/> </free>";
-	  break;
-	case 20+2: s << "<constr> <n/> <e/> <h/> </constr>";
+	case 10+2: s << "<free> <n/> <e/> </free> <constr> <u/> </constr>";
 	  break;
 
-	default: s << "<UNKNOWN> <n/> <e/> <u/> </UNKNOWN>";  // error in XML input
+	case 20+0: s << "<constr> <n/> <e/> </constr> <fixed> <u/> </fixed>";
+	  break;
+	case 20+1: s << "<constr> <n/> <e/> <constr>  <free> <u/> </free>";
+	  break;
+	case 20+2: s << "<constr> <n/> <e/> <u/> </constr>";
+	  break;
+
+	default:
+	  s << "<UNKNOWN-STATUS>"
+	    << " <n/> <e/> " << g3p.BL_status << " <u/> " << g3p.H_status
+	    << " </UNKNOWN-STATUS>";    // generate XML error
 	  break;
       }
       s << "\n\n";
