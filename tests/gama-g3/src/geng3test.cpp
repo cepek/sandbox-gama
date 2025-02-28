@@ -8,6 +8,7 @@
 #include <vector>
 #include <set>
 #include <charconv>
+#include <regex>
 
 #include <gnu_gama/ellipsoid.h>
 #include <gnu_gama/gon2deg.h>
@@ -214,6 +215,9 @@ std::string GenG3::xml_observations() const
 
 std::istream& GenG3::read(std::istream& inp)
 {
+  std::regex  input_regex("^<<<<*.*");
+  std::cmatch input_match;
+
   error_count = 0;
   line_count  = 0;
   std::string str;
@@ -319,6 +323,10 @@ std::istream& GenG3::read(std::istream& inp)
 
     } // "*" point record
 
+    else if (std::regex_match(vec_tokens[0].c_str(), input_match, input_regex))
+    {
+      cerr << line_count << " ????[" << input_match.str() << "]????\n";
+    }
     else
     {
       error("Unknown record type");
@@ -377,6 +385,9 @@ R"GHILANI_V1(# Example from Section 17.8
 * C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
 * D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416   10  0  0
 * E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 20  0
+
+      <<<<leguan
+
 * F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0 30
 )GHILANI_V1";
 
