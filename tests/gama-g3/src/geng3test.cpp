@@ -373,27 +373,9 @@ std::string GenG3::example() const
       "# ellipsoid id = " + ellipsoid_id() +
       "   " + ellipsoid_caption() + "\n\n";
 
-  std::string data =
-R"GHILANI_V1(# Example from Section 17.8
-#
-# Ghilani Charles D. (2010): Adjustment Computations. Spatial Data
-# Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
-# ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
-
-* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
-* B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
-* C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
-* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416   10  0  0
-* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 20  0
-
-      <<<<leguan
-
-* F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0 30
-)GHILANI_V1";
-
 #ifdef GenG3_DEBUG
   std::string errors =
-R"ERRORS(
+      R"ERRORS(
 # ERRORS
 #
 * err01  fixed fixed    402.35087 -4652995.30109  4349760.77753   0 0     # not ennough tokens
@@ -412,8 +394,25 @@ R"ERRORS(
   std::string errors {};
 #endif
 
+std::string data =
+R"GHILANI_V1(# Example from Section 17.8
+#
+# Ghilani Charles D. (2010): Adjustment Computations. Spatial Data
+# Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
+# ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
 
-  return header + data + errors;
+* A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
+* B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
+* C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
+* D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416   10  0  0
+* E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 20  0
+* F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0  30
+
+      <<<<
+
+)GHILANI_V1";
+
+  return header + errors + data;
 }
 
 std::string GenG3::help() const
