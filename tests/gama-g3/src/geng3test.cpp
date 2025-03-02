@@ -205,12 +205,17 @@ std::string GenG3::xml_points() const
   return s.str();
 }
 
-std::string GenG3::xml_observations() const
+std::string GenG3::xml_observations()
 {
-  std::ostringstream s("\n<!-- Observations -->\n\n");
+  // std::ostringstream s("\n<!-- Observations -->\n\n");
 
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-  return s.str();
+  //ostrobs << "\n<!-- Observations -->\n\n";
+
+  //GenG3::osstr << std::string("D");
+
+  return ostrobs.str();
 }
 
 std::istream& GenG3::read(std::istream& inp)
@@ -231,7 +236,10 @@ std::istream& GenG3::read(std::istream& inp)
     std::string str;
     while (istr_tokens >> str)    // Extracts tokens, skipping ws characters
     {
-      if (str[0] == '#') break;   // leading and trailing comments are ignored
+      if (str[0] == '#')
+      {
+        break;   // leading and trailing comments are ignored
+      }
       vec_tokens.push_back(str);
     }
     if (vec_tokens.empty()) continue;      // skip empty records
@@ -319,13 +327,21 @@ std::istream& GenG3::read(std::istream& inp)
       g3p.dL = dl/180/60/60 * M_PI;
       g3p.dH = dh/1000;              // millimeters to meters
 
+      g3p.errB = g3p.B + g3p.dB;
+      g3p.errL = g3p.L + g3p.dL;
+      g3p.errH = g3p.H + g3p.dH;
+
+      ellipsoid.blh2xyz(g3p.errB, g3p.errL, g3p.errH,
+                        g3p.errX, g3p.errY, g3p.errZ);
+
       points[g3p.id] = g3p;
 
     } // "*" point record
 
     else if (std::regex_match(vec_tokens[0].c_str(), input_match, input_regex))
     {
-      cerr << line_count << " ????[" << input_match.str() << "]????\n";
+      // std::ostringstream s;
+      read_obs(inp);
     }
     else
     {
@@ -334,6 +350,65 @@ std::istream& GenG3::read(std::istream& inp)
 
   }
 
+  return inp;
+}
+
+std::istream& GenG3::read_obs(std::istream& inp)
+{
+  ostrobs << "\n<!-- Observations -->\n\n";
+
+  while (std::getline(inp, current_line))
+  {
+    line_count++;
+#ifdef GenG3_DEBUG
+    cerr << "read_obs " << line_count << " " << current_line << "\n";
+#endif
+    std::istringstream istr_tokens(current_line);
+    std::vector<std::string> vec_tokens;
+    std::string str;
+
+    while (istr_tokens >> str)  vec_tokens.push_back(str);
+    if (vec_tokens.empty()) continue;
+
+    if (vec_tokens[0] == "<vector>")
+    {
+      if  (vec_tokens.size() == 3)
+      {
+        geng3point g3p_from = points[vec_tokens[1]];
+        double Xfrom = g3p_from.errX;
+        double Yfrom = g3p_from.errY;
+        double Zfrom = g3p_from.errZ;
+
+	geng3point g3p_to = points[vec_tokens[1]];
+	double Xto = g3p_to.errX;
+	double Yto = g3p_to.errY;
+	double Zto = g3p_to.errZ;
+
+	double dx = Xto - Xfrom;
+	double dy = Yto - Yfrom;
+	double dz = Zto - Zfrom;
+
+
+	{
+	  for (int i=0; i<current_line.length(); i++)
+	  {
+	    if (!std::isspace(current_line[i])) break;
+	    ostrobs << " ";
+	  }
+	  ostrobs << "<vector> from='" << vec_tokens[1] << "' to='" << vec_tokens[2] << "' ";
+	  ostrobs << endl;
+	}
+      }
+      else
+      {
+        error("bad nanumber of tokens, must be 3");
+      }
+    }
+    else
+    {
+      ostrobs << current_line << "\n";
+    }
+  }
   return inp;
 }
 
@@ -409,6 +484,17 @@ R"GHILANI_V1(# Example from Section 17.8
 * F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0  30
 
       <<<<
+
+<obs>
+  <vector> A C
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>988.4</flt> <flt>-9.58</flt> <flt>9.52</flt>
+  <flt>937.7</flt> <flt>-9.52</flt>
+  <flt>982.7</flt>
+  </cov-mat>
+</obs>
+
 
 )GHILANI_V1";
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 #include <gnu_gama/ellipsoids.h>
 
 // #define GenG3_DEBUG
@@ -20,9 +21,10 @@ public:
   std::string xml_end() const;
 
   std::string xml_points() const;
-  std::string xml_observations() const;
+  std::string xml_observations();
 
   std::istream& read(std::istream&);
+  std::istream& read_obs(std::istream&);
   void write(std::ostream&);
 
   std::string example() const;
@@ -57,6 +59,7 @@ private:
   };
 
   std::map<std::string, geng3point> points;
+  std::ostringstream ostrobs;
 
   using Tokens = std::vector<std::vector<std::string>>;
   Tokens tokens;
