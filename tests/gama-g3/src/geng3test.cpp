@@ -355,20 +355,20 @@ std::istream& GenG3::read(std::istream& inp)
 
 std::istream& GenG3::read_obs(std::istream& inp)
 {
-  ostrobs << "\n<!-- Observations -->\n\n";
+  ostrobs << "\n<!-- Observations -->\n";
 
   while (std::getline(inp, current_line))
   {
     line_count++;
-#ifdef GenG3_DEBUG
-    cerr << "read_obs " << line_count << " " << current_line << "\n";
-#endif
     std::istringstream istr_tokens(current_line);
     std::vector<std::string> vec_tokens;
     std::string str;
 
     while (istr_tokens >> str)  vec_tokens.push_back(str);
-    if (vec_tokens.empty()) continue;
+    if (vec_tokens.empty()) {
+      ostrobs << "\n";
+      continue;
+    }
 
     if (vec_tokens[0] == "<vector>")
     {
@@ -379,7 +379,7 @@ std::istream& GenG3::read_obs(std::istream& inp)
         double Yfrom = g3p_from.errY;
         double Zfrom = g3p_from.errZ;
 
-	geng3point g3p_to = points[vec_tokens[1]];
+	geng3point g3p_to = points[vec_tokens[2]];
 	double Xto = g3p_to.errX;
 	double Yto = g3p_to.errY;
 	double Zto = g3p_to.errZ;
@@ -388,15 +388,15 @@ std::istream& GenG3::read_obs(std::istream& inp)
 	double dy = Yto - Yfrom;
 	double dz = Zto - Zfrom;
 
-
 	{
-	  for (int i=0; i<current_line.length(); i++)
+	  for (int i=0; i<current_line.length(); i++)  // keep original spacing
 	  {
 	    if (!std::isspace(current_line[i])) break;
 	    ostrobs << " ";
 	  }
-	  ostrobs << "<vector> from='" << vec_tokens[1] << "' to='" << vec_tokens[2] << "' ";
-	  ostrobs << endl;
+	  ostrobs << "<vector> from='" << vec_tokens[1] << "' to='" << vec_tokens[2] << "' "
+		  << "dx='" << dx << "' " << "dy='" << dy << "' "<< "dz='" << dz << "'"
+		  << " </vector>" << endl;
 	}
       }
       else
@@ -409,6 +409,7 @@ std::istream& GenG3::read_obs(std::istream& inp)
       ostrobs << current_line << "\n";
     }
   }
+
   return inp;
 }
 
