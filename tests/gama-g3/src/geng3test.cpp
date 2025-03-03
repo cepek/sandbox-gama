@@ -10,6 +10,24 @@
 #include <charconv>
 #include <regex>
 
+namespace
+{
+  class StreamGuard {
+    std::ios& stream;
+    std::ios::fmtflags flags;
+    std::streamsize precision;
+
+  public:
+    explicit StreamGuard(std::ios& s)
+        : stream(s), flags(s.flags()), precision(s.precision()) {}
+
+    ~StreamGuard() {
+      stream.flags(flags);
+      stream.precision(precision);
+    }
+  };
+}
+
 #include <gnu_gama/ellipsoid.h>
 #include <gnu_gama/gon2deg.h>
 
@@ -142,6 +160,8 @@ std::string GenG3::xml_points() const
   point_status_BLH blh_status{BLH_undefined}, prev_status{BLH_undefined};
 
   std::ostringstream s("\n<!-- Points -->\n", std::ios::ate);
+
+  StreamGuard guard(s);
   s.setf(std::ios::fixed);
   s.precision(5);
 
@@ -205,17 +225,9 @@ std::string GenG3::xml_points() const
   return s.str();
 }
 
-std::string GenG3::xml_observations()
+std::string GenG3::xml_observations() const
 {
-  // std::ostringstream s("\n<!-- Observations -->\n\n");
-
-  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-  //ostrobs << "\n<!-- Observations -->\n\n";
-
-  //GenG3::osstr << std::string("D");
-
-  return ostrobs.str();
+  return ostrobs.str();   // initialized by GenG3::read_obs(std::istream&)
 }
 
 std::istream& GenG3::read(std::istream& inp)
@@ -388,6 +400,9 @@ std::istream& GenG3::read_obs(std::istream& inp)
 	double dy = Yto - Yfrom;
 	double dz = Zto - Zfrom;
 
+	StreamGuard ostr(ostrobs);
+	ostrobs.setf(std::ios::fixed);
+	ostrobs.precision(5);
 	{
 	  for (int i=0; i<current_line.length(); i++)  // keep original spacing
 	  {
@@ -401,7 +416,7 @@ std::istream& GenG3::read_obs(std::istream& inp)
       }
       else
       {
-        error("bad nanumber of tokens, must be 3");
+        error("bad number of tokens, must be 3");
       }
     }
     else
@@ -431,8 +446,6 @@ for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
   }
   cerr << "\n";
 #endif
-
-    // * A fixed fixed 402.35087 -4652995.30109 4349760.77753 0 0 0
   }
 
   output << xml_header();
@@ -482,7 +495,7 @@ R"GHILANI_V1(# Example from Section 17.8
 * C  free  free   12046.58080 -4649394.08240  4353160.06450      0 0 0
 * D  free  free  43-23-16.3401747 -90-02-16.8958323 894.01416   10  0  0
 * E  free  free   -4919.33880 -4649361.21990  4352934.45480      0 20  0
-* F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0  30
+* F  free  free    1518.80120 -4648399.14540  4354116.69140      0  0 30
 
       <<<<
 

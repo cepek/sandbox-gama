@@ -21,7 +21,7 @@ public:
   std::string xml_end() const;
 
   std::string xml_points() const;
-  std::string xml_observations();
+  std::string xml_observations() const;
 
   std::istream& read(std::istream&);
   std::istream& read_obs(std::istream&);
