@@ -191,7 +191,7 @@ std::string GenG3::xml_points() const
         case  0+2: s << "<fixed> <n/> <e/> </fixed> <constr> <u/> </constr>";
           break;
 
-	case 10+0: s << "<free> <n/> <e/> </free> <fixed> <u/> </fixed>";
+        case 10+0: s << "<free> <n/> <e/> </free> <fixed> <u/> </fixed>";
 	  break;
 	case 10+1: s << "<free> <n/> <e/> <u/> </free>";
 	  break;
@@ -298,19 +298,19 @@ std::istream& GenG3::read(std::istream& inp)
         bool valid_B = GNU_gama::deg2gon(vec_tokens[4], B);
         bool valid_L = GNU_gama::deg2gon(vec_tokens[5], L);
 
-	if (valid_B && valid_L)
-	{
-	  // M_PI is defined in <gnu_gama/gon2deg.h>
-	  B /= (200.0/M_PI);    // gon to rad
-	  L /= (200.0/M_PI);
+        if (valid_B && valid_L)
+        {
+          // M_PI is defined in <gnu_gama/gon2deg.h>
+          B /= (200.0/M_PI);    // gon to rad
+          L /= (200.0/M_PI);
 
-	  ellipsoid.blh2xyz(B, L, H,  X, Y, Z);
-	}
-	else
-	{
-	  error("Format error in BL coordinates");
-	  continue;
-	}
+          ellipsoid.blh2xyz(B, L, H,  X, Y, Z);
+        }
+        else
+        {
+          error("Format error in BL coordinates");
+          continue;
+        }
       }
       else
       {
