@@ -509,6 +509,115 @@ R"GHILANI_V1(# Example from Section 17.8
   </cov-mat>
 </obs>
 
+<obs>
+  <vector> B C
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>230.5</flt> <flt>-2.23</flt> <flt>2.07</flt>
+  <flt>254.6</flt> <flt>-2.23</flt>
+  <flt>225.2</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> B D
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>270  </flt> <flt>-2.75</flt> <flt>2.85</flt>
+  <flt>272.1</flt> <flt>-2.72</flt>
+  <flt>267  </flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> D C
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>146.1</flt> <flt>-1.43</flt> <flt>1.34</flt>
+  <flt>161.4</flt> <flt>-1.44</flt>
+  <flt>130.8</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> D E
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>123.1</flt> <flt>-1.19</flt> <flt>1.22</flt>
+  <flt>127.7</flt> <flt>-1.21</flt>
+  <flt>128.3</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> F A
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>74.75</flt> <flt>-0.79</flt> <flt>0.88</flt>
+  <flt>65.93</flt> <flt>-0.81</flt>
+  <flt>76.16</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> F C
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>256.7</flt> <flt>-2.25</flt> <flt>2.4</flt>
+  <flt>216.3</flt> <flt>-2.27</flt>
+  <flt>239.7</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> F E
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>94.42</flt> <flt>-0.92</flt> <flt>1.04</flt>
+  <flt>99.59</flt> <flt>-0.89</flt>
+  <flt>88.26</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> F D
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt> 93.3 </flt> <flt>-0.99</flt> <flt>0.90</flt>
+  <flt> 98.75</flt> <flt>-0.99</flt>
+  <flt>120.4 </flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> F B
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>66.43</flt> <flt>-0.65</flt> <flt>0.69</flt>
+  <flt>74.65</flt> <flt>-0.64</flt>
+  <flt>60.48</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> B F
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>55.12</flt> <flt>-0.63</flt> <flt>0.61</flt>
+  <flt>74.72</flt> <flt>-0.63</flt>
+  <flt>66.29</flt>
+  </cov-mat>
+</obs>
+
+<obs>
+  <vector> A F
+
+  <cov-mat> <dim>3</dim> <band>2</band>
+  <flt>66.19</flt> <flt>-0.80</flt> <flt>0.90</flt>
+  <flt>81.08</flt> <flt>-0.82</flt>
+  <flt>93.76</flt>
+  </cov-mat>
+</obs>
 
 )GHILANI_V1";
 
