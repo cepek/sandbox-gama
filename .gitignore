@@ -5,6 +5,7 @@
 announce-gen
 gnulib
 gnupload
+data
 #
 ## yaml-cpp copy for optional alternative build
 #
