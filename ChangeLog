@@ -1,3 +1,5 @@
+	- Setting the git editor: git config --global core.editor "nano"
+
 2025-01-29   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.33
