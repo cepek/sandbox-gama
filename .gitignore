@@ -6,6 +6,7 @@ announce-gen
 gnulib
 gnupload
 data
+*.pdf
 #
 ## yaml-cpp copy for optional alternative build
 #
