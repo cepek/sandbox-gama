@@ -10,6 +10,8 @@
 #include <charconv>
 #include <regex>
 
+#include <gnu_gama/version.h>
+
 namespace
 {
   class StreamGuard {
@@ -45,6 +47,7 @@ const char* const main_help =
   "        -h  Display full program help in markdown format\n"
   "        -e  Show example input data\n"
   "        -r  Show results for the example input data\n"
+  "        -v  Print the program version\n"
   "\nUse -h for complete documentation.\n";
 
 
@@ -70,6 +73,7 @@ int main(int argc, char* argv[])
   const std::set<string> example {"-e", "-example", "--example"};
   const std::set<string> help    {"-h", "-help",    "--help"};
   const std::set<string> result  {"-r", "-result",  "--result"};
+  const std::set<string> version {"-v", "-vesion",  "--version"};
 
   for (int p=1; p<argc; p++) {
     if (example.find(string(argv[p])) != example.end()) {
@@ -85,6 +89,10 @@ int main(int argc, char* argv[])
     }
     else if (help.find(string(argv[p])) != help.end()) {
       cout << geng3.help();
+      return 0;
+    }
+    else if (version.find(string(argv[p])) != version.end()) {
+      cout << geng3.version();
       return 0;
     }
     else if (argv[p][0] == '-') { // unknown option
@@ -136,7 +144,7 @@ std::string GenG3::xml_header() const
     << "<gnu-gama-data xmlns="
     << "\"http://www.gnu.org/software/gama/gnu-gama-data\">\n\n";
 
-  s << "<text>" << "geng3test" << "</text>\n\n";
+  s << "<text>" << "geng3test " << version() << "</text>\n\n";
 
   s << "<g3-model>\n"
     << "   <constants>\n"
@@ -458,7 +466,8 @@ for (auto t1=tokens.begin(); t1!=tokens.end(); t1++)
 std::string GenG3::example() const
 {
   std::string header =
-      "# geng3test :  file = ghilani-gnss-v1.xml\n"
+      "# geng3test " + version() + "\n"
+      "# file = ghilani-gnss-v1.xml\n"
       "# ellipsoid id = " + ellipsoid_id() +
       "   " + ellipsoid_caption() + "\n\n";
 
@@ -627,6 +636,11 @@ R"GHILANI_V1(# Example from Section 17.8
 std::string GenG3::help() const
 {
   return geng3test_help_md;
+}
+
+std::string GenG3::version() const
+{
+  return GNU_gama::sub_version("0.90");
 }
 
 void GenG3::error(std::string message)

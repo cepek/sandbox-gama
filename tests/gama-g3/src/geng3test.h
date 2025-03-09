@@ -29,6 +29,7 @@ public:
 
   std::string example() const;
   std::string help() const;
+  std::string version() const;
 
   static int errors() { return GenG3::error_count; }
 
