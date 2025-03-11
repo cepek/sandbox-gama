@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
   geng3.read(*istr);
   geng3.write(cout);
 
-  cout << "\nTotal number of errors: " << GenG3::errors() << endl;
+  cerr << "\nTotal number of errors: " << GenG3::errors() << endl;
 
   return 0;
 }
@@ -343,8 +343,9 @@ std::istream& GenG3::read(std::istream& inp)
         continue;
       }
 
-      g3p.dB = db/180/60/60 * M_PI;  // arc seconds to radians
-      g3p.dL = dl/180/60/60 * M_PI;
+      const double seconds = 180*60*60;
+      g3p.dB = db/seconds * M_PI;    // arc seconds to radians
+      g3p.dL = dl/seconds * M_PI;
       g3p.dH = dh/1000;              // millimeters to meters
 
       g3p.errB = g3p.B + g3p.dB;
@@ -417,9 +418,13 @@ std::istream& GenG3::read_obs(std::istream& inp)
 	    if (!std::isspace(current_line[i])) break;
 	    ostrobs << " ";
 	  }
-	  ostrobs << "<vector> from='" << vec_tokens[1] << "' to='" << vec_tokens[2] << "' "
-		  << "dx='" << dx << "' " << "dy='" << dy << "' "<< "dz='" << dz << "'"
-		  << " </vector>" << endl;
+	  ostrobs << "<vector>"
+		  << " <from>" << vec_tokens[1] << "</from> "
+		  << " <to>"   << vec_tokens[2] << "</to> "
+		  << " <dx>" << dx << "</dx> "
+		  << " <dy>" << dy << "</dy> "
+		  << " <dz>" << dz << "</dz> "
+		<< " </vector>" << endl;
 	}
       }
       else
@@ -499,9 +504,11 @@ R"GHILANI_V1(# Example from Section 17.8
 # Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
 # ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
 
+
 * A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
 * B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
 * C  free  free   12046.58076 -4649394.08256  4353160.06443      0 0 0
+# D  free  free   -3081.5831  -4643107.3692    4359531.1233      0  0  0
 * D  free  free  43-23-16.3401742 -90-02-16.8958335 894.01408    0  0  0
 * E  free  free   -4919.33908 -4649361.21987  4352934.45480      0  0  0
 * F  free  free    1518.80119 -4648399.14533  4354116.69141      0  0  0
