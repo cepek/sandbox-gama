@@ -309,10 +309,18 @@ std::istream& GenG3::read(std::istream& inp)
         if (valid_B && valid_L)
         {
           // M_PI is defined in <gnu_gama/gon2deg.h>
-          B /= (200.0/M_PI);    // gon to rad
-          L /= (200.0/M_PI);
+          B *= M_PI/200;    // gon to rad
+          L *= M_PI/200;
 
           ellipsoid.blh2xyz(B, L, H,  X, Y, Z);
+        #if 0
+          if (g3p.id == "D") {
+              cerr.setf(std::ios::fixed);
+              cerr.precision(6);
+              cerr << "*** blh2xyz point D diff XYZ "
+                   << X - -3081.58313 << " " << Y - -4643107.36915 << " " << Z - 4359531.12333 << endl;
+          }
+        #endif
         }
         else
         {
@@ -504,11 +512,10 @@ R"GHILANI_V1(# Example from Section 17.8
 # Analysis. Fifth Edition, John Wiley &amp; Sons, Inc.,
 # ISBN 16 978-0-470-46491-5, Ch. 17.6, p 337-352
 
-
 * A  fixed fixed    402.35087 -4652995.30109  4349760.77753      0 0 0  # trailing comment
 * B  fixed fixed   8086.03178 -4642712.84739  4360439.08326      0 0 0
 * C  free  free   12046.58076 -4649394.08256  4353160.06443      0 0 0
-# D  free  free   -3081.5831  -4643107.3692    4359531.1233      0  0  0
+# D  free  free   -3081.58313 -4643107.36915  4359531.12333      0 0 0
 * D  free  free  43-23-16.3401742 -90-02-16.8958335 894.01408    0  0  0
 * E  free  free   -4919.33908 -4649361.21987  4352934.45480      0  0  0
 * F  free  free    1518.80119 -4648399.14533  4354116.69141      0  0  0
