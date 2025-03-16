@@ -9,6 +9,7 @@
 #include <set>
 #include <charconv>
 #include <regex>
+#include <cmath>
 
 #include <gnu_gama/version.h>
 
@@ -350,10 +351,8 @@ std::istream& GenG3::read(std::istream& inp)
         error("Bad numeric format in dB / dL / dH");
         continue;
       }
-
-      const double seconds = 180*60*60;
-      g3p.dB = db/seconds * M_PI;    // arc seconds to radians
-      g3p.dL = dl/seconds * M_PI;
+      g3p.dB = db/1000/ellipsoid.M(B);
+      g3p.dL = dl/1000/ellipsoid.N(B)/std::cos(B);
       g3p.dH = dh/1000;              // millimeters to meters
 
       g3p.errB = g3p.B + g3p.dB;
