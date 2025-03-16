@@ -31,7 +31,7 @@ dnl https://www.gnu.org/software/autoconf-archive/ax_valgrind_check.html
 AC_LANG(C++)
 AC_PROG_CXX
 
-AX_CXX_COMPILE_STDCXX([14], [noext], [mandatory])
+AX_CXX_COMPILE_STDCXX([17], [noext], [mandatory])
 AX_VALGRIND_DFLT([sgcheck], [off])
 AX_VALGRIND_CHECK
 
