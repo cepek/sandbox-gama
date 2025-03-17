@@ -27,17 +27,16 @@ namespace GNU_gama {
   class Ellipsoid {
   public:
 
-    Ellipsoid(int ellipsoid_id=1);
+    Ellipsoid(int ellipsoid_id=1);    // wgs84, see ellipsoids.h
 
-    double a() const { return A;  }
-    double b() const { return B;  }
-    double f() const { return ff; }
+    double a() const { return A;  }   // semi-major axis
+    double b() const { return B;  }   // semi-minor axis
+    double f() const { return ff; }   // flattening
 
-    double M(double b) const;
-    double N(double b) const;
-    double W(double b) const;
-    double V(double b) const;
-    double F(double b) const;
+    double M(double b) const;   // meridional radius of curvature
+    double N(double b) const;   // prime vertical radius of curvature
+    double W(double b) const;   // first geodetic function
+    double V(double b) const;   // second geodetic function
 
     void blh2xyz(double, double, double, double&, double&, double&) const;
     void xyz2blh(double, double, double, double&, double&, double&) const;
@@ -49,6 +48,8 @@ namespace GNU_gama {
     int id {1};
 
   private:
+
+    double F(double b) const;   // auxiliary function
 
     double A, B, ff, n, e2, e22;
     double Ime2, Ipe22, AIme2, AB;

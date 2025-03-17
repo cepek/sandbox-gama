@@ -1,11 +1,3 @@
-2025-02-16   Ales Cepek <cepek@gnu.org>
-
-	* ... release 2.34
-
-	- CMakeLists.tst:  set(CMAKE_CXX_STANDARD 20)
-	- Removed volatile attributes from the SVD template (lib/matvec/svd.h)
-	- In the class Acord2 make operators == and < const
-
 2025-01-29   Ales Cepek <cepek@gnu.org>
 
 	* Maintenance release gama-2.33
