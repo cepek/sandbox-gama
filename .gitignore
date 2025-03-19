@@ -5,8 +5,6 @@
 announce-gen
 gnulib
 gnupload
-data
-*.pdf
 #
 ## yaml-cpp copy for optional alternative build
 #
@@ -14,6 +12,7 @@ lib/yaml-cpp
 #
 # --------------------------------------------
 #
+data
 TAGS
 #
 *.html
