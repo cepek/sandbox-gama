@@ -14,8 +14,11 @@ lib/yaml-cpp
 #
 data
 TAGS
+tmp
+temp
 #
 *.html
+*.pdf
 *.[oa]
 *~
 \#*\#
