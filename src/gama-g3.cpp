@@ -223,6 +223,10 @@ int main_g3()
 
 int main(int argc, char* argv[])
 {
+#ifdef QT_QML_DEBUG
+  std::cout << std::unitbuf; // Forces std::cout to flush after every output
+#endif
+
   using namespace GNU_gama::g3;
 
   if (int res = arguments(argc, argv))
