@@ -17,8 +17,8 @@ set(INPUT_DIR ${TEST_BASE_DIR}/input)
 set(RESULT_DIR ${CMAKE_BINARY_DIR}/${RESULT_TOP})
 file(MAKE_DIRECTORY ${RESULT_DIR})
 
-add_test(NAME check_compare_xyz_clean_results_dir  COMMAND rm -f
-  ${RESULT_DIR}/*
+add_test(NAME check_compare_xyz_clean_results_dir
+  COMMAND file(REMOVE_RECURSE ${RESULT_DIR})
   )
 
 add_test(NAME compare_xyz_implicit_help

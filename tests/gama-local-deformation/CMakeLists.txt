@@ -17,8 +17,9 @@ set(INPUT_DIR ${TEST_BASE_DIR}/input/diff)
 set(RESULT_DIR ${CMAKE_BINARY_DIR}/${RESULT_TOP}/diff)
 file(MAKE_DIRECTORY ${RESULT_DIR})
 
-add_test(NAME check_deformation_data_1_2_delete COMMAND rm -f
-  ${RESULT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.svg
+add_test(NAME check_deformation_data_1_2_delete
+    COMMAND file(REMOVE_RECURSE
+        ${RESULT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.svg)
 )
 
 add_test(NAME check_deformation_data_1_2_generate
@@ -27,10 +28,20 @@ add_test(NAME check_deformation_data_1_2_generate
   --text ${RESULT_DIR}/data-1-2.txt --svg ${RESULT_DIR}/data-1-2.svg
 )
 
-add_test(NAME check_deformation_data_1_2_diff_txt COMMAND diff -s
-  ${INPUT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.txt
+#  add_test(NAME check_deformation_data_1_2_diff_txt COMMAND diff -s
+#    ${INPUT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.txt
+#  )
+#
+#  add_test(NAME check_deformation_data_1_2_diff_svg COMMAND diff -s
+#    ${INPUT_DIR}/data-1-2.svg ${RESULT_DIR}/data-1-2.svg
+#  )
+
+add_test(NAME check_deformation_data_1_2_diff_txt COMMAND
+    ${CMAKE_COMMAND} -E compare_files
+    ${INPUT_DIR}/data-1-2.txt ${RESULT_DIR}/data-1-2.txt
 )
 
-add_test(NAME check_deformation_data_1_2_diff_svg COMMAND diff -s
-  ${INPUT_DIR}/data-1-2.svg ${RESULT_DIR}/data-1-2.svg
+add_test(NAME check_deformation_data_1_2_diff_svg COMMAND
+    ${CMAKE_COMMAND} -E compare_files
+    ${INPUT_DIR}/data-1-2.svg ${RESULT_DIR}/data-1-2.svg
 )
