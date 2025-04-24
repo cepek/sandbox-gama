@@ -26,6 +26,7 @@ AC_CONFIG_MACRO_DIR([m4])
 dnl Install package autoconf-archive or download from
 dnl git://git.sv.gnu.org/autoconf-archive.git
 dnl
+dnl https://gcc.gnu.org/projects/cxx-status.html
 dnl https://www.gnu.org/software/autoconf-archive/ax_valgrind_check.html
 
 AC_LANG(C++)
