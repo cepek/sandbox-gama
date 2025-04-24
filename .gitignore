@@ -12,6 +12,10 @@ lib/yaml-cpp
 #
 # --------------------------------------------
 #
+*build*
+*Build*
+*BUILD*
+#
 data
 TAGS
 tmp
@@ -115,8 +119,6 @@ discarded_entries
 #
 # doxygen
 dox
-#
-*build*
 #
 lib/gnu_gama/local/language.html
 #
