@@ -15,11 +15,15 @@ set(RESULT_TOP tests/compare-xyz/results/${PROJECT_VERSION})
 
 set(INPUT_DIR ${TEST_BASE_DIR}/input)
 set(RESULT_DIR ${CMAKE_BINARY_DIR}/${RESULT_TOP})
-file(MAKE_DIRECTORY ${RESULT_DIR})
 
-add_test(NAME check_compare_xyz_clean_results_dir  COMMAND rm -f
-  ${RESULT_DIR}/*
-  )
+add_custom_command(
+    OUTPUT "${RESULT_DIR}/.empty"
+    COMMAND ${CMAKE_COMMAND} -E remove_directory "${RESULT_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${RESULT_DIR}"
+    COMMAND ${CMAKE_COMMAND} -E touch "${RESULT_DIR}/.empty"
+)
+
+add_custom_target(reset_results_dir ALL DEPENDS "${RESULT_DIR}/.empty")
 
 add_test(NAME compare_xyz_implicit_help
   COMMAND ${CMAKE_BINARY_DIR}/compare-xyz
