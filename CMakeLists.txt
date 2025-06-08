@@ -331,10 +331,10 @@ if (ENABLE_EXPAT_1_1)
     add_compile_definitions(GNU_gama_expat_1_1)
 
     include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
-    add_library(libgama OBJECT ${SRC_GAMA} ${SRC_EXPAT})
+    add_library(libgama STATIC ${SRC_GAMA} ${SRC_EXPAT})
 else()
     include_directories(lib)
-    add_library(libgama OBJECT ${SRC_GAMA})
+    add_library(libgama STATIC ${SRC_GAMA})
 
     include(FindEXPAT)
     find_package(EXPAT REQUIRED)
