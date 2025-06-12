@@ -366,10 +366,10 @@ add_executable(krumm2gama-local src/krumm2gama-local.cpp)
 target_link_libraries(krumm2gama-local PUBLIC libgama)
 
 add_executable(compare-xyz src/compare-xyz.cpp)
-target_link_libraries(compare-xyz PUBLIC libgama)
+target_link_libraries(compare-xyz PUBLIC libgama ${EXPAT_LIBRARIES})
 
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
-target_link_libraries(gama-local-deformation PUBLIC libgama)
+target_link_libraries(gama-local-deformation PUBLIC libgama ${EXPAT_LIBRARIES})
 
 add_executable(slovnikar scripts/slovnikar.cpp)
 target_link_libraries(slovnikar PUBLIC libgama)
@@ -389,7 +389,7 @@ endif()
 # Installation
 #
 install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
-        compare-xyz
+        compare-xyz gama-local-deformation
         DESTINATION ${GAMA_INSTDIR})
 
 
