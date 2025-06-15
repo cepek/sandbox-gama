@@ -1,0 +1,50 @@
+# Modernized CMakeLists.txt for GNU Gama (example based on your original)
+
+cmake_minimum_required(VERSION 3.12)
+project(GNU_Gama VERSION 2.30 LANGUAGES CXX)
+
+option(USE_INTERNAL_EXPAT "Use internal Expat 1.1 code" ON)
+
+# C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Include directories
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# Handle Expat
+if(USE_INTERNAL_EXPAT)
+    set(EXPAT_LIBRARIES gamaexpat)
+    add_library(gamaexpat STATIC src/expat/xmlparse.c)
+    target_include_directories(gamaexpat PUBLIC ${PROJECT_SOURCE_DIR}/src/expat)
+
+    # Define an imported interface target for unified linking
+    add_library(EXPAT::EXPAT INTERFACE IMPORTED)
+    set_property(TARGET EXPAT::EXPAT PROPERTY INTERFACE_LINK_LIBRARIES gamaexpat)
+    set_property(TARGET EXPAT::EXPAT PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR}/src/expat)
+else()
+    find_package(EXPAT REQUIRED)
+endif()
+
+# Core library (optional, for common functionality)
+add_library(gama-core STATIC src/gama-common.cpp)
+target_include_directories(gama-core PUBLIC include)
+target_link_libraries(gama-core PUBLIC EXPAT::EXPAT)
+
+# Main executables
+add_executable(gama-local src/gama-local.cpp)
+target_link_libraries(gama-local PRIVATE gama-core)
+
+add_executable(gama-adjust src/gama-adjust.cpp)
+target_link_libraries(gama-adjust PRIVATE gama-core)
+
+# Newly added executables
+add_executable(compare-xyz src/compare-xyz.cpp)
+target_link_libraries(compare-xyz PRIVATE gama-core)
+
+add_executable(gama-local-deformation src/gama-local-deformation.cpp)
+target_link_libraries(gama-local-deformation PRIVATE gama-core)
+
+# Optionally install targets
+install(TARGETS gama-local gama-adjust compare-xyz gama-local-deformation
+        RUNTIME DESTINATION bin)
