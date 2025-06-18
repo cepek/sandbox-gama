@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15..4.0)
+cmake_minimum_required(VERSION 3.18)
 
 # This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp
 # to be compared with gnu_gama/version.cpp and configure.ac.
@@ -325,6 +325,9 @@ set(SRC_YAMLCPP
     lib/yaml-cpp/src/token.h
 )
 
+
+include_directories(${PROJECT_SOURCE_DIR}/lib)
+
 if (ENABLE_EXPAT_1_1)
     # see GNU Gama autotools definitions in lib/gnu_gama/xml_expat.h
     add_compile_definitions(GNU_gama_expat_1_1)
@@ -332,13 +335,13 @@ if (ENABLE_EXPAT_1_1)
     include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
     add_library(libgama STATIC ${SRC_GAMA} ${SRC_EXPAT})
 else()
-    include_directories(lib)
-    add_library(libgama STATIC ${SRC_GAMA})
-
-    include(FindEXPAT)
+#    include_directories(lib)
+#    add_library(libgama STATIC ${SRC_GAMA})
+#    include(FindEXPAT)
     find_package(EXPAT REQUIRED)
-    include_directories(${EXPAT_INCLUDE_DIRS})
-    link_libraries(${EXPAT_LIBRARIES})
+#    include_directories(${EXPAT_INCLUDE_DIRS})
+#    target_link_libraries(${EXPAT_LIBRARIES})
+#    find_package(EXPAT REQUIRED)
 endif()
 
 
@@ -347,6 +350,11 @@ endif()
 if (NOT DEFINED GAMA_INSTDIR)
     set (GAMA_INSTDIR bin)
 endif()
+
+
+add_library(libgama STATIC ${SRC_GAMA})
+target_include_directories(libgama PUBLIC src)
+target_link_libraries(libgama PUBLIC EXPAT::EXPAT)
 
 
 # Binaries
@@ -365,10 +373,10 @@ add_executable(krumm2gama-local src/krumm2gama-local.cpp)
 target_link_libraries(krumm2gama-local PRIVATE libgama)
 
 add_executable(compare-xyz src/compare-xyz.cpp)
-target_link_libraries(compare-xyz PRIVATE libgama ${EXPAT_LIBRARIES})
+target_link_libraries(compare-xyz PUBLIC libgama)
 
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
-target_link_libraries(gama-local-deformation PRIVATE libgama ${EXPAT_LIBRARIES})
+target_link_libraries(gama-local-deformation PUBLIC libgama)
 
 add_executable(slovnikar scripts/slovnikar.cpp)
 target_link_libraries(slovnikar PRIVATE libgama)
