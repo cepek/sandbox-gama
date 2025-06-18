@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.15..4.0)
 
 # This CMakeLists.txt is read by tests/gama-local/src/check_version.cpp
 # to be compared with gnu_gama/version.cpp and configure.ac.
@@ -17,7 +17,6 @@ project (gnu-gama VERSION 2.33
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 
 # Build with the local copy of legacy code expat 1.1 is implicitly disabled.
 #
@@ -353,26 +352,26 @@ endif()
 # Binaries
 #
 add_executable(gama-local src/gama-local.cpp)
-target_link_libraries(gama-local PUBLIC libgama)
+target_link_libraries(gama-local PRIVATE libgama)
 
 add_executable(gama-g3 src/gama-g3.cpp)
-target_link_libraries(gama-g3 PUBLIC libgama)
+target_link_libraries(gama-g3 PRIVATE libgama)
 
 add_executable(gama-local-gkf2yaml src/gama-local-gkf2yaml.cpp
                lib/gnu_gama/local/gkf2yaml.cpp)
-target_link_libraries(gama-local-gkf2yaml PUBLIC libgama)
+target_link_libraries(gama-local-gkf2yaml PRIVATE libgama)
 
 add_executable(krumm2gama-local src/krumm2gama-local.cpp)
-target_link_libraries(krumm2gama-local PUBLIC libgama)
+target_link_libraries(krumm2gama-local PRIVATE libgama)
 
 add_executable(compare-xyz src/compare-xyz.cpp)
-target_link_libraries(compare-xyz PUBLIC libgama ${EXPAT_LIBRARIES})
+target_link_libraries(compare-xyz PRIVATE libgama ${EXPAT_LIBRARIES})
 
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
-target_link_libraries(gama-local-deformation PUBLIC libgama ${EXPAT_LIBRARIES})
+target_link_libraries(gama-local-deformation PRIVATE libgama ${EXPAT_LIBRARIES})
 
 add_executable(slovnikar scripts/slovnikar.cpp)
-target_link_libraries(slovnikar PUBLIC libgama)
+target_link_libraries(slovnikar PRIVATE libgama)
 
 if (EXISTS ${CMAKE_SOURCE_DIR}/lib/yaml-cpp)
     include_directories(lib/yaml-cpp/include)
@@ -380,7 +379,7 @@ if (EXISTS ${CMAKE_SOURCE_DIR}/lib/yaml-cpp)
 
     add_executable(gama-local-yaml2gkf src/gama-local-yaml2gkf.cpp
         lib/gnu_gama/local/yaml2gkf.cpp)
-    target_link_libraries(gama-local-yaml2gkf PUBLIC libgama libyaml)
+    target_link_libraries(gama-local-yaml2gkf PRIVATE libgama libyaml)
 
     install(TARGETS gama-local-yaml2gkf DESTINATION ${GAMA_INSTDIR})
 endif()
