@@ -12,12 +12,17 @@ set(GAMA_LOCAL ${CMAKE_BINARY_DIR}/gama-g3)
 # check transformation XYZ <--> BLH
 #
 add_executable(check_ellipsoid_xyz2blh
-    src/check_ellipsoid_xyz2blh.cpp $<TARGET_OBJECTS:libgama> )
+    src/check_ellipsoid_xyz2blh.cpp)
+target_link_libraries(check_ellipsoid_xyz2blh PUBLIC libgama)
+
 add_executable(check_ellipsoid_xyz2blh_list
-    src/check_ellipsoid_xyz2blh_list.cpp $<TARGET_OBJECTS:libgama> )
+    src/check_ellipsoid_xyz2blh_list.cpp)
+target_link_libraries(check_ellipsoid_xyz2blh_list PUBLIC libgama)
+
 add_executable(geng3test
-    src/geng3test.cpp $<TARGET_OBJECTS:libgama>
-    src/geng3test-md.h )
+    src/geng3test.cpp
+    src/geng3test-md.h)
+target_link_libraries(geng3test PUBLIC libgama)
 
 # target_compile_definitions(geng3test PRIVATE GenG3_DEBUG)
 
