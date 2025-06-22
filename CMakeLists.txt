@@ -16,7 +16,7 @@ project (gnu-gama VERSION 2.33
                   DESCRIPTION "GNU Gama - CMake build")
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 
 
 # Build with the local copy of legacy code expat 1.1 is implicitly disabled.
@@ -326,22 +326,31 @@ set(SRC_YAMLCPP
     lib/yaml-cpp/src/token.h
 )
 
+
 if (ENABLE_EXPAT_1_1)
     # see GNU Gama autotools definitions in lib/gnu_gama/xml_expat.h
     add_compile_definitions(GNU_gama_expat_1_1)
 
-    include_directories(lib lib/expat/xmlparse lib/expat/xmltok)
-    add_library(libgama STATIC ${SRC_GAMA} ${SRC_EXPAT})
-else()
-    include_directories(lib)
-    add_library(libgama STATIC ${SRC_GAMA})
+    set(EXPAT_LIBRARIES gamaexpat)
+    add_library(gamaexpat STATIC ${SRC_EXPAT})
+    target_include_directories(gamaexpat PUBLIC
+        ${PROJECT_SOURCE_DIR}/lib/expat/xmlparse
+        ${PROJECT_SOURCE_DIR}/lib/expat/xmltok )
 
-    include(FindEXPAT)
+    # Define an imported interface target for unified linking
+    add_library(EXPAT::EXPAT INTERFACE IMPORTED)
+    set_property(TARGET EXPAT::EXPAT PROPERTY INTERFACE_LINK_LIBRARIES gamaexpat)
+    set_property(TARGET EXPAT::EXPAT PROPERTY INTERFACE_INCLUDE_DIRECTORIES
+        ${PROJECT_SOURCE_DIR}/lib/expat)
+else()
     find_package(EXPAT REQUIRED)
-    include_directories(${EXPAT_INCLUDE_DIRS})
-    link_libraries(${EXPAT_LIBRARIES})
 endif()
 
+include_directories(lib)
+
+add_library(libgama STATIC ${SRC_GAMA})
+target_include_directories(libgama PUBLIC lib)
+target_link_libraries(libgama PUBLIC EXPAT::EXPAT)
 
 # Gama install directory
 #
@@ -366,10 +375,10 @@ add_executable(krumm2gama-local src/krumm2gama-local.cpp)
 target_link_libraries(krumm2gama-local PUBLIC libgama)
 
 add_executable(compare-xyz src/compare-xyz.cpp)
-target_link_libraries(compare-xyz PUBLIC libgama ${EXPAT_LIBRARIES})
+target_link_libraries(compare-xyz PUBLIC libgama)
 
 add_executable(gama-local-deformation src/gama-local-deformation.cpp)
-target_link_libraries(gama-local-deformation PUBLIC libgama ${EXPAT_LIBRARIES})
+target_link_libraries(gama-local-deformation PUBLIC libgama)
 
 add_executable(slovnikar scripts/slovnikar.cpp)
 target_link_libraries(slovnikar PUBLIC libgama)
@@ -388,9 +397,9 @@ endif()
 
 # Installation
 #
-install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
-        compare-xyz gama-local-deformation
-        DESTINATION ${GAMA_INSTDIR})
+# ......install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
+# ......        compare-xyz gama-local-deformation
+# ......        DESTINATION ${GAMA_INSTDIR})
 
 
 # Tests

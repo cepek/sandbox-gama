@@ -79,7 +79,8 @@ set(INPUT_FILES
   # 3D/BlankenbachWillert3D_Distance_fix  # two blunders, not used
 
 add_executable(cmp_xml_file cmp_xml_file_main.cpp
-               cmp_xml_file.h cmp_xml_file.cpp $<TARGET_OBJECTS:libgama>)
+    cmp_xml_file.h cmp_xml_file.cpp)
+target_link_libraries(cmp_xml_file PUBLIC libgama)
 
 
 foreach(test ${INPUT_FILES})
