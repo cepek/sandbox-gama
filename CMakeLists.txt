@@ -16,7 +16,7 @@ project (gnu-gama VERSION 2.33
                   DESCRIPTION "GNU Gama - CMake build")
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Build with the local copy of legacy code expat 1.1 is implicitly disabled.
