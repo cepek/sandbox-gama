@@ -397,9 +397,9 @@ endif()
 
 # Installation
 #
-# ......install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
-# ......        compare-xyz gama-local-deformation
-# ......        DESTINATION ${GAMA_INSTDIR})
+install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
+        compare-xyz gama-local-deformation
+        DESTINATION ${GAMA_INSTDIR})
 
 
 # Tests
