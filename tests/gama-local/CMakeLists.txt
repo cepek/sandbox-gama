@@ -39,11 +39,11 @@ file(MAKE_DIRECTORY ${RESULT_DIR}/gama-local-adjustment/bug)
 #
 # check version
 #
-add_executable(check_version src/check_version.cpp
-  $<TARGET_OBJECTS:libgama>)
+add_executable(check_version src/check_version.cpp )
+target_link_libraries(check_version PUBLIC libgama)
+
 add_test(NAME check_version COMMAND check_version
   ${PROJECT_SOURCE_DIR}/configure.ac ${PROJECT_SOURCE_DIR}/CMakeLists.txt)
-
 
 
 # -------------------------------------------------------------------------
@@ -67,13 +67,15 @@ foreach(test ${INPUT_FILES})
 endforeach(test)
 
 
-
 # ------------------------------------------------------------------------
 #
 # check_algorithms
 #
 add_executable(check_algorithms src/check_xyz.h src/check_xyz.cpp
-  src/check_algorithms.cpp $<TARGET_OBJECTS:libgama>)
+    src/check_algorithms.cpp)
+target_link_libraries (check_algorithms libgama)
+
+
 
 foreach(test ${INPUT_FILES})
   add_test(NAME check_algorithms_${test}
@@ -89,8 +91,8 @@ endforeach(test)
 #
 
 add_executable(check_xml_xml src/check_xml_xml.cpp
-  src/compare_xml_adjustment.h src/compare_xml_adjustment.cpp
-  $<TARGET_OBJECTS:libgama>)
+    src/compare_xml_adjustment.h src/compare_xml_adjustment.cpp)
+target_link_libraries(check_xml_xml libgama)
 
 set(RES ${RESULT_DIR}/gama-local-adjustment)
 
@@ -108,13 +110,15 @@ endforeach(z)
 
 
 
+
 # -------------------------------------------------------------------------
 #
 # check_equivalents
 #
 add_executable(check_equivalents src/check_xyz.h
-  src/check_xyz.cpp src/check_equivalents.cpp
-  $<TARGET_OBJECTS:libgama>)
+    src/check_xyz.cpp src/check_equivalents.cpp)
+target_link_libraries(check_equivalents libgama)
+
 
 set(EQUIVALENTS_TESTS
     # CMake is weird with 2D arrays, so we apply this hack
@@ -145,7 +149,10 @@ endforeach(test)
 # check_xml_results
 #
 add_executable(check_xml_results  src/check_xml_results.cpp
-  src/check_xyz.h src/check_xyz.cpp $<TARGET_OBJECTS:libgama>)
+    src/check_xyz.h src/check_xyz.cpp)
+target_link_libraries(check_xml_results libgama)
+
+
 foreach(test ${INPUT_FILES})
   add_test(
     NAME check_xml_results_${test}
@@ -160,8 +167,9 @@ endforeach(test)
 #
 # check externs
 #
-add_executable(check_externs src/check_externs.cpp
-  $<TARGET_OBJECTS:libgama>)
+add_executable(check_externs src/check_externs.cpp)
+target_link_libraries(check_externs libgama)
+
 add_test(NAME check_externs COMMAND check_externs
   ${INPUT_DIR} ${RESULT_DIR}/gama-local-adjustment ${INPUT_FILES})
 
