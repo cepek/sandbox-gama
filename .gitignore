@@ -142,7 +142,7 @@ run.bat
 #
 Release*
 Debug*
-Sandbox sandbox-gama.md
+Sandbox
 *.tar.gz
 *.diff
 work

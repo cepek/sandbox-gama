@@ -1,10 +1,12 @@
 #include <cmath>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <memory>
 #include <iomanip>
 #include "comparexyz.h"
 #include <gnu_gama/version.h>
+#include <gnu_gama/xml_expat.h>
 #include <gnu_gama/xml/localnetwork_adjustment_results.h>  // parser gama-local
 #include <gnu_gama/xml/dataparser.h>                       // parser gama-g3
 
@@ -13,11 +15,13 @@ using namespace GNU_gama;
 
 std::string CompareXYZ::version() const
 {
-  return GNU_gama::sub_version("0.3");
+  return GNU_gama::sub_version("0.4");
 }
 
 void CompareXYZ::fetch_files(std::string file_1, std::string file_2)
 {
+  cout << "# compare-xyz " << CompareXYZ::version()
+       << "  expat " << XML_MAJOR_VERSION << "." << XML_MINOR_VERSION << endl;
   fetch_file(file_1, adjmap_1);
   fetch_file(file_2, adjmap_2);
   cout << endl;
