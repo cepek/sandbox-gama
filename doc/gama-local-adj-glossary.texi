@@ -67,7 +67,6 @@ Symbols  and names used in adjustment statistics.
 @ifnottex
 @item @t{r}
 @end ifnottex
-@iftex
 @c
 @iftex
 @item @math{r}
