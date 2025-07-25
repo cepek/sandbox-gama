@@ -50,9 +50,9 @@ EXTRA_DIST =                         \
 
 download-gendocs.sh:
 	rm -f gendocs.sh* gendocs_template*
-	wget http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/texinfo/texinfo/util/gendocs.sh
-	wget http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/texinfo/texinfo/util/gendocs_template
+	wget https://git.savannah.gnu.org/cgit/gnulib.git/tree/build-aux/gendocs.sh
 	chmod +x gendocs.sh
+
 
 run-gendocs.sh:
 	make info
