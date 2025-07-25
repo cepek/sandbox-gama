@@ -1,9 +1,9 @@
 # Invoking gendocs.sh
 
 The script gendocs.sh eases the task of generating the Texinfo documentation
-output for your web pages. It has a companion template file, 
-used as the basis for the HTML index pages. Both are available 
-from the Gnulib development: 
+output for your web pages. It has a companion template file,
+used as the basis for the HTML index pages. Both are available
+from the Gnulib development:
 
     https://git.savannah.gnu.org/cgit/gnulib.git/tree/build-aux/gendocs.sh
     https://git.savannah.gnu.org/cgit/gnulib.git/tree/doc/gendocs_template
@@ -24,11 +24,11 @@ and maintained version.
 
 | Item             | Location on Savannah Git |
 | ---------------- | ------------------------ |
-| gendocs.sh	     | build-aux/gendocs.sh     |
-| Full template	   | doc/gendocs_template     |
+| gendocs.sh       | build-aux/gendocs.sh     |
+| Full template    | doc/gendocs_template     |
 | Minimal template | doc/gendocs_template_min |
 
-## 2  
+## 2
 
 copy manual to gama-web
 
@@ -39,7 +39,7 @@ copy manual to gama-web
     cd manual
     cvs add `find -type f | grep -v CVS`
 
-## 3 
+## 3
 
 copy and add .symlinks where needed (manual, manual/html_node, ...)
 example:
@@ -51,6 +51,6 @@ example:
 * add "gama.html index.html"  in manual/html_*/.symlinks
 * remove all files index.html in manual/html_*/.symlinks
 
-## 5 
+## 5
     cd web-gama
     cvs commit .
