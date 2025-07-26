@@ -51,6 +51,7 @@ EXTRA_DIST =                         \
 download-gendocs.sh:
 	rm -f gendocs.sh* gendocs_template*
 	wget https://git.savannah.gnu.org/cgit/gnulib.git/plain/build-aux/gendocs.sh
+	wget https://git.savannah.gnu.org/cgit/gnulib.git/plain/doc/gendocs_template
 	chmod +x gendocs.sh
 
 
