@@ -1,5 +1,5 @@
 
-RO access to GNU/git Gama from GitHub repo
+## RO access to GNU/git Gama from GitHub repo
 
     https://chatgpt.com/c/688f3c5d-f824-8332-9e5e-173db278fa8a
 
