@@ -515,13 +515,3 @@ and run
 
 to build ```refman.dvi``` (implicit format),
 ```refman.ps``` or ```refman.pdf``` format.
-
-
-#### Markdown notes
-
-* Code blocks are normally indented four spaces or one tab.  When
-  they’re in a list, indent them eight spaces or two tabs
-
-* Convert md to PDF:  pandoc MAINTAINING.md -o maint1.pdf
-
-* Emacs preview in the current window ```markdown-live-preview-mode```
