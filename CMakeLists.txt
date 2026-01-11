@@ -26,6 +26,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(ENABLE_EXPAT_1_1 "Enable build with expat 1.1" OFF)
 message("Build GNU Gama with expat 1.1 is " ${ENABLE_EXPAT_1_1})
 
+
+# Build with testing is implicitly enabled
+#
+#   To disable run : cmake -DENABLE_TESTING=OFF
+#
+option(ENABLE_TESTING "Enable testing" ON)
+message("Enable GNU Gama testing is " ${ENABLE_TESTING})
+
+
 #add_definitions(-DDEBUG_ACORD2)
 #add_definitions(-DA2G_DEBUG)
 #add_definitions(-DDEBUG_REDUCED_OBS)
@@ -404,7 +413,7 @@ install(TARGETS gama-local gama-g3 gama-local-gkf2yaml krumm2gama-local
 
 # Tests
 #
-if (NOT DEFINED DISABLE_GNU_GAMA_TESTING)
+if (ENABLE_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif()
