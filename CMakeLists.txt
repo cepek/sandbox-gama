@@ -417,3 +417,11 @@ if (ENABLE_TESTING)
     enable_testing()
     add_subdirectory(tests)
 endif()
+
+
+# Demo debugging and testing code is not part of the GNU Gama project
+#
+if (true)
+    add_executable(demo demo/main.cpp)
+    target_link_libraries(demo PUBLIC libgama)
+endif()

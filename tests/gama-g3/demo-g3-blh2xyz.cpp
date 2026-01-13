@@ -43,13 +43,23 @@ int main(int argc, char* argv[])
 
   double B, L;
   bool Bok = GNU_gama::deg2gon(Bstr, B);
+  if (!Bok) {
+    std::cerr << "Bad format B '" << Bstr <<"': must be 'bb-mm-ss.sss'\n";
+    error++;
+  }
   bool Lok = GNU_gama::deg2gon(Lstr, L);
+  if (!Lok) {
+    std::cerr << "Bad format L '" << Lstr <<"': must be 'll-mm-ss.sss'\n";
+    error++;
+  }
   double H = s2d(Hstr);
+
+  if (error) return error;
 
   cout.precision(3);
   cout << "\nBLH  " << Bstr << "\n"
        << "     " << Lstr << "\n"
-       << "   " << std::setw(10+1+16) << Hstr  << "\n\n";
+       << "     " << Hstr  << "\n\n";
 
   GNU_gama::Ellipsoid ellipsoid;  // WGS84
 
@@ -58,6 +68,7 @@ int main(int argc, char* argv[])
 
   double X, Y, Z;
   ellipsoid.blh2xyz(B, L, H, X, Y, Z);
+
   cout.precision(16);
   cout << "XYZ  " << X << "  " << Y << "  " << Z << endl;
 
